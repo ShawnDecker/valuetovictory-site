@@ -3,6 +3,7 @@
   "buildCommand": "cd app && npm run build",
   "outputDirectory": "app/dist",
   "rewrites": [
+    { "source": "/assessment", "destination": "/assessment.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

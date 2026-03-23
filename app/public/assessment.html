@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Assessment — Value to Victory</title>
+    <meta name="description" content="Score yourself across 5 pillars of value. Get a personalized diagnosis and prescription based on the P.I.N.K. framework by Shawn E. Decker." />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --gold: #f6b638;
+        --gold-dark: #e5a527;
+        --black: #000000;
+        --text-body: #333333;
+        --bg-light: #f8f8f8;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        color: var(--text-body);
+        -webkit-font-smoothing: antialiased;
+      }
+      h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+
+      /* Nav bar — matches main site */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid #e4e4e4;
+        padding: 0 2rem;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--black);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .nav-logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--gold);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-weight: 800;
+        font-size: 20px;
+        font-family: 'Montserrat', sans-serif;
+      }
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-body);
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover { color: var(--gold-dark); }
+      .nav-links .active { color: var(--gold-dark); font-weight: 600; }
+      .nav-cta {
+        background: var(--gold);
+        color: #000 !important;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-weight: 600 !important;
+        transition: all 0.2s;
+      }
+      .nav-cta:hover { background: var(--gold-dark); transform: scale(1.03); }
+
+      /* Hero header */
+      .hero {
+        text-align: center;
+        padding: 48px 24px 24px;
+        background: linear-gradient(180deg, var(--bg-light) 0%, #fff 100%);
+      }
+      .hero-badge {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--gold-dark);
+        margin-bottom: 12px;
+      }
+      .hero h1 {
+        font-size: clamp(24px, 4vw, 36px);
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .hero h1 span { color: var(--gold-dark); }
+      .hero p {
+        font-size: 15px;
+        color: #666;
+        max-width: 520px;
+        margin: 0 auto 8px;
+        line-height: 1.5;
+      }
+      .hero .sub {
+        font-size: 12px;
+        color: #999;
+      }
+
+      /* iframe container */
+      .assessment-frame {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 16px 40px;
+      }
+      .assessment-frame iframe {
+        width: 100%;
+        height: 820px;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        padding: 24px;
+        font-size: 12px;
+        color: #999;
+        border-top: 1px solid #e4e4e4;
+      }
+      .footer a { color: var(--gold-dark); text-decoration: none; }
+      .footer a:hover { text-decoration: underline; }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .nav { padding: 0 16px; }
+        .hero { padding: 32px 16px 16px; }
+        .assessment-frame iframe { height: 700px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">V</div>
+        Value to Victory
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/#subscriptions">Membership</a></li>
+        <li><a href="/assessment" class="active">Assessment</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+        <li><a href="/#subscriptions" class="nav-cta">Join Now</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">Free Assessment — 5 Minutes</div>
+      <h1>You Are Not Broke.<br><span>You Are Mispricing Your Life.</span></h1>
+      <p>Score yourself across 5 pillars of value. Get a personalized diagnosis and prescription based on the P.I.N.K. framework.</p>
+      <p class="sub">50 questions. No credit card. Instant results.</p>
+    </div>
+
+    <!-- Assessment iframe -->
+    <div class="assessment-frame">
+      <iframe
+        src="https://www.perplexity.ai/computer/a/the-value-engine-p-i-n-k-asses-bvwhdNvLTkmNWGPAE0UYwQ"
+        allow="clipboard-write"
+        title="Value Engine P.I.N.K. Assessment"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>&copy; 2026 <a href="/">Value to Victory</a> — Shawn E. Decker</p>
+      <p style="margin-top:4px;">From the book <em>"The Lost Art of Value: Time for P.I.N.K."</em> &middot; <em>Don't guess. Run the system.</em></p>
+    </div>
+  </body>
+</html>
