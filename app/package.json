@@ -1,0 +1,8 @@
+{
+  "name": "valuetovictory",
+  "private": true,
+  "version": "3.0.0",
+  "scripts": {
+    "build": "cp -r public/* dist/ 2>/dev/null; echo Build complete"
+  }
+}
