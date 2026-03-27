@@ -2,10 +2,24 @@
   "version": 2,
   "buildCommand": "cd app && npm run build",
   "outputDirectory": "app/dist",
+  "headers": [
+    {
+      "source": "/(.*).html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    }
+  ],
   "rewrites": [
-    { "source": "/assessment", "destination": "/assessment.html" },
     { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
     { "source": "/terms-of-service", "destination": "/terms-of-service.html" },
+    { "source": "/assessment", "destination": "/assessment.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
