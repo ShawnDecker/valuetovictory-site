@@ -60,5 +60,89 @@ document.addEventListener('DOMContentLoaded', function() {
   banner.appendChild(close);
 });
 </script>
+<script>
+// Blog article shareable URL support
+// When a blog article modal opens, update the URL hash so the link is shareable
+(function() {
+  var blogTitles = {
+    1: 'the-86400-second-rule',
+    2: 'the-4-types-of-people',
+    3: 'why-your-gold-roof-might-be-worthless',
+    4: 'from-bankruptcy-to-bestseller',
+    5: 'the-1800-hour-rule',
+    6: 'negotiation-secrets'
+  };
+
+  // Watch for dialog open/close via MutationObserver
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      mutation.addedNodes.forEach(function(node) {
+        if (node.nodeType === 1 && node.querySelector && node.querySelector('[data-slot="dialog-content"]')) {
+          // Dialog opened - check if it's a blog article
+          var titleEl = node.querySelector('[data-slot="dialog-title"]');
+          if (titleEl) {
+            var title = titleEl.textContent;
+            for (var id in blogTitles) {
+              // Match by checking if the title contains keywords from our slug
+              var slug = blogTitles[id];
+              var keywords = slug.replace(/-/g, ' ').split(' ');
+              var matched = keywords.filter(function(k) {
+                return k.length > 3 && title.toLowerCase().indexOf(k) !== -1;
+              });
+              if (matched.length >= 2) {
+                history.replaceState(null, '', '#blog/' + slug);
+                break;
+              }
+            }
+          }
+        }
+      });
+      mutation.removedNodes.forEach(function(node) {
+        if (node.nodeType === 1 && node.querySelector && node.querySelector('[data-slot="dialog-content"]')) {
+          if (window.location.hash.indexOf('#blog/') === 0) {
+            history.replaceState(null, '', window.location.pathname);
+          }
+        }
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // If URL has #blog/slug, scroll to blog section and open article
+    if (window.location.hash.indexOf('#blog/') === 0) {
+      var slug = window.location.hash.replace('#blog/', '');
+      setTimeout(function() {
+        var blogSection = document.getElementById('blog');
+        if (blogSection) blogSection.scrollIntoView({ behavior: 'smooth' });
+        // Find and click the matching article
+        setTimeout(function() {
+          var articles = document.querySelectorAll('#blog button, #blog [role="button"]');
+          for (var id in blogTitles) {
+            if (blogTitles[id] === slug) {
+              // Try to find and click the article card
+              var allButtons = document.querySelectorAll('button');
+              for (var i = 0; i < allButtons.length; i++) {
+                var btn = allButtons[i];
+                var text = btn.textContent || '';
+                var keywords = slug.replace(/-/g, ' ').split(' ');
+                var matched = keywords.filter(function(k) {
+                  return k.length > 3 && text.toLowerCase().indexOf(k) !== -1;
+                });
+                if (matched.length >= 2 && text.indexOf('Read') !== -1) {
+                  btn.click();
+                  break;
+                }
+              }
+              break;
+            }
+          }
+        }, 1000);
+      }, 500);
+    }
+  });
+})();
+</script>
   </body>
 </html>
