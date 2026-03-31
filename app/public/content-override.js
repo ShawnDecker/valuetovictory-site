@@ -268,17 +268,17 @@
     // --- REAL ANONYMOUS TESTIMONIALS (replace fake names) ---
     var replacements = {
       // Names -> Anonymous labels
-      'Michael Torres': 'Business Owner',
+      'Michael Torres': 'Cameron Decker',
       'Sarah Chen': 'Alen M.',
       'David & Lisa Morrison': 'Married Couple',
       'Jennifer Walsh': 'Alex LB',
       // Titles
-      'Former Restaurant Owner': 'Entrepreneur',
+      'Former Restaurant Owner': 'Business Owner',
       'Marketing Manager': 'Corporate Professional',
       'Married Couple': 'Couple',
       'Single Mom': 'Parent & Freelancer',
       // Companies
-      'Now Tech Entrepreneur': 'Virginia',
+      'Now Tech Entrepreneur': 'Verified Results in 180 Days',
       'Fortune 500 Company': '',
       'Parents of 3': '',
       'Now Freelance Consultant': '',
