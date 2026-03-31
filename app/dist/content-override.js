@@ -52,7 +52,7 @@
     var vb = document.createElement('div');
     vb.id = 'vb-injected';
     vb.className = vpClasses;
-    vb.style.cssText = 'position:relative;border:2px solid #D4A847;box-shadow:0 8px 30px rgba(212,168,71,0.15);';
+    vb.style.cssText = 'position:relative;border:2px solid #D4A847;box-shadow:0 8px 30px rgba(212,168,71,0.15);opacity:1!important;transform:translateY(0)!important;transition:none!important;';
 
     // Detect if yearly mode is active
     var isYearly = sub.textContent.indexOf('/year') !== -1 && sub.textContent.indexOf('$290') !== -1;
@@ -218,7 +218,7 @@
       '#contact form button[type="submit"]{max-width:320px!important;margin-left:auto!important;margin-right:auto!important;}'+
       '#hook-banner button{min-width:32px!important;min-height:32px!important;font-size:20px!important;}'+
       '@media(max-width:640px){#audience-cards{grid-template-columns:1fr!important;max-width:280px!important;}}'+
-      '@media(max-width:768px){#subscriptions [class*="grid-cols"]{grid-template-columns:1fr!important;}}'+
+      '@media(max-width:768px){#subscriptions [class*="grid-cols"]{grid-template-columns:1fr!important;}}#vb-injected{opacity:1!important;transform:translateY(0) scale(1)!important;transition:none!important;}'+
       '';
     document.head.appendChild(s);
   },800);
