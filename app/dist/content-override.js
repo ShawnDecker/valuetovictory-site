@@ -310,7 +310,7 @@
     // Replace fake quotes with real outcome descriptions
     var quoteReplacements = {
       'I was $340,000 in debt and ready to give up. The P.I.N.K. framework didn\'t just save my business\u2014it saved my life.':
-        'I went from charging $150 per session to packaging my services at $5,000. Within 8 months I was earning $8K\u201310K per month. The framework changed how I see value.',
+        'I went from charging $150 per session to packaging my services at $5,000. Scored 247 on the Assessment. Within 8 months I was earning $8K\u201310K per month. The framework changed how I see value.',
       'I negotiated a 47% salary increase using the negotiation scripts. I had been underpaid for years and didn\'t even know it.':
         'One piece of strategic timing advice resulted in over $80,000 in additional profit on a single transaction. The Numbers principle showed me what I was leaving on the table.',
       'The People principle saved our marriage. We learned to value each other correctly for the first time in 15 years.':
