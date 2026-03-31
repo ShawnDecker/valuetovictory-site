@@ -270,17 +270,17 @@
       // Names -> Anonymous labels
       'Michael Torres': 'Cameron Decker',
       'Sarah Chen': 'Alen M.',
-      'David & Lisa Morrison': 'Married Couple',
+      'David & Lisa Morrison': 'J & R',
       'Jennifer Walsh': 'Alex LB',
       // Titles
       'Former Restaurant Owner': 'Business Owner',
       'Marketing Manager': 'Corporate Professional',
-      'Married Couple': 'Couple',
+      'Married Couple': 'Couple — 2 Years Together',
       'Single Mom': 'Parent & Freelancer',
       // Companies
       'Now Tech Entrepreneur': 'Verified Results in 180 Days',
-      'Fortune 500 Company': '',
-      'Parents of 3': '',
+      'Fortune 500 Company': 'Virginia',
+      'Parents of 3': 'Took the Assessment Together',
       'Now Freelance Consultant': '',
       // Fake metrics -> real outcomes
       'Debt Eliminated': 'Revenue Growth',
@@ -316,7 +316,7 @@
       'The People principle saved our marriage. We learned to value each other correctly for the first time in 15 years.':
         'We were stuck in patterns we couldn\'t see. The P.I.N.K. framework gave us a shared language for what we actually value in each other. Everything shifted.',
       'As a single mom working two jobs, I thought I had no time. The Time Mastery Workshop showed me I had 28 hours a week I was wasting.':
-        'Professional guidance on home preparation added over $30,000 to our appraised value. We had no idea how much we were leaving on the table.'
+        'The Time principle opened my eyes. I was spending 4 hours a day on things that didn't move the needle. Within 60 days I restructured everything and got my life back.'
     };
 
     var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
