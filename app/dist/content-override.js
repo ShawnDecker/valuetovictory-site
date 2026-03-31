@@ -269,7 +269,7 @@
     var replacements = {
       // Names -> Anonymous labels
       'Michael Torres': 'Business Owner',
-      'Sarah Chen': 'Marketing Professional',
+      'Sarah Chen': 'Alen M.',
       'David & Lisa Morrison': 'Married Couple',
       'Jennifer Walsh': 'Alex LB',
       // Titles
@@ -357,7 +357,7 @@
     document.querySelectorAll('img[alt]').forEach(function(img){
       var alt = img.alt;
       if(alt === 'Michael Torres') { img.alt = 'Cameron Decker'; img.title = 'Cameron Decker'; }
-      if(alt === 'Sarah Chen') { img.alt = 'Business Owner'; }
+      if(alt === 'Sarah Chen') { img.alt = 'Alen M.'; img.title = 'Alen M.'; }
       if(alt === 'David & Lisa Morrison' || alt === 'David Morrison') { img.alt = 'Couple'; }
       if(alt === 'Jennifer Walsh') { img.alt = 'Alex LB'; img.title = 'Alex LB'; }
       // Hide broken testimonial images and show initials instead
