@@ -427,7 +427,7 @@
           '<span style="color:#D4A847;font-size:16px;">\u2605\u2605\u2605\u2605\u2605</span>' +
         '</div>' +
         '<p style="font-size:15px;color:#374151;line-height:1.6;margin-bottom:20px;font-style:italic;">' +
-          '&ldquo;Went from 25 to 35 hours of billable work per week within 90 days. The P.I.N.K. framework showed me exactly where I was undervaluing my time.&rdquo;' +
+          '&ldquo;Scored 171 on the Assessment. Went from 25 to 35 hours of billable work per week within 90 days. The P.I.N.K. framework showed me exactly where I was undervaluing my time.&rdquo;' +
         '</p>' +
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">' +
           '<div style="background:#f9fafb;border-radius:10px;padding:12px;text-align:center;">' +
