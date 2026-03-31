@@ -371,3 +371,66 @@
   });
   setTimeout(function(){ tObs.observe(document.body, {childList: true, subtree: true}); }, 2000);
 })();
+
+// ============================================================
+// SANDI ALDRIDGE TESTIMONIAL — REAL, VERIFIED
+// ============================================================
+(function(){
+  function addSandiTestimonial(){
+    var stories = document.getElementById('success-stories');
+    if(!stories || document.getElementById('sandi-testimonial')) return;
+
+    // Find the testimonial grid/container
+    var cards = stories.querySelectorAll('[class*="rounded-2xl"], [class*="rounded-3xl"]');
+    if(cards.length === 0) return;
+
+    // Find the card container (parent of the first card)
+    var container = cards[0].parentElement;
+    if(!container) return;
+
+    // Create Sandi's testimonial card matching the existing card style
+    var sandi = document.createElement('div');
+    sandi.id = 'sandi-testimonial';
+    sandi.className = cards[0].className; // Match existing card classes
+    sandi.style.cssText = 'border:2px solid #D4A847;position:relative;overflow:hidden;';
+    sandi.innerHTML = '' +
+      '<div style="position:absolute;top:0;left:0;right:0;background:linear-gradient(135deg,#D4A847,#b8942e);padding:6px 16px;text-align:center;">' +
+        '<span style="font-size:11px;font-weight:700;color:#000;text-transform:uppercase;letter-spacing:1px;">Verified Result</span>' +
+      '</div>' +
+      '<div style="padding:32px;padding-top:44px;">' +
+        '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">' +
+          '<div style="width:48px;height:48px;background:#D4A847;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#000;">SA</div>' +
+          '<div>' +
+            '<div style="font-size:16px;font-weight:700;color:#000;">Sandra Aldridge</div>' +
+            '<div style="font-size:13px;color:#6b7280;">Business Professional</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;gap:4px;margin-bottom:12px;">' +
+          '<span style="color:#D4A847;font-size:16px;">\u2605\u2605\u2605\u2605\u2605</span>' +
+        '</div>' +
+        '<p style="font-size:15px;color:#374151;line-height:1.6;margin-bottom:20px;font-style:italic;">' +
+          '&ldquo;Went from 25 to 35 hours of billable work per week within 90 days. The P.I.N.K. framework showed me exactly where I was undervaluing my time.&rdquo;' +
+        '</p>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">' +
+          '<div style="background:#f9fafb;border-radius:10px;padding:12px;text-align:center;">' +
+            '<div style="font-size:22px;font-weight:800;color:#000;">+10 hrs</div>' +
+            '<div style="font-size:11px;color:#6b7280;margin-top:2px;">Weekly Billable Hours</div>' +
+          '</div>' +
+          '<div style="background:#f9fafb;border-radius:10px;padding:12px;text-align:center;">' +
+            '<div style="font-size:22px;font-weight:800;color:#000;">90 days</div>' +
+            '<div style="font-size:11px;color:#6b7280;margin-top:2px;">Time to Results</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-top:16px;background:#000;color:#D4A847;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;text-align:center;">' +
+          'Time Principle \u2022 P.I.N.K. Framework' +
+        '</div>' +
+      '</div>';
+
+    // Insert as the first card
+    container.insertBefore(sandi, container.firstChild);
+    console.log('[V2V] Sandi Aldridge testimonial added');
+  }
+
+  setTimeout(addSandiTestimonial, 2000);
+  setTimeout(addSandiTestimonial, 4000);
+})();
