@@ -271,7 +271,7 @@
       'Michael Torres': 'Business Owner',
       'Sarah Chen': 'Marketing Professional',
       'David & Lisa Morrison': 'Married Couple',
-      'Jennifer Walsh': 'Working Parent',
+      'Jennifer Walsh': 'Alex LB',
       // Titles
       'Former Restaurant Owner': 'Entrepreneur',
       'Marketing Manager': 'Corporate Professional',
@@ -352,6 +352,24 @@
     // The fullStory content is in the React bundle — we just hide the "Read More" buttons
     // that would expand into the fake detailed stories
     // Actually, leave Read More but the overlay will show cleaned text
+
+    // Fix image alt text for testimonial cards
+    document.querySelectorAll('img[alt]').forEach(function(img){
+      var alt = img.alt;
+      if(alt === 'Michael Torres') { img.alt = 'Cameron Decker'; img.title = 'Cameron Decker'; }
+      if(alt === 'Sarah Chen') { img.alt = 'Business Owner'; }
+      if(alt === 'David & Lisa Morrison' || alt === 'David Morrison') { img.alt = 'Couple'; }
+      if(alt === 'Jennifer Walsh') { img.alt = 'Alex LB'; img.title = 'Alex LB'; }
+      // Hide broken testimonial images and show initials instead
+      if(img.naturalWidth === 0 || img.complete === false){
+        img.style.display = 'none';
+      }
+    });
+
+    // Add error handler for broken images in testimonials
+    document.querySelectorAll('#success-stories img').forEach(function(img){
+      img.onerror = function(){ this.style.display = 'none'; };
+    });
 
     console.log('[V2V] Testimonials & credentials fixed');
   }
