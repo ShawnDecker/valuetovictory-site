@@ -53,6 +53,9 @@
       "destination": "/assessment.html"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
