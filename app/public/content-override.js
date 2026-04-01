@@ -192,6 +192,11 @@
       if(t==='Active Members')t='Years in Business';
       if(t==='Bestseller')t='Published';
       if(t==='Amazon Top 100')t='Author';
+      // VictoryPath badge -- change from "Most Popular" to real value prop
+      if(t.indexOf('Most Popular')!==-1 && node.parentElement && node.parentElement.closest){
+        var inVB = node.parentElement.closest('#vb-injected');
+        if(!inVB) t = t.replace('Most Popular','Fastest Transformation Per Dollar');
+      }
       // Narrative
       if(t.indexOf('$2.3M in debt to bestselling')!==-1)
         t=t.replace('The proven system that helped Shawn Decker go from $2.3M in debt to bestselling author and coach.','Built from real crisis \u2014 a house fire, separation, and $30K in debt on a six-figure income. The P.I.N.K. framework measures what others won\u2019t. No opinions. No guessing. Just truth.');
