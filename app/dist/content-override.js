@@ -371,6 +371,13 @@
         card.remove();
         console.log('[V2V] Removed fake plan card');
       }
+      // Remove VictoryPath Membership $47 card from Products section
+      if(text.indexOf('VictoryPath Membership') !== -1 && text.indexOf('$47') !== -1){
+        if(!card.closest('#subscriptions')){
+          card.remove();
+          console.log('[V2V] Removed VictoryPath Membership product card');
+        }
+      }
     });
 
     // 3. Also find any section containing "Starter Plan" heading and hide the parent
