@@ -113,6 +113,52 @@
 
     // Insert between VictoryPath (0) and Victory VIP (1)
     grid.insertBefore(vb, grid.children[1]);
+
+    // === REMOVE the old React VIP card and replace with correct one ===
+    // The old card has wrong pricing ($397, $33/mo) and a misplaced "Most Popular" badge
+    var oldVIP = grid.children[2]; // After VB injection, old VIP is at index 2
+    if(oldVIP && oldVIP.id !== 'vip-injected'){
+      oldVIP.remove(); // Completely remove the broken React card from DOM
+
+      // Build a clean Victory VIP card
+      var vip = document.createElement('div');
+      vip.id = 'vip-injected';
+      vip.className = vpClasses;
+      vip.style.cssText = 'position:relative;opacity:1!important;transform:translateY(0)!important;transition:none!important;';
+
+      var vipPrice = isYearly ? '$4,970' : '$497';
+      var vipPeriod = isYearly ? '/year' : '/month';
+      var vipSavings = isYearly ? '<p style="font-size:13px;color:#16a34a;margin-top:4px;">$4,970/year (save 17%)</p>' : '';
+
+      vip.innerHTML = '' +
+        '<div style="padding:32px;">' +
+          '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">' +
+            '<div style="width:48px;height:48px;background:rgba(212,168,71,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;">' +
+              '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4A847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>' +
+            '</div>' +
+            '<div><div style="font-size:18px;font-weight:700;color:#000;">Victory VIP</div></div>' +
+          '</div>' +
+          '<p style="font-size:14px;color:#6b7280;margin-bottom:20px;">The complete transformation experience with direct access to Shawn.</p>' +
+          '<div style="margin-bottom:4px;">' +
+            '<span style="font-size:36px;font-weight:800;color:#000;" id="vip-price">' + vipPrice + '</span>' +
+            '<span style="font-size:14px;color:#6b7280;" id="vip-period">' + vipPeriod + '</span>' +
+          '</div>' +
+          vipSavings +
+          '<div style="margin-top:20px;margin-bottom:24px;display:flex;flex-direction:column;gap:12px;">' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">Everything in Value Builder</span></div>' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">Quarterly 1-on-1 coaching calls</span></div>' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">VIP mastermind group access</span></div>' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">Early access to new content</span></div>' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">Direct email support</span></div>' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">Exclusive VIP events</span></div>' +
+            '<div style="display:flex;align-items:flex-start;gap:10px;"><svg width="20" height="20" viewBox="0 0 20 20" fill="#22c55e" style="flex-shrink:0;margin-top:2px;"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#374151;">50% off all coaching sessions</span></div>' +
+          '</div>' +
+          '<a href="https://buy.stripe.com/28E8wO44kbmkdNDbwo6oo09" target="_blank" rel="noopener" style="display:block;width:100%;padding:14px;background:#000;color:#fff;text-align:center;border-radius:12px;font-weight:600;font-size:15px;text-decoration:none;">Become VIP \u2192</a>' +
+        '</div>';
+
+      grid.appendChild(vip);
+      console.log('[V2V] Old VIP card replaced with correct $497/mo card');
+    }
   }
 
   // ============================================================
@@ -260,6 +306,13 @@
             vbPrice.textContent = isYearly ? '$470' : '$47';
             vbPeriod.textContent = isYearly ? '/year' : '/month';
           }
+          // Also update the injected VIP card price
+          var vipPrice = document.getElementById('vip-price');
+          var vipPeriod = document.getElementById('vip-period');
+          if(vipPrice && vipPeriod){
+            vipPrice.textContent = isYearly ? '$4,970' : '$497';
+            vipPeriod.textContent = isYearly ? '/year' : '/month';
+          }
         } catch(e){}
       }).observe(sub, {childList:true, subtree:true, characterData:true});
     }
@@ -278,7 +331,7 @@
       '#contact form button[type="submit"]{max-width:320px!important;margin-left:auto!important;margin-right:auto!important;}'+
       '#hook-banner button{min-width:32px!important;min-height:32px!important;font-size:20px!important;}'+
       '@media(max-width:640px){#audience-cards{grid-template-columns:1fr!important;max-width:280px!important;}}'+
-      '@media(max-width:768px){#subscriptions [class*="grid-cols"]{grid-template-columns:1fr!important;}}#vb-injected{opacity:1!important;transform:translateY(0) scale(1)!important;transition:none!important;}'+
+      '@media(max-width:768px){#subscriptions [class*="grid-cols"]{grid-template-columns:1fr!important;}}#vb-injected,#vip-injected{opacity:1!important;transform:translateY(0) scale(1)!important;transition:none!important;}'+
       '';
     document.head.appendChild(s);
   },800);
