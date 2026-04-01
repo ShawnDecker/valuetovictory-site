@@ -8,26 +8,48 @@
   function fixSubscriptionPricing(){
     var sub = document.getElementById('subscriptions');
     if(!sub) return;
+    var grid = sub.querySelector('[class*="grid-cols"]');
+    if(!grid) return;
 
-    // Fix ALL price text nodes in the subscription section
-    var walker = document.createTreeWalker(sub, NodeFilter.SHOW_TEXT, null, false);
-    var node;
-    while(node = walker.nextNode()){
-      var t = node.textContent, o = t;
-      // VictoryPath: $47->$29 (monthly), $470->$290 (yearly)
-      if(t === '$47' || t === '47') { var ctx = (node.parentElement||{}).textContent||''; if(ctx.indexOf('month')!==-1||ctx.indexOf('/mo')!==-1||ctx.indexOf('VictoryPath')!==-1) t = t.replace('47','29'); }
-      if(t === '$470' || t === '470') t = t.replace('470','290');
-      if(t.indexOf('$470/year') !== -1) t = t.replace('$470/year','$290/year');
-      if(t.indexOf('$470/yr') !== -1) t = t.replace('$470/yr','$290/yr');
+    // Fix prices per-card by position
+    // Card 0 = VictoryPath (original React card)
+    // Card 1 = Value Builder (injected — skip, already correct)
+    // Card 2 = Victory VIP (original React card)
+    for(var ci = 0; ci < grid.children.length; ci++){
+      var card = grid.children[ci];
+      if(card.id === 'vb-injected') continue; // Skip our injected card
 
-      // Victory VIP: $33->$497 (monthly), $397->$4,970 (yearly)
-      if(t === '$33' || t === '33') t = t.replace('33','497');
-      if(t === '$397' || t === '397') t = t.replace('397','4,970');
-      if(t.indexOf('$397/year') !== -1) t = t.replace('$397/year','$4,970/year');
-      if(t.indexOf('$397/yr') !== -1) t = t.replace('$397/yr','$4,970/yr');
-      if(t.indexOf('save 30%') !== -1) t = t.replace('save 30%','save 17%');
+      var walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
+      var node;
+      var isVP = card.textContent.indexOf('VictoryPath') !== -1;
+      var isVIP = card.textContent.indexOf('Victory VIP') !== -1 || card.textContent.indexOf('Become VIP') !== -1;
 
-      if(t !== o) node.textContent = t;
+      while(node = walker.nextNode()){
+        var t = node.textContent, o = t;
+
+        if(isVP){
+          // VictoryPath: $47->$29, $470->$290
+          if(t === '$47') t = '$29';
+          if(t === '47') t = '29';
+          if(t === '$470') t = '$290';
+          if(t === '470') t = '290';
+          if(t.indexOf('$470/year') !== -1) t = t.replace('$470/year','$290/year');
+          if(t.indexOf('$470/yr') !== -1) t = t.replace('$470/yr','$290/yr');
+        }
+
+        if(isVIP){
+          // Victory VIP: $33->$497, $397->$4,970
+          if(t === '$33') t = '$497';
+          if(t === '33') t = '497';
+          if(t === '$397') t = '$4,970';
+          if(t === '397') t = '4,970';
+          if(t.indexOf('$397/year') !== -1) t = t.replace('$397/year','$4,970/year');
+          if(t.indexOf('$397/yr') !== -1) t = t.replace('$397/yr','$4,970/yr');
+          if(t.indexOf('save 30%') !== -1) t = t.replace('save 30%','save 17%');
+        }
+
+        if(t !== o) node.textContent = t;
+      }
     }
   }
 
