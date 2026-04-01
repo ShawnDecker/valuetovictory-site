@@ -382,20 +382,110 @@
     });
   }
 
+  function injectCoachingTiers(){
+    // Find where #pricing was (or insert after #subscriptions)
+    var pricing = document.getElementById('pricing');
+    if(document.getElementById('coaching-tiers')) return;
+
+    var container = pricing || document.getElementById('subscriptions');
+    if(!container) return;
+
+    var section = document.createElement('section');
+    section.id = 'coaching-tiers';
+    section.style.cssText = 'padding:80px 24px;background:linear-gradient(180deg,#0a0a0a 0%,#1a1a2e 100%);';
+    section.innerHTML = '' +
+      '<div style="max-width:1100px;margin:0 auto;text-align:center;">' +
+        '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#D4A847;margin-bottom:12px;">Coaching & Consulting</div>' +
+        '<h2 style="font-size:clamp(28px,4vw,40px);font-weight:800;color:#fff;margin:0 0 8px;">Work Directly with Shawn</h2>' +
+        '<p style="color:#a1a1aa;font-size:15px;margin-bottom:48px;max-width:560px;margin-left:auto;margin-right:auto;">Personalized sessions for life, business, and real estate. Members save up to 50%.</p>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;text-align:left;">' +
+
+          // Card 1: Life & Business Coaching
+          '<div style="background:#18181b;border:1px solid #27272a;border-radius:16px;padding:32px;">' +
+            '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">' +
+              '<div style="width:48px;height:48px;background:rgba(212,168,71,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;">' +
+                '<svg width="24" height="24" fill="none" stroke="#D4A847" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+              '</div>' +
+              '<div>' +
+                '<div style="font-size:18px;font-weight:700;color:#fff;">Life & Business Coaching</div>' +
+                '<div style="font-size:13px;color:#71717a;">1-on-1 with Shawn</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="margin-bottom:20px;">' +
+              '<span style="font-size:36px;font-weight:800;color:#fff;">$300</span>' +
+              '<span style="font-size:14px;color:#a1a1aa;">/hour</span>' +
+            '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">P.I.N.K. framework deep-dive</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Personalized action plan</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Business strategy & growth</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Accountability & follow-up</span></div>' +
+            '</div>' +
+            '<div style="background:#111;border:1px solid #27272a;border-radius:10px;padding:12px;margin-bottom:20px;">' +
+              '<div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Member Discounts</div>' +
+              '<div style="font-size:12px;color:#a1a1aa;line-height:1.8;">VictoryPath: <strong style="color:#D4A847;">15% off</strong> ($255/hr)<br>Value Builder: <strong style="color:#D4A847;">25% off</strong> ($225/hr)<br>Victory VIP: <strong style="color:#D4A847;">50% off</strong> ($150/hr)</div>' +
+            '</div>' +
+            '<a href="https://calendly.com/valuetovictory/30min" target="_blank" rel="noopener" style="display:block;padding:14px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;text-align:center;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;">Book a Session</a>' +
+          '</div>' +
+
+          // Card 2: Real Estate Consulting
+          '<div style="background:#18181b;border:1px solid #27272a;border-radius:16px;padding:32px;">' +
+            '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">' +
+              '<div style="width:48px;height:48px;background:rgba(212,168,71,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;">' +
+                '<svg width="24" height="24" fill="none" stroke="#D4A847" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' +
+              '</div>' +
+              '<div>' +
+                '<div style="font-size:18px;font-weight:700;color:#fff;">Real Estate Consulting</div>' +
+                '<div style="font-size:13px;color:#71717a;">23+ years expertise</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="margin-bottom:6px;">' +
+              '<span style="font-size:36px;font-weight:800;color:#fff;">$300</span>' +
+              '<span style="font-size:14px;color:#a1a1aa;">/30 min</span>' +
+            '</div>' +
+            '<p style="font-size:13px;color:#71717a;margin-bottom:20px;">60-minute session: $500</p>' +
+            '<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Property valuation strategy</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Tax assessment appeals</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Maximize appraisal value</span></div>' +
+              '<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="#22c55e" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"/><path d="M6 10l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span style="font-size:14px;color:#d4d4d8;">Renovation ROI analysis</span></div>' +
+            '</div>' +
+            '<div style="background:#111;border:1px solid #27272a;border-radius:10px;padding:12px;margin-bottom:20px;">' +
+              '<div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Member Discounts</div>' +
+              '<div style="font-size:12px;color:#a1a1aa;line-height:1.8;">VictoryPath: <strong style="color:#D4A847;">15% off</strong><br>Value Builder: <strong style="color:#D4A847;">25% off</strong><br>Victory VIP: <strong style="color:#D4A847;">50% off</strong></div>' +
+            '</div>' +
+            '<a href="https://calendly.com/valuetovictory/30min" target="_blank" rel="noopener" style="display:block;padding:14px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;text-align:center;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;">Book a Consultation</a>' +
+          '</div>' +
+
+        '</div>' +
+        '<p style="color:#71717a;font-size:12px;margin-top:24px;">First-time clients: 20% off ($240/hr). Payment at time of session. 24-hour cancellation required.</p>' +
+      '</div>';
+
+    // Insert after the pricing section (or after subscriptions)
+    if(pricing){
+      pricing.parentNode.insertBefore(section, pricing.nextSibling);
+    } else if(container.nextSibling){
+      container.parentNode.insertBefore(section, container.nextSibling);
+    } else {
+      container.parentNode.appendChild(section);
+    }
+    console.log('[V2V] Coaching tiers section injected');
+  }
+
   setTimeout(removeFakePricing, 1000);
   setTimeout(removeFakePricing, 2000);
-  setTimeout(removeFakePricing, 4000);
-  setTimeout(removeFakePricing, 6000);
-  setTimeout(removeFakePricing, 10000);
+  setTimeout(function(){ removeFakePricing(); injectCoachingTiers(); }, 3000);
+  setTimeout(function(){ removeFakePricing(); injectCoachingTiers(); }, 5000);
+  setTimeout(function(){ removeFakePricing(); injectCoachingTiers(); }, 8000);
 
-  // Also watch for React re-renders
+  // Watch for React re-renders
   setTimeout(function(){
     var root = document.getElementById('root');
     if(root){
       var dt = null;
       new MutationObserver(function(){
         clearTimeout(dt);
-        dt = setTimeout(removeFakePricing, 200);
+        dt = setTimeout(function(){ removeFakePricing(); if(!document.getElementById('coaching-tiers')) injectCoachingTiers(); }, 200);
       }).observe(root, {childList:true, subtree:true});
     }
   }, 1500);
