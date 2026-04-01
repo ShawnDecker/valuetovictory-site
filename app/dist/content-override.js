@@ -332,9 +332,73 @@
       '#hook-banner button{min-width:32px!important;min-height:32px!important;font-size:20px!important;}'+
       '@media(max-width:640px){#audience-cards{grid-template-columns:1fr!important;max-width:280px!important;}}'+
       '@media(max-width:768px){#subscriptions [class*="grid-cols"]{grid-template-columns:1fr!important;}}#vb-injected,#vip-injected{opacity:1!important;transform:translateY(0) scale(1)!important;transition:none!important;}'+
+      '#pricing{display:none!important;}'+
       '';
     document.head.appendChild(s);
   },800);
+})();
+
+// ============================================================
+// REMOVE FAKE PRICING SECTIONS & STALE VIP CARDS
+// Starter/Growth/Elite ($99/$199/$499) and old VIP $397 cards
+// ============================================================
+(function(){
+  function removeFakePricing(){
+    // 1. Hide the entire #pricing section (Starter/Growth/Elite $99/$199/$499)
+    var pricing = document.getElementById('pricing');
+    if(pricing) pricing.style.display = 'none';
+
+    // 2. Find and remove ANY card showing $397 or "Victory VIP" with wrong price
+    //    These appear in the products section as standalone product cards
+    document.querySelectorAll('[class*="rounded"]').forEach(function(card){
+      var text = card.textContent || '';
+      // Match the $397 VIP card (has "Victory VIP" + "$397" + "Most Popular")
+      if(text.indexOf('$397') !== -1 && text.indexOf('Victory VIP') !== -1){
+        // Don't remove our injected card
+        if(card.id === 'vip-injected') return;
+        card.remove();
+        console.log('[V2V] Removed stale $397 VIP card');
+      }
+      // Also catch Starter/Growth/Elite if they appear outside #pricing
+      if((text.indexOf('Starter Plan') !== -1 && text.indexOf('$99') !== -1) ||
+         (text.indexOf('Growth Plan') !== -1 && text.indexOf('$199') !== -1) ||
+         (text.indexOf('Elite Plan') !== -1 && text.indexOf('$499') !== -1)){
+        card.remove();
+        console.log('[V2V] Removed fake plan card');
+      }
+    });
+
+    // 3. Also find any section containing "Starter Plan" heading and hide the parent
+    document.querySelectorAll('h3, h4').forEach(function(h){
+      var t = h.textContent.trim();
+      if(t === 'Starter Plan' || t === 'Growth Plan' || t === 'Elite Plan'){
+        // Walk up to find the section container
+        var section = h.closest('section') || h.closest('[class*="py-"]') || h.closest('[id]');
+        if(section && section.id !== 'subscriptions'){
+          section.style.display = 'none';
+          console.log('[V2V] Hidden section containing: ' + t);
+        }
+      }
+    });
+  }
+
+  setTimeout(removeFakePricing, 1000);
+  setTimeout(removeFakePricing, 2000);
+  setTimeout(removeFakePricing, 4000);
+  setTimeout(removeFakePricing, 6000);
+  setTimeout(removeFakePricing, 10000);
+
+  // Also watch for React re-renders
+  setTimeout(function(){
+    var root = document.getElementById('root');
+    if(root){
+      var dt = null;
+      new MutationObserver(function(){
+        clearTimeout(dt);
+        dt = setTimeout(removeFakePricing, 200);
+      }).observe(root, {childList:true, subtree:true});
+    }
+  }, 1500);
 })();
 
 // ============================================================
