@@ -1,4 +1,4 @@
-// Content Override v4.3 — ALL fixes via DOM, JS bundle NEVER touched
+// Content Override v4.4 — ALL fixes via DOM, JS bundle NEVER touched
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -189,59 +189,79 @@
   }
 
   // ============================================================
-  // MASTER RUNNER
+  // MASTER RUNNER — v4.4 fix: aggressive polling + deep observer
   // ============================================================
-  function runAll(){
-    var root = document.getElementById('root');
-    if(!root || root.children.length === 0){ setTimeout(runAll, 500); return; }
-    setTimeout(function(){
-      applyTextOverrides();
-      fixSubscriptionPricing();
-      injectValueBuilder();
-      console.log('[V2V] Content override v4.3 applied — run 1');
-    }, 1500);
-    // Run again after 3s and 5s to catch late React renders
-    setTimeout(function(){
-      applyTextOverrides();
-      fixSubscriptionPricing();
-      injectValueBuilder();
-      console.log('[V2V] Content override v4.3 applied — run 2');
-    }, 3000);
-    setTimeout(function(){
-      applyTextOverrides();
-      fixSubscriptionPricing();
-      injectValueBuilder();
-      console.log('[V2V] Content override v4.3 applied — run 3');
-    }, 5000);
+  function runAllSafe(){
+    try { applyTextOverrides(); } catch(e){ console.warn('[V2V] textOverrides error:', e.message); }
+    try { fixSubscriptionPricing(); } catch(e){ console.warn('[V2V] pricing error:', e.message); }
+    try { injectValueBuilder(); } catch(e){ console.warn('[V2V] VB inject error:', e.message); }
   }
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', runAll);
-  else runAll();
+  // Poll until React has rendered meaningful content (not just empty root)
+  var pollCount = 0;
+  function waitForReact(){
+    pollCount++;
+    var root = document.getElementById('root');
+    // Check for actual rendered content — not just root existing
+    var hasContent = root && root.innerHTML.length > 500;
+    if(!hasContent && pollCount < 40){
+      setTimeout(waitForReact, 250);
+      return;
+    }
+    // React is rendered — run overrides at staggered intervals
+    console.log('[V2V] React detected after ' + (pollCount * 250) + 'ms');
+    runAllSafe();
+    setTimeout(runAllSafe, 500);
+    setTimeout(runAllSafe, 1500);
+    setTimeout(runAllSafe, 3000);
+    setTimeout(runAllSafe, 5000);
+    setTimeout(runAllSafe, 8000);
+    setTimeout(runAllSafe, 12000);
+  }
 
-  // Watch for React re-renders (toggle clicks, route changes)
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', waitForReact);
+  else waitForReact();
+
+  // DEEP observer on root — catches ALL React re-renders, not just direct children
+  setTimeout(function(){
+    var root = document.getElementById('root');
+    if(root){
+      var debounceTimer = null;
+      new MutationObserver(function(){
+        // Debounce to avoid running 100 times during a single React render
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(runAllSafe, 150);
+      }).observe(root, {childList:true, subtree:true, characterData:true});
+      console.log('[V2V] Deep MutationObserver attached to root');
+    }
+  }, 1000);
+
+  // Also watch subscriptions section specifically for toggle changes
   setTimeout(function(){
     var sub = document.getElementById('subscriptions');
     if(sub){
       new MutationObserver(function(){
-        fixSubscriptionPricing();
-        if(!document.getElementById('vb-injected')) injectValueBuilder();
-        // Update VB price if toggle changed
-        var vbPrice = document.getElementById('vb-price');
-        var vbPeriod = document.getElementById('vb-period');
-        if(vbPrice && vbPeriod){
-          var isYearly = sub.textContent.indexOf('/year') !== -1;
-          vbPrice.textContent = isYearly ? '$470' : '$47';
-          vbPeriod.textContent = isYearly ? '/year' : '/month';
-        }
+        try {
+          fixSubscriptionPricing();
+          if(!document.getElementById('vb-injected')) injectValueBuilder();
+          var vbPrice = document.getElementById('vb-price');
+          var vbPeriod = document.getElementById('vb-period');
+          if(vbPrice && vbPeriod){
+            // Detect yearly by checking the toggle button state, not section text
+            var btns = sub.querySelectorAll('button');
+            var isYearly = false;
+            for(var i=0;i<btns.length;i++){
+              if(btns[i].textContent.indexOf('Yearly')!==-1 || btns[i].textContent.indexOf('Save')!==-1){
+                var bg = window.getComputedStyle(btns[i]).backgroundColor;
+                isYearly = bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent' && bg !== '';
+                break;
+              }
+            }
+            vbPrice.textContent = isYearly ? '$470' : '$47';
+            vbPeriod.textContent = isYearly ? '/year' : '/month';
+          }
+        } catch(e){}
       }).observe(sub, {childList:true, subtree:true, characterData:true});
-    }
-    var root = document.getElementById('root');
-    if(root){
-      new MutationObserver(function(){
-        applyTextOverrides();
-        if(!document.getElementById('vb-injected')) injectValueBuilder();
-        fixSubscriptionPricing();
-      }).observe(root, {childList:true, subtree:false});
     }
   }, 2000);
 })();
@@ -270,7 +290,7 @@
 (function(){
   function add(){
     var ps=document.querySelectorAll('p'),hp=null;
-    for(var i=0;i<ps.length;i++){if(ps[i].textContent.indexOf('No opinions. No guessing.')!==-1||ps[i].textContent.indexOf('measures what others')!==-1||ps[i].textContent.indexOf('house fire, separation')!==-1){hp=ps[i];break;}}
+    for(var i=0;i<ps.length;i++){if(ps[i].textContent.indexOf('No opinions. No guessing.')!==-1||ps[i].textContent.indexOf('measures what others')!==-1||ps[i].textContent.indexOf('house fire, separation')!==-1||ps[i].textContent.indexOf('$2.3M in debt to bestselling')!==-1||ps[i].textContent.indexOf('P.I.N.K. framework')!==-1){hp=ps[i];break;}}
     if(!hp||document.getElementById('audience-cards'))return;
     var c=document.createElement('div');c.id='audience-cards';
     c.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px;max-width:560px;';
