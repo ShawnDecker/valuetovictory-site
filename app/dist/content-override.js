@@ -535,6 +535,201 @@
 })();
 
 // ============================================================
+// STRIPE REDIRECT, FREE BOOK EMAIL CAPTURE, CART FIX
+// ============================================================
+(function(){
+  // === 1. HIJACK SUBSCRIPTION BUTTONS ===
+  // The React app opens a fake checkout modal with card fields that don't work.
+  // Intercept clicks on "Join VictoryPath", "Join Value Builder", "Become VIP" to go straight to Stripe.
+  var stripeLinks = {
+    'VictoryPath': 'https://buy.stripe.com/fZufZgeIYgGEfVL6c46oo07',
+    'Value Builder': 'https://buy.stripe.com/4gM3cu8kAeywaBr43W6oo08',
+    'Victory VIP': 'https://buy.stripe.com/28E8wO44kbmkdNDbwo6oo09',
+    'Lost Art of Value': 'https://buy.stripe.com/aEUcNY44k3TS6l5dYl'
+  };
+
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('button, a');
+    if (!btn) return;
+    var text = btn.textContent.trim();
+
+    // Intercept subscription buttons in the pricing section
+    if (text === 'Join VictoryPath \u2192' || text === 'Join VictoryPath') {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      window.open(stripeLinks['VictoryPath'], '_blank');
+      return;
+    }
+    if (text === 'Become VIP \u2192' || text === 'Become VIP') {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      window.open(stripeLinks['Victory VIP'], '_blank');
+      return;
+    }
+    if (text === 'Join Value Builder \u2192' || text === 'Join Value Builder') {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      window.open(stripeLinks['Value Builder'], '_blank');
+      return;
+    }
+
+    // Intercept "Subscribe Now" inside the React checkout modal
+    if (text.indexOf('Subscribe Now') !== -1) {
+      var dialog = btn.closest('[role="dialog"]') || btn.closest('[class*="Dialog"]');
+      if (dialog) {
+        var ct = dialog.textContent;
+        var url = stripeLinks['VictoryPath']; // default
+        if (ct.indexOf('Victory VIP') !== -1) url = stripeLinks['Victory VIP'];
+        else if (ct.indexOf('Value Builder') !== -1) url = stripeLinks['Value Builder'];
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        window.open(url, '_blank');
+        // Close the modal
+        var closeBtn = dialog.querySelector('button[class*="close"], button:first-child');
+        if (closeBtn) closeBtn.click();
+        return;
+      }
+    }
+
+    // Intercept "Proceed to Checkout" in cart
+    if (text.indexOf('Proceed to Checkout') !== -1) {
+      var cartDialog = btn.closest('[role="dialog"]');
+      if (cartDialog) {
+        var cartContent = cartDialog.textContent;
+        var checkoutUrl = stripeLinks['VictoryPath']; // default
+        for (var key in stripeLinks) {
+          if (cartContent.indexOf(key) !== -1) { checkoutUrl = stripeLinks[key]; break; }
+        }
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        window.open(checkoutUrl, '_blank');
+        return;
+      }
+    }
+  }, true); // useCapture = true to intercept before React handlers
+
+  // === 2. CLOSE REACT SUBSCRIBE MODAL IF IT OPENS ===
+  // If the React modal still pops up, auto-close it and redirect
+  var modalObserver = new MutationObserver(function() {
+    var dialogs = document.querySelectorAll('[role="dialog"]');
+    for (var i = 0; i < dialogs.length; i++) {
+      var d = dialogs[i];
+      if (d.textContent.indexOf('Subscribe to') !== -1 && d.textContent.indexOf('Card Number') !== -1) {
+        // This is the React fake checkout modal — replace its content
+        var ct = d.textContent;
+        var url = stripeLinks['VictoryPath'];
+        var tierName = 'VictoryPath';
+        var tierPrice = '$29/mo';
+        if (ct.indexOf('Victory VIP') !== -1) { url = stripeLinks['Victory VIP']; tierName = 'Victory VIP'; tierPrice = '$497/mo'; }
+        else if (ct.indexOf('Value Builder') !== -1) { url = stripeLinks['Value Builder']; tierName = 'Value Builder'; tierPrice = '$47/mo'; }
+        // Replace modal content with Stripe redirect
+        var content = d.querySelector('[class*="content"], [class*="Content"]') || d.children[0];
+        if (content && !content.dataset.stripeFixed) {
+          content.dataset.stripeFixed = 'true';
+          content.innerHTML = '<div style="padding:32px;text-align:center;">' +
+            '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#D4A847;margin-bottom:12px;">SECURE CHECKOUT</div>' +
+            '<h3 style="font-size:22px;font-weight:800;margin:0 0 8px;">Subscribe to ' + tierName + '</h3>' +
+            '<p style="color:#6b7280;margin-bottom:24px;">' + tierPrice + ' \u2022 Cancel anytime \u2022 3-day free trial</p>' +
+            '<a href="' + url + '" target="_blank" rel="noopener" style="display:block;padding:16px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;text-align:center;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;margin-bottom:16px;">Continue to Secure Checkout \u2192</a>' +
+            '<p style="font-size:12px;color:#a1a1aa;">Powered by Stripe \u2022 256-bit encryption</p>' +
+          '</div>';
+        }
+      }
+    }
+  });
+  setTimeout(function() {
+    modalObserver.observe(document.body, { childList: true, subtree: true });
+  }, 1000);
+
+  // === 3. FREE BOOK EMAIL CAPTURE ===
+  // Replace "Get Free Book" button with email capture modal for RFM Digital
+  function setupFreeBookCapture() {
+    document.querySelectorAll('button').forEach(function(btn) {
+      if (btn.textContent.trim().indexOf('Get Free Book') !== -1 || btn.textContent.trim().indexOf('\u2B50 Get Free Book') !== -1) {
+        if (btn.dataset.freeBookSetup) return;
+        btn.dataset.freeBookSetup = 'true';
+        btn.addEventListener('click', function(e) {
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          if (document.getElementById('free-book-modal')) return;
+          var m = document.createElement('div');
+          m.id = 'free-book-modal';
+          m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;';
+          m.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:440px;width:100%;padding:32px;position:relative;">' +
+            '<button onclick="this.closest(\'#free-book-modal\').remove()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;">&times;</button>' +
+            '<div style="text-align:center;margin-bottom:20px;">' +
+              '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#D4A847;margin-bottom:8px;">FREE DIGITAL COPY</div>' +
+              '<h3 style="font-size:20px;font-weight:800;color:#000;margin:0 0 8px;">Running From Miracles</h3>' +
+              '<p style="font-size:14px;color:#6b7280;margin:0;">Enter your name and email to get your free copy</p>' +
+            '</div>' +
+            '<div id="free-book-form">' +
+              '<input type="text" id="fb-name" placeholder="Your first name" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;margin-bottom:12px;box-sizing:border-box;" />' +
+              '<input type="email" id="fb-email" placeholder="Your email address" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;margin-bottom:16px;box-sizing:border-box;" />' +
+              '<button id="fb-submit" style="width:100%;padding:14px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;border:none;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;">Send Me the Book</button>' +
+              '<p style="font-size:11px;color:#a1a1aa;text-align:center;margin-top:12px;">We\u2019ll send a verification email. No spam, ever.</p>' +
+            '</div>' +
+            '<div id="free-book-success" style="display:none;text-align:center;padding:20px 0;">' +
+              '<div style="font-size:48px;margin-bottom:12px;">\u2709\uFE0F</div>' +
+              '<h4 style="font-size:18px;font-weight:700;color:#000;margin:0 0 8px;">Check Your Email</h4>' +
+              '<p style="font-size:14px;color:#6b7280;margin:0;">We sent a verification link. Click it to get your free book instantly.</p>' +
+            '</div>' +
+            '<div id="free-book-error" style="display:none;text-align:center;padding:8px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin-top:8px;color:#dc2626;font-size:13px;"></div>' +
+          '</div>';
+          m.addEventListener('click', function(ev) { if (ev.target === m) m.remove(); });
+          document.body.appendChild(m);
+
+          // Handle form submit
+          document.getElementById('fb-submit').addEventListener('click', function() {
+            var name = document.getElementById('fb-name').value.trim();
+            var email = document.getElementById('fb-email').value.trim();
+            var errDiv = document.getElementById('free-book-error');
+            errDiv.style.display = 'none';
+            if (!name || !email) { errDiv.textContent = 'Please enter your name and email.'; errDiv.style.display = 'block'; return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errDiv.textContent = 'Please enter a valid email address.'; errDiv.style.display = 'block'; return; }
+            var submitBtn = document.getElementById('fb-submit');
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.6';
+            fetch('https://assessment.valuetovictory.com/api/free-book-signup', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name: name, email: email })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              if (data.success) {
+                document.getElementById('free-book-form').style.display = 'none';
+                document.getElementById('free-book-success').style.display = 'block';
+              } else {
+                errDiv.textContent = data.error || 'Something went wrong. Please try again.';
+                errDiv.style.display = 'block';
+                submitBtn.textContent = 'Send Me the Book';
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+              }
+            })
+            .catch(function() {
+              errDiv.textContent = 'Network error. Please try again.';
+              errDiv.style.display = 'block';
+              submitBtn.textContent = 'Send Me the Book';
+              submitBtn.disabled = false;
+              submitBtn.style.opacity = '1';
+            });
+          });
+
+          // Enter key submits
+          ['fb-name', 'fb-email'].forEach(function(id) {
+            document.getElementById(id).addEventListener('keydown', function(ev) {
+              if (ev.key === 'Enter') document.getElementById('fb-submit').click();
+            });
+          });
+        }, true);
+      }
+    });
+  }
+  // Run on load and observe for dynamic rendering
+  setTimeout(setupFreeBookCapture, 2000);
+  setTimeout(setupFreeBookCapture, 4000);
+  setTimeout(setupFreeBookCapture, 8000);
+  var fbObs = new MutationObserver(function() { setupFreeBookCapture(); });
+  setTimeout(function() { fbObs.observe(document.body, { childList: true, subtree: true }); }, 2000);
+})();
+
+// ============================================================
 // TESTIMONIAL & CREDENTIAL FIXES
 // Replace fake named testimonials with real anonymous outcomes
 // Remove "Real Estate Appraiser" from credentials (per Shawn's request)
