@@ -356,7 +356,7 @@
       'The People principle saved our marriage. We learned to value each other correctly for the first time in 15 years.':
         'We were stuck in patterns we couldn\'t see. The P.I.N.K. framework gave us a shared language for what we actually value in each other. Everything shifted.',
       'As a single mom working two jobs, I thought I had no time. The Time Mastery Workshop showed me I had 28 hours a week I was wasting.':
-        'The Time principle opened my eyes. I was spending 4 hours a day on things that didn't move the needle. Within 60 days I restructured everything and got my life back.'
+        'The Time principle opened my eyes. I was spending 4 hours a day on things that didn\'t move the needle. Within 60 days I restructured everything and got my life back.'
     };
 
     var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
