@@ -1,4 +1,4 @@
-// Content Override v4.4 — ALL fixes via DOM, JS bundle NEVER touched
+// Content Override v4.5 — ALL fixes via DOM, JS bundle NEVER touched
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
