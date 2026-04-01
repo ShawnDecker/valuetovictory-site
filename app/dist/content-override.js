@@ -198,8 +198,21 @@
       applyTextOverrides();
       fixSubscriptionPricing();
       injectValueBuilder();
-      console.log('[V2V] Content override v4.3 applied');
-    }, 1200);
+      console.log('[V2V] Content override v4.3 applied — run 1');
+    }, 1500);
+    // Run again after 3s and 5s to catch late React renders
+    setTimeout(function(){
+      applyTextOverrides();
+      fixSubscriptionPricing();
+      injectValueBuilder();
+      console.log('[V2V] Content override v4.3 applied — run 2');
+    }, 3000);
+    setTimeout(function(){
+      applyTextOverrides();
+      fixSubscriptionPricing();
+      injectValueBuilder();
+      console.log('[V2V] Content override v4.3 applied — run 3');
+    }, 5000);
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', runAll);
@@ -211,6 +224,7 @@
     if(sub){
       new MutationObserver(function(){
         fixSubscriptionPricing();
+        if(!document.getElementById('vb-injected')) injectValueBuilder();
         // Update VB price if toggle changed
         var vbPrice = document.getElementById('vb-price');
         var vbPeriod = document.getElementById('vb-period');
@@ -223,9 +237,13 @@
     }
     var root = document.getElementById('root');
     if(root){
-      new MutationObserver(function(){ applyTextOverrides(); }).observe(root, {childList:true, subtree:false});
+      new MutationObserver(function(){
+        applyTextOverrides();
+        if(!document.getElementById('vb-injected')) injectValueBuilder();
+        fixSubscriptionPricing();
+      }).observe(root, {childList:true, subtree:false});
     }
-  }, 3000);
+  }, 2000);
 })();
 
 // ============================================================
