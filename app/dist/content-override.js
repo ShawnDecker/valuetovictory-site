@@ -492,3 +492,37 @@
   setTimeout(addSandiTestimonial, 2000);
   setTimeout(addSandiTestimonial, 4000);
 })();
+
+// ============================================================
+// MEMBER LOGIN BUTTON — top nav, next to Join Now
+// ============================================================
+(function(){
+  function addLoginButton(){
+    if(document.getElementById('nav-login-btn')) return;
+    // Find the Join Now button in the nav
+    var joinBtns = document.querySelectorAll('a, button');
+    var joinBtn = null;
+    for(var i = 0; i < joinBtns.length; i++){
+      if(joinBtns[i].textContent.trim() === 'Join Now' && joinBtns[i].closest('nav,header,[class*="sticky"]')){
+        joinBtn = joinBtns[i];
+        break;
+      }
+    }
+    if(!joinBtn) return;
+
+    var loginBtn = document.createElement('a');
+    loginBtn.id = 'nav-login-btn';
+    loginBtn.href = 'https://assessment.valuetovictory.com/member';
+    loginBtn.textContent = 'Log In';
+    loginBtn.style.cssText = 'padding:8px 16px;border:1px solid #D4A847;color:#D4A847;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;margin-right:8px;transition:all 0.2s;';
+    loginBtn.onmouseenter = function(){ this.style.background='#D4A847'; this.style.color='#000'; };
+    loginBtn.onmouseleave = function(){ this.style.background='transparent'; this.style.color='#D4A847'; };
+
+    joinBtn.parentNode.insertBefore(loginBtn, joinBtn);
+    console.log('[V2V] Login button added to nav');
+  }
+
+  setTimeout(addLoginButton, 1500);
+  setTimeout(addLoginButton, 3000);
+  setTimeout(addLoginButton, 5000);
+})();
