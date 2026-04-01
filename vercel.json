@@ -53,7 +53,12 @@
       "destination": "/assessment.html"
     },
     {
-      "handle": "filesystem"
+      "source": "/content-override.js",
+      "destination": "/content-override.js"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
     },
     {
       "source": "/(.*)",
