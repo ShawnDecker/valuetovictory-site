@@ -1283,7 +1283,90 @@
   }
 
   // ─────────────────────────────────────────────
-  // 11. MutationObserver
+  // 11a. GLOBAL CLICK INTERCEPTOR (captures before React)
+  // ─────────────────────────────────────────────
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('button, a[role="button"], [class*="button"]');
+    if (!btn) return;
+    var text = (btn.textContent || '').trim();
+    var textLower = text.toLowerCase();
+
+    // --- Subscription buttons ---
+    if (
+      textLower.indexOf('join victorypath') !== -1 ||
+      textLower.indexOf('join value builder') !== -1 ||
+      textLower.indexOf('become vip') !== -1
+    ) {
+      var slug = null;
+      if (textLower.indexOf('victorypath') !== -1) slug = 'victorypath';
+      else if (textLower.indexOf('value builder') !== -1) slug = 'value-builder';
+      else if (textLower.indexOf('vip') !== -1) slug = 'victory-vip';
+      if (slug) {
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        cartAdd(slug);
+        showToast('\u2713 Added to cart!');
+        openModal();
+        return;
+      }
+    }
+
+    // --- Add to Cart / Pre-Order / Buy buttons ---
+    if (
+      textLower === 'add to cart' ||
+      textLower === 'pre-order now' ||
+      textLower === 'pre-order' ||
+      textLower === 'buy now' ||
+      textLower === 'get now'
+    ) {
+      var slug = detectSlugFromContext(btn);
+      if (slug) {
+        var product = VTV_PRODUCTS[slug];
+        if (product && product.soldOut) {
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          showToast('Sorry, this item is sold out.');
+          return;
+        }
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        cartAdd(slug);
+        showToast('\u2713 Added to cart!');
+        suppressReactCartDialog();
+        return;
+      }
+    }
+
+    // --- Subscribe Now inside React modal ---
+    if (textLower.indexOf('subscribe now') !== -1) {
+      var dialog = btn.closest('[role="dialog"]');
+      if (dialog) {
+        var ct = dialog.textContent || '';
+        var slug = 'victorypath';
+        if (ct.indexOf('Victory VIP') !== -1) slug = 'victory-vip';
+        else if (ct.indexOf('Value Builder') !== -1) slug = 'value-builder';
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        cartAdd(slug);
+        showToast('\u2713 Added to cart!');
+        openModal();
+        return;
+      }
+    }
+
+    // --- Proceed to Checkout in React cart ---
+    if (textLower.indexOf('proceed to checkout') !== -1) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      openModal();
+      return;
+    }
+
+    // --- Nav cart icon ---
+    if (isCartNavButton(btn)) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      openModal();
+      return;
+    }
+  }, true); // capture phase = fires BEFORE React's delegation
+
+  // ─────────────────────────────────────────────
+  // 11b. MutationObserver (for styling/badge only now)
   // ─────────────────────────────────────────────
   var _observer = new MutationObserver(function (mutations) {
     var shouldScan = false;
