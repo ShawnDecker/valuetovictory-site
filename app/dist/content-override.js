@@ -1423,7 +1423,109 @@
       openModal();
       return;
     }
+
+    // --- Get the Free Book / Get Free Book links ---
+    if (
+      textLower.indexOf('get the free book') !== -1 ||
+      textLower.indexOf('get free book') !== -1 ||
+      (btn.tagName === 'A' && btn.href && btn.href.indexOf('shawnedecker.com') !== -1 && btn.href.indexOf('book') !== -1)
+    ) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      showFreeBookModal();
+      return;
+    }
   }, true); // capture phase = fires BEFORE React's delegation
+
+  // --- Free Book Modal with Audiobook Upsell ---
+  function showFreeBookModal() {
+    if (document.getElementById('free-book-modal')) return;
+    var m = document.createElement('div');
+    m.id = 'free-book-modal';
+    m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:100001;display:flex;align-items:center;justify-content:center;padding:16px;';
+    m.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:440px;width:100%;padding:28px;position:relative;max-height:90vh;overflow-y:auto;">' +
+      '<button onclick="this.closest(\'#free-book-modal\').remove();" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;z-index:1;">&times;</button>' +
+      '<div style="text-align:center;margin-bottom:20px;">' +
+        '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#22c55e;margin-bottom:8px;">FREE DIGITAL COPY</div>' +
+        '<h3 style="font-size:20px;font-weight:800;color:#000;margin:0 0 6px;">Running From Miracles</h3>' +
+        '<p style="font-size:13px;color:#6b7280;margin:0;">Shawn\'s powerful story of overcoming adversity and finding victory.</p>' +
+      '</div>' +
+      '<div id="fb-form-section">' +
+        '<input type="text" id="fb-name" placeholder="Your first name" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;margin-bottom:10px;box-sizing:border-box;" />' +
+        '<input type="email" id="fb-email" placeholder="Your email address" style="width:100%;padding:12px 16px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;margin-bottom:14px;box-sizing:border-box;" />' +
+        '<button id="fb-submit" style="width:100%;padding:14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;">Send Me the Free Book</button>' +
+        '<p style="font-size:11px;color:#a1a1aa;text-align:center;margin-top:10px;">We\'ll send a verification email. No spam, ever.</p>' +
+      '</div>' +
+      '<div id="fb-success" style="display:none;text-align:center;padding:16px 0;">' +
+        '<div style="font-size:40px;margin-bottom:10px;">\u2709\uFE0F</div>' +
+        '<h4 style="font-size:17px;font-weight:700;color:#000;margin:0 0 8px;">Check Your Email</h4>' +
+        '<p style="font-size:13px;color:#6b7280;margin:0 0 20px;">We sent a verification link. Click it to get your free book.</p>' +
+        '<div style="background:#f9f9f9;border:1px solid #e5e7eb;border-radius:12px;padding:16px;text-align:left;">' +
+          '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#D4A847;margin-bottom:8px;">WHILE YOU WAIT</div>' +
+          '<div style="display:flex;gap:12px;align-items:center;">' +
+            '<div style="flex:1;">' +
+              '<div style="font-weight:700;color:#000;font-size:14px;margin-bottom:2px;">Get the Audiobook</div>' +
+              '<div style="font-size:12px;color:#6b7280;margin-bottom:8px;">Listen on the go. Professional narration, 5+ hours.</div>' +
+              '<div style="font-size:18px;font-weight:800;color:#D4A847;">$9.97 <span style="font-size:12px;color:#a1a1aa;text-decoration:line-through;font-weight:400;">$19.99</span></div>' +
+            '</div>' +
+          '</div>' +
+          '<button id="fb-upsell-btn" style="width:100%;padding:10px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;margin-top:10px;">Add Audiobook to Cart</button>' +
+        '</div>' +
+      '</div>' +
+      '<div id="fb-error" style="display:none;text-align:center;padding:8px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin-top:8px;color:#dc2626;font-size:13px;"></div>' +
+    '</div>';
+    m.addEventListener('click', function(ev) { if (ev.target === m) m.remove(); });
+    document.body.appendChild(m);
+
+    // Submit handler
+    document.getElementById('fb-submit').addEventListener('click', function() {
+      var name = document.getElementById('fb-name').value.trim();
+      var email = document.getElementById('fb-email').value.trim();
+      var errDiv = document.getElementById('fb-error');
+      errDiv.style.display = 'none';
+      if (!name || !email) { errDiv.textContent = 'Please enter your name and email.'; errDiv.style.display = 'block'; return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errDiv.textContent = 'Please enter a valid email address.'; errDiv.style.display = 'block'; return; }
+      var btn = document.getElementById('fb-submit');
+      btn.textContent = 'Sending...'; btn.disabled = true; btn.style.opacity = '0.6';
+      fetch('https://assessment.valuetovictory.com/api/free-book-signup', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.success) {
+          document.getElementById('fb-form-section').style.display = 'none';
+          document.getElementById('fb-success').style.display = 'block';
+          // Wire up audiobook upsell
+          var upsellBtn = document.getElementById('fb-upsell-btn');
+          if (upsellBtn) {
+            upsellBtn.addEventListener('click', function() {
+              if (typeof cartAdd === 'function') cartAdd('rfm-audiobook');
+              if (typeof showToast === 'function') showToast('\u2713 Audiobook added to cart!');
+              upsellBtn.textContent = 'Added!';
+              upsellBtn.style.background = '#22c55e';
+              upsellBtn.style.color = '#fff';
+              upsellBtn.disabled = true;
+            });
+          }
+        } else {
+          errDiv.textContent = data.error || 'Something went wrong. Please try again.';
+          errDiv.style.display = 'block';
+          btn.textContent = 'Send Me the Free Book'; btn.disabled = false; btn.style.opacity = '1';
+        }
+      })
+      .catch(function() {
+        errDiv.textContent = 'Connection error. Please try again.';
+        errDiv.style.display = 'block';
+        btn.textContent = 'Send Me the Free Book'; btn.disabled = false; btn.style.opacity = '1';
+      });
+    });
+
+    // Enter key
+    ['fb-name', 'fb-email'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', function(ev) { if (ev.key === 'Enter') document.getElementById('fb-submit').click(); });
+    });
+  }
 
   // ─────────────────────────────────────────────
   // 11b. MutationObserver (for styling/badge only now)
