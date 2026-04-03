@@ -1114,6 +1114,28 @@
     return btn && (el === btn || btn.contains(el));
   }
 
+  // Suppress React's own cart dialog that opens after Add to Cart
+  function suppressReactCartDialog() {
+    var attempts = 0;
+    var checker = setInterval(function() {
+      attempts++;
+      if (attempts > 20) { clearInterval(checker); return; }
+      var dialogs = document.querySelectorAll('[role="dialog"]');
+      for (var i = 0; i < dialogs.length; i++) {
+        var d = dialogs[i];
+        var txt = d.textContent || '';
+        if (txt.indexOf('Your Cart') !== -1 && !d.dataset.vtvCart) {
+          // This is React's cart dialog — close it
+          var closeBtn = d.querySelector('button');
+          if (closeBtn) closeBtn.click();
+          d.style.display = 'none';
+          clearInterval(checker);
+          return;
+        }
+      }
+    }, 100);
+  }
+
   function handleAddToCart(e, el) {
     e.preventDefault();
     e.stopPropagation();
@@ -1121,7 +1143,6 @@
 
     var slug = detectSlugFromContext(el);
     if (!slug) {
-      // Can't detect — let original handler run (graceful degradation)
       return;
     }
 
@@ -1129,13 +1150,14 @@
     if (!product) return;
 
     if (product.soldOut) {
-      // Don't add, just show sold out
       showToast('Sorry, this item is sold out.');
       return;
     }
 
     cartAdd(slug);
     showToast('\u2713 Added to cart!');
+    // Suppress React's own cart dialog if it appears
+    suppressReactCartDialog();
   }
 
   function handleSubscriptionButton(e, el, slug) {
