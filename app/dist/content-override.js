@@ -811,7 +811,7 @@
     style.textContent = [
       '#vtv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s ease}',
       '#vtv-modal-overlay.vtv-visible{opacity:1}',
-      '#vtv-modal-box{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .25s ease}',
+      '#vtv-modal-box{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .25s ease}@media(max-width:640px){#vtv-modal-box{max-width:100%;border-radius:12px;max-height:85vh;margin:8px}}',
       '#vtv-modal-overlay.vtv-visible #vtv-modal-box{transform:translateY(0)}',
       '#vtv-modal-header{display:flex;align-items:center;gap:10px;padding:20px 24px 16px;border-bottom:1px solid #e5e7eb}',
       '#vtv-modal-header h2{margin:0;font-size:18px;font-weight:700;color:#111;flex:1}',
@@ -886,6 +886,25 @@
     document.getElementById('vtv-checkout-btn').addEventListener('click', handleCheckout);
   }
 
+  // --- Scroll lock for mobile (iOS needs special handling) ---
+  var _scrollY = 0;
+  function lockScroll() {
+    _scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + _scrollY + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.overflow = 'hidden';
+  }
+  function unlockScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, _scrollY);
+  }
+
   function openModal() {
     buildModal();
     renderModalBody();
@@ -896,7 +915,7 @@
         _modalOverlay.classList.add('vtv-visible');
       });
     });
-    document.body.style.overflow = 'hidden';
+    lockScroll();
   }
 
   function closeModal() {
@@ -906,8 +925,49 @@
       _modalOverlay.style.display = 'none';
     }, 220);
     _modalOpen = false;
-    document.body.style.overflow = '';
+    unlockScroll();
   }
+
+  // --- Floating cart button for mobile ---
+  function createFloatingCartButton() {
+    if (document.getElementById('vtv-floating-cart')) return;
+    var fab = document.createElement('div');
+    fab.id = 'vtv-floating-cart';
+    fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span id="vtv-fab-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;line-height:1;"></span>';
+    fab.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9998;width:52px;height:52px;background:linear-gradient(135deg,#D4A847,#b8942e);border-radius:50%;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.25);cursor:pointer;-webkit-tap-highlight-color:transparent;';
+    fab.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+    document.body.appendChild(fab);
+    updateFloatingCartVisibility();
+  }
+
+  function updateFloatingCartVisibility() {
+    var fab = document.getElementById('vtv-floating-cart');
+    if (!fab) return;
+    // Show on mobile (< 768px) when there's no visible nav cart button
+    var isMobile = window.innerWidth < 768;
+    fab.style.display = isMobile ? 'flex' : 'none';
+    // Update badge
+    var badge = document.getElementById('vtv-fab-badge');
+    var count = cartTotalItems();
+    if (badge) {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+  }
+
+  // Update floating button on resize and cart changes
+  var _origCartUpdateBadge = cartUpdateBadge;
+  cartUpdateBadge = function() {
+    _origCartUpdateBadge();
+    updateFloatingCartVisibility();
+  };
+  window.addEventListener('resize', updateFloatingCartVisibility);
+  setTimeout(createFloatingCartButton, 1500);
+  setTimeout(createFloatingCartButton, 3000);
 
   function cartRefreshModal() {
     if (_modalOpen) renderModalBody();
