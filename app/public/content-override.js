@@ -1431,7 +1431,20 @@
       (btn.tagName === 'A' && btn.href && btn.href.indexOf('shawnedecker.com') !== -1 && btn.href.indexOf('book') !== -1)
     ) {
       e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-      showFreeBookModal();
+      // Close mobile menu if open
+      var mobileMenuClose = document.querySelector('[role="dialog"] button[class*="close"], [data-state="open"] button');
+      if (mobileMenuClose && window.innerWidth < 768) {
+        // Find the Sheet close button (X) in the mobile nav
+        var sheets = document.querySelectorAll('[role="dialog"]');
+        for (var si = 0; si < sheets.length; si++) {
+          if (sheets[si].textContent.indexOf('Explore Products') !== -1 || sheets[si].textContent.indexOf('Get the Free Book') !== -1) {
+            var closeBtn = sheets[si].querySelector('button');
+            if (closeBtn) closeBtn.click();
+            break;
+          }
+        }
+      }
+      setTimeout(showFreeBookModal, 150); // slight delay for menu close animation
       return;
     }
   }, true); // capture phase = fires BEFORE React's delegation
@@ -1528,7 +1541,36 @@
   }
 
   // ─────────────────────────────────────────────
-  // 11b. MutationObserver (for styling/badge only now)
+  // 11b. Rewrite free book links to prevent external navigation
+  // ─────────────────────────────────────────────
+  function rewriteFreeBookLinks() {
+    document.querySelectorAll('a[href*="shawnedecker.com"]').forEach(function(a) {
+      if (a.href.indexOf('book') !== -1 && !a.dataset.vtvRewritten) {
+        a.dataset.vtvRewritten = 'true';
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        a.setAttribute('href', 'javascript:void(0)');
+        a.style.cursor = 'pointer';
+      }
+    });
+    // Also rewrite any "Get Free Book" links in product cards that have externalLink
+    document.querySelectorAll('a').forEach(function(a) {
+      var text = (a.textContent || '').trim().toLowerCase();
+      if ((text === 'get free book' || text === 'get the free book') && !a.dataset.vtvRewritten) {
+        a.dataset.vtvRewritten = 'true';
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        a.setAttribute('href', 'javascript:void(0)');
+        a.style.cursor = 'pointer';
+      }
+    });
+  }
+  setTimeout(rewriteFreeBookLinks, 1500);
+  setTimeout(rewriteFreeBookLinks, 3000);
+  setTimeout(rewriteFreeBookLinks, 6000);
+
+  // ─────────────────────────────────────────────
+  // 11c. MutationObserver (for styling/badge/link rewriting)
   // ─────────────────────────────────────────────
   var _observer = new MutationObserver(function (mutations) {
     var shouldScan = false;
@@ -1541,6 +1583,7 @@
     if (shouldScan) {
       scanAndIntercept();
       patchReactModals();
+      rewriteFreeBookLinks();
     }
   });
 
