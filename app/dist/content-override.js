@@ -1,4 +1,4 @@
-// Content Override v4.7 — ALL fixes via DOM, JS bundle NEVER touched
+// Content Override v4.8 — ALL fixes via DOM, JS bundle NEVER touched
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -519,123 +519,824 @@
   setTimeout(add,1500);setTimeout(add,3000);
 })();
 
-// CART, CHECKOUT, PREORDER, COACHING MODAL
+// COACHING MODAL
 (function(){
-  // Cart
-  function ec(){var ds=document.querySelectorAll('[role="dialog"]'),d=null;for(var i=0;i<ds.length;i++){if(ds[i].textContent.indexOf('Your Cart')!==-1){d=ds[i];break;}}if(!d||document.getElementById('cart-enhancements'))return;var el=document.createElement('div');el.id='cart-enhancements';el.style.cssText='padding:16px 0;border-top:1px solid #e4e4e4;margin-top:16px;';el.innerHTML='<a href="https://calendly.com/valuetovictory/30min" target="_blank" style="display:block;padding:12px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;text-align:center;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;">\uD83D\uDCC5 Add Coaching \u2014 $300/hr</a>';(d.querySelector('[class*="content"]')||d).appendChild(el);}
-  var co=new MutationObserver(function(){ec();});setTimeout(function(){co.observe(document.body,{childList:true,subtree:true});},2000);
-  // Checkout
-  var sl={'The Lost Art of Value':'https://buy.stripe.com/aFa6oGeIY0HGaBrdEw6oo0g','Running From Miracles':'https://shawnedecker.com/#book','VictoryPath':'https://buy.stripe.com/3cIfZgeIY9ecdND7g86oo0h','Value Builder':'https://buy.stripe.com/3cIaEW6cs4XW24Vbwo6oo0i','Victory VIP':'https://buy.stripe.com/28E8wO44kbmkdNDbwo6oo09','default':'https://buy.stripe.com/3cIfZgeIY9ecdND7g86oo0h'};
-  var oa=window.alert;window.alert=function(m){if(m&&m.indexOf('Checkout')!==-1){var cd=document.querySelector('[role="dialog"]'),ct=cd?cd.textContent:'',u=sl['default'];for(var p in sl){if(ct.indexOf(p)!==-1){u=sl[p];break;}}window.open(u,'_blank');return;}oa.call(window,m);};
-  // Preorder
-  function ap(){document.querySelectorAll('button').forEach(function(b){var c=b.closest('[class*="rounded-2xl"]');if(!c)return;var t=c.textContent;if(b.textContent.trim()==='Add to Cart'){if(t.indexOf('upcoming')!==-1||t.indexOf('90-Day')!==-1||t.indexOf('21-Day')!==-1){b.innerHTML='\uD83D\uDD52 Pre-Order';b.style.background='#f97316';b.style.color='#fff';}else if(t.indexOf('Presale')!==-1||t.indexOf('Lost Art of Value')!==-1){b.innerHTML='\u2B50 Pre-Order Now';b.style.background='linear-gradient(135deg,#D4A847,#b8942e)';b.style.color='#000';}}});}
-  setTimeout(ap,2000);setTimeout(ap,4000);
   // Coaching modal
   document.addEventListener('click',function(e){var l=e.target.closest('a[href*="calendly.com/valuetovictory"]');if(!l||document.getElementById('coaching-pricing-modal'))return;e.preventDefault();e.stopPropagation();var m=document.createElement('div');m.id='coaching-pricing-modal';m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';m.innerHTML='<div style="background:#fff;border-radius:16px;max-width:480px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto;"><button onclick="this.closest(\'#coaching-pricing-modal\').remove()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;">&times;</button><div style="text-align:center;margin-bottom:20px;"><div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#D4A847;margin-bottom:8px;">Coaching Rates</div><h3 style="font-size:22px;font-weight:800;color:#000;margin:0;">Book a Session with Shawn</h3></div><div style="background:#f9f9f9;border-radius:12px;padding:16px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong>Life & Business Coaching</strong><span style="color:#D4A847;font-weight:700;font-size:18px;">$300/hr</span></div><div style="font-size:13px;color:#666;">Personalized 1-on-1</div></div><div style="background:#f9f9f9;border-radius:12px;padding:16px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong>Real Estate Consulting</strong><span style="color:#D4A847;font-weight:700;font-size:18px;">$300/30min</span></div><div style="font-size:13px;color:#666;">60-min: $500</div></div><div style="background:#22c55e15;border:1px solid #22c55e40;border-radius:12px;padding:16px;margin-bottom:20px;"><div style="font-size:13px;font-weight:700;color:#22c55e;margin-bottom:6px;">Member Discounts</div><div style="font-size:12px;color:#333;line-height:1.6;">\u2022 First-time: <strong>20% off</strong><br>\u2022 VictoryPath: <strong>15% off</strong><br>\u2022 Value Builder: <strong>25% off</strong><br>\u2022 Victory VIP: <strong>50% off</strong></div></div><a href="https://calendly.com/valuetovictory/30min" target="_blank" style="display:block;padding:14px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;text-align:center;border-radius:10px;font-weight:700;text-decoration:none;margin-bottom:10px;" onclick="this.closest(\'#coaching-pricing-modal\').remove()">\uD83D\uDCC5 Schedule</a><a href="https://buy.stripe.com/3cIfZgeIY9ecdND7g86oo0h" target="_blank" style="display:block;padding:12px;border:1px solid #D4A847;color:#D4A847;text-align:center;border-radius:10px;font-weight:600;font-size:13px;text-decoration:none;" onclick="this.closest(\'#coaching-pricing-modal\').remove()">Join VictoryPath ($29/mo) for 15% off</a></div>';m.addEventListener('click',function(ev){if(ev.target===m)m.remove();});document.body.appendChild(m);},true);
 })();
 
 // ============================================================
-// STRIPE REDIRECT, FREE BOOK EMAIL CAPTURE, CART FIX
+// MULTI-ITEM CART SYSTEM (v4.8)
 // ============================================================
-(function(){
-  // === 1. HIJACK SUBSCRIPTION BUTTONS ===
-  // The React app opens a fake checkout modal with card fields that don't work.
-  // Intercept clicks on "Join VictoryPath", "Join Value Builder", "Become VIP" to go straight to Stripe.
-  var stripeLinks = {
-    'VictoryPath': 'https://buy.stripe.com/3cIfZgeIY9ecdND7g86oo0h',
-    'Value Builder': 'https://buy.stripe.com/3cIaEW6cs4XW24Vbwo6oo0i',
-    'Victory VIP': 'https://buy.stripe.com/28E8wO44kbmkdNDbwo6oo09',
-    'Lost Art of Value': 'https://buy.stripe.com/aFa6oGeIY0HGaBrdEw6oo0g'
+
+// ============================================================
+// MULTI-ITEM CART SYSTEM
+// ============================================================
+/**
+ * VTV Multi-Item Cart System
+ * valuetovictory.com — DOM-injection cart override
+ * Intercepts React app cart; manages state in localStorage.
+ *
+ * Drop into content-override.js as-is.
+ */
+(function () {
+  'use strict';
+
+  // ─────────────────────────────────────────────
+  // 0. Guard: only run once
+  // ─────────────────────────────────────────────
+  if (window.__VTV_CART_LOADED__) return;
+  window.__VTV_CART_LOADED__ = true;
+
+  // ─────────────────────────────────────────────
+  // 1. Product Catalog
+  // ─────────────────────────────────────────────
+  var VTV_PRODUCTS = {
+    'victorypath':        { name: 'VictoryPath Membership',              price: 29,    display: '$29/mo',   type: 'subscription', badge: '3-day free trial' },
+    'value-builder':      { name: 'Value Builder Membership',            price: 47,    display: '$47/mo',   type: 'subscription', badge: '3-day free trial' },
+    'victory-vip':        { name: 'Victory VIP Membership',              price: 497,   display: '$497/mo',  type: 'subscription', badge: '3-day free trial' },
+    'loav-presale':       { name: 'The Lost Art of Value - Presale',     price: 197,   display: '$197',     type: 'one_time' },
+    'rfm-audiobook':      { name: 'Running From Miracles - Audiobook',   price: 9.97,  display: '$9.97',    type: 'one_time' },
+    'rfm-paperback':      { name: 'Running From Miracles - Paperback',   price: 11.97, display: '$11.97',   type: 'one_time', soldOut: true },
+    'mastering-listings': { name: 'Mastering Listings Course',           price: 197,   display: '$197',     type: 'one_time' },
   };
 
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('button, a');
+  // ─────────────────────────────────────────────
+  // 2. Cart State (localStorage)
+  // ─────────────────────────────────────────────
+  var CART_KEY = 'vtv-cart';
+
+  function cartLoad() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch (e) { return []; }
+  }
+
+  function cartSave(items) {
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
+    cartUpdateBadge();
+    cartRefreshModal();
+  }
+
+  function cartAdd(slug) {
+    var product = VTV_PRODUCTS[slug];
+    if (!product) return;
+    var items = cartLoad();
+    var existing = items.find(function (i) { return i.slug === slug; });
+    if (product.type === 'subscription') {
+      // max 1
+      if (!existing) items.push({ slug: slug, quantity: 1 });
+    } else {
+      if (existing) { existing.quantity += 1; }
+      else { items.push({ slug: slug, quantity: 1 }); }
+    }
+    cartSave(items);
+  }
+
+  function cartRemove(slug) {
+    var items = cartLoad().filter(function (i) { return i.slug !== slug; });
+    cartSave(items);
+  }
+
+  function cartSetQty(slug, qty) {
+    var items = cartLoad();
+    var item = items.find(function (i) { return i.slug === slug; });
+    if (!item) return;
+    if (qty < 1) { cartRemove(slug); return; }
+    item.quantity = qty;
+    cartSave(items);
+  }
+
+  function cartTotalItems() {
+    return cartLoad().reduce(function (s, i) { return s + i.quantity; }, 0);
+  }
+
+  function cartSubtotal() {
+    return cartLoad().reduce(function (s, i) {
+      var p = VTV_PRODUCTS[i.slug];
+      return s + (p ? p.price * i.quantity : 0);
+    }, 0);
+  }
+
+  function cartHasSubscriptions() {
+    return cartLoad().some(function (i) {
+      var p = VTV_PRODUCTS[i.slug];
+      return p && p.type === 'subscription';
+    });
+  }
+
+  function cartClear() {
+    localStorage.removeItem(CART_KEY);
+  }
+
+  // ─────────────────────────────────────────────
+  // 3. Cart Badge
+  // ─────────────────────────────────────────────
+  var _badgeEl = null;
+
+  function cartUpdateBadge() {
+    var btn = findNavCartButton();
     if (!btn) return;
-    var text = btn.textContent.trim();
 
-    // Intercept subscription buttons in the pricing section
-    if (text === 'Join VictoryPath \u2192' || text === 'Join VictoryPath') {
-      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-      window.open(stripeLinks['VictoryPath'], '_blank');
-      return;
-    }
-    if (text === 'Become VIP \u2192' || text === 'Become VIP') {
-      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-      window.open(stripeLinks['Victory VIP'], '_blank');
-      return;
-    }
-    if (text === 'Join Value Builder \u2192' || text === 'Join Value Builder') {
-      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-      window.open(stripeLinks['Value Builder'], '_blank');
-      return;
+    if (!_badgeEl) {
+      // Ensure relative positioning on the button so badge positions correctly
+      var pos = window.getComputedStyle(btn).position;
+      if (pos === 'static') btn.style.position = 'relative';
+
+      _badgeEl = document.createElement('span');
+      _badgeEl.id = 'vtv-cart-badge';
+      _badgeEl.style.cssText = [
+        'position:absolute',
+        'top:-6px',
+        'right:-6px',
+        'min-width:18px',
+        'height:18px',
+        'border-radius:9px',
+        'background:linear-gradient(135deg,#D4A847,#b8942e)',
+        'color:#fff',
+        'font-size:11px',
+        'font-weight:700',
+        'line-height:18px',
+        'text-align:center',
+        'padding:0 4px',
+        'pointer-events:none',
+        'z-index:9999',
+        'box-shadow:0 1px 4px rgba(0,0,0,.35)',
+        'display:none',
+      ].join(';');
+      btn.appendChild(_badgeEl);
     }
 
-    // Intercept "Subscribe Now" inside the React checkout modal
-    if (text.indexOf('Subscribe Now') !== -1) {
-      var dialog = btn.closest('[role="dialog"]') || btn.closest('[class*="Dialog"]');
-      if (dialog) {
-        var ct = dialog.textContent;
-        var url = stripeLinks['VictoryPath']; // default
-        if (ct.indexOf('Victory VIP') !== -1) url = stripeLinks['Victory VIP'];
-        else if (ct.indexOf('Value Builder') !== -1) url = stripeLinks['Value Builder'];
-        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-        window.open(url, '_blank');
-        // Close the modal
-        var closeBtn = dialog.querySelector('button[class*="close"], button:first-child');
-        if (closeBtn) closeBtn.click();
-        return;
+    var count = cartTotalItems();
+    if (count > 0) {
+      _badgeEl.textContent = count;
+      _badgeEl.style.display = 'block';
+    } else {
+      _badgeEl.style.display = 'none';
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // 4. Helpers — find React nav cart button
+  // ─────────────────────────────────────────────
+  function findNavCartButton() {
+    // Look for a button in the nav that contains an SVG (cart icon)
+    var candidates = document.querySelectorAll('nav button, header button, [role="navigation"] button');
+    for (var i = 0; i < candidates.length; i++) {
+      var btn = candidates[i];
+      // Must have an svg child (cart icon)
+      if (btn.querySelector('svg')) {
+        // Prefer ones that look like cart: aria-label contains "cart", or path count typical of cart icon
+        var label = (btn.getAttribute('aria-label') || '').toLowerCase();
+        var title = (btn.getAttribute('title') || '').toLowerCase();
+        if (label.includes('cart') || title.includes('cart')) return btn;
       }
     }
+    // Fallback: any button with svg in nav area
+    for (var j = 0; j < candidates.length; j++) {
+      if (candidates[j].querySelector('svg')) return candidates[j];
+    }
+    return null;
+  }
 
-    // Intercept "Proceed to Checkout" in cart
-    if (text.indexOf('Proceed to Checkout') !== -1) {
-      var cartDialog = btn.closest('[role="dialog"]');
-      if (cartDialog) {
-        var cartContent = cartDialog.textContent;
-        var checkoutUrl = stripeLinks['VictoryPath']; // default
-        for (var key in stripeLinks) {
-          if (cartContent.indexOf(key) !== -1) { checkoutUrl = stripeLinks[key]; break; }
+  // ─────────────────────────────────────────────
+  // 5. Slug detection from element context
+  // ─────────────────────────────────────────────
+  function detectSlugFromContext(el) {
+    // Walk up the DOM tree looking for a card/section that contains product info
+    var root = el;
+    for (var depth = 0; depth < 10; depth++) {
+      if (!root) break;
+      var text = (root.textContent || '').toLowerCase();
+
+      // Match by product name fragments
+      if (text.includes('victory vip') || text.includes('victoryvip')) return 'victory-vip';
+      if (text.includes('value builder')) return 'value-builder';
+      if (text.includes('victorypath') || text.includes('victory path membership')) return 'victorypath';
+      if (text.includes('lost art of value') || text.includes('loav')) return 'loav-presale';
+      if (text.includes('running from miracles') && text.includes('audiobook')) return 'rfm-audiobook';
+      if (text.includes('running from miracles') && text.includes('paperback')) return 'rfm-paperback';
+      if (text.includes('mastering listings')) return 'mastering-listings';
+
+      root = root.parentElement;
+    }
+
+    // Try button's own text for subscription join buttons
+    var btnText = (el.textContent || '').toLowerCase().trim();
+    if (btnText.includes('vip') || btnText.includes('victory vip')) return 'victory-vip';
+    if (btnText.includes('value builder')) return 'value-builder';
+    if (btnText.includes('victorypath') || btnText.includes('join victorypath')) return 'victorypath';
+
+    return null;
+  }
+
+  function detectSlugFromButtonText(text) {
+    var t = text.toLowerCase().trim();
+    if (t.includes('victory vip') || t.includes('become vip') || t.includes('join vip')) return 'victory-vip';
+    if (t.includes('value builder') || t.includes('join value builder')) return 'value-builder';
+    if (t.includes('victorypath') || t.includes('join victorypath')) return 'victorypath';
+    return null;
+  }
+
+  // ─────────────────────────────────────────────
+  // 6. Toast Notification
+  // ─────────────────────────────────────────────
+  var _toastContainer = null;
+
+  function ensureToastContainer() {
+    if (_toastContainer) return _toastContainer;
+    _toastContainer = document.createElement('div');
+    _toastContainer.id = 'vtv-toast-container';
+    _toastContainer.style.cssText = [
+      'position:fixed',
+      'bottom:24px',
+      'right:24px',
+      'z-index:100002',
+      'display:flex',
+      'flex-direction:column',
+      'gap:8px',
+      'pointer-events:none',
+    ].join(';');
+    document.body.appendChild(_toastContainer);
+    return _toastContainer;
+  }
+
+  function showToast(msg) {
+    var container = ensureToastContainer();
+    var toast = document.createElement('div');
+    toast.textContent = msg;
+    toast.style.cssText = [
+      'background:linear-gradient(135deg,#D4A847,#b8942e)',
+      'color:#fff',
+      'font-weight:600',
+      'font-size:14px',
+      'padding:10px 18px',
+      'border-radius:10px',
+      'box-shadow:0 4px 16px rgba(0,0,0,.25)',
+      'opacity:0',
+      'transform:translateX(40px)',
+      'transition:opacity .25s ease,transform .25s ease',
+      'pointer-events:none',
+      'white-space:nowrap',
+    ].join(';');
+    container.appendChild(toast);
+
+    // Trigger animation
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(0)';
+      });
+    });
+
+    setTimeout(function () {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(40px)';
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 300);
+    }, 2000);
+  }
+
+  // ─────────────────────────────────────────────
+  // 7. Cart Modal
+  // ─────────────────────────────────────────────
+  var _modalOverlay = null;
+  var _modalOpen = false;
+
+  function buildModal() {
+    if (_modalOverlay) return;
+
+    // Inject styles
+    var style = document.createElement('style');
+    style.textContent = [
+      '#vtv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s ease}',
+      '#vtv-modal-overlay.vtv-visible{opacity:1}',
+      '#vtv-modal-box{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .25s ease}',
+      '#vtv-modal-overlay.vtv-visible #vtv-modal-box{transform:translateY(0)}',
+      '#vtv-modal-header{display:flex;align-items:center;gap:10px;padding:20px 24px 16px;border-bottom:1px solid #e5e7eb}',
+      '#vtv-modal-header h2{margin:0;font-size:18px;font-weight:700;color:#111;flex:1}',
+      '#vtv-modal-close{background:none;border:none;cursor:pointer;font-size:22px;color:#6b7280;line-height:1;padding:4px;border-radius:6px}',
+      '#vtv-modal-close:hover{color:#111;background:#f3f4f6}',
+      '#vtv-modal-body{padding:20px 24px;flex:1}',
+      '.vtv-cart-item{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f3f4f6}',
+      '.vtv-cart-item:last-child{border-bottom:none}',
+      '.vtv-item-info{flex:1}',
+      '.vtv-item-name{font-size:14px;font-weight:600;color:#111;margin:0 0 2px}',
+      '.vtv-item-price{font-size:13px;color:#6b7280;margin:0}',
+      '.vtv-item-badge{display:inline-block;font-size:11px;font-weight:600;color:#b8942e;background:#fef9ec;border:1px solid #D4A847;border-radius:20px;padding:1px 8px;margin-top:4px}',
+      '.vtv-qty-controls{display:flex;align-items:center;gap:6px}',
+      '.vtv-qty-btn{width:28px;height:28px;border:1px solid #d1d5db;background:#fff;border-radius:6px;cursor:pointer;font-size:15px;font-weight:600;color:#374151;display:flex;align-items:center;justify-content:center;line-height:1}',
+      '.vtv-qty-btn:hover{background:#f3f4f6;border-color:#9ca3af}',
+      '.vtv-qty-num{font-size:14px;font-weight:600;color:#111;min-width:20px;text-align:center}',
+      '.vtv-remove-btn{background:none;border:none;cursor:pointer;color:#dc2626;font-size:18px;padding:4px 6px;border-radius:6px;line-height:1}',
+      '.vtv-remove-btn:hover{background:#fef2f2}',
+      '#vtv-modal-subtotal{display:flex;justify-content:space-between;align-items:center;padding:14px 0 0;border-top:2px solid #e5e7eb;margin-top:8px}',
+      '#vtv-modal-subtotal .vtv-sub-label{font-size:14px;font-weight:600;color:#374151}',
+      '#vtv-modal-subtotal .vtv-sub-amount{font-size:18px;font-weight:700;color:#111}',
+      '#vtv-modal-sub-note{font-size:12px;color:#6b7280;margin:8px 0 0;text-align:center}',
+      '#vtv-modal-footer{padding:16px 24px 20px;border-top:1px solid #f3f4f6;display:flex;flex-direction:column;gap:10px}',
+      '#vtv-checkout-btn{width:100%;padding:14px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#fff;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s,transform .1s}',
+      '#vtv-checkout-btn:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}',
+      '#vtv-checkout-btn:active{transform:translateY(0)}',
+      '#vtv-checkout-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}',
+      '#vtv-coaching-btn{width:100%;padding:11px;background:#fff;color:#374151;font-size:14px;font-weight:600;border:1.5px solid #d1d5db;border-radius:12px;cursor:pointer;transition:background .15s,border-color .15s;text-decoration:none;display:block;text-align:center}',
+      '#vtv-coaching-btn:hover{background:#f9fafb;border-color:#9ca3af}',
+      '#vtv-continue-link{text-align:center;font-size:13px;color:#6b7280;cursor:pointer;text-decoration:underline;background:none;border:none;width:100%;padding:0}',
+      '#vtv-continue-link:hover{color:#374151}',
+      '#vtv-modal-error{background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;color:#dc2626;font-size:13px;padding:10px 14px;margin-bottom:8px;display:none}',
+      '.vtv-empty-state{text-align:center;padding:32px 0}',
+      '.vtv-empty-state p{color:#6b7280;font-size:15px;margin:0 0 16px}',
+      '.vtv-browse-btn{display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#fff;font-weight:600;font-size:14px;border-radius:10px;text-decoration:none;cursor:pointer;border:none}',
+    ].join('\n');
+    document.head.appendChild(style);
+
+    _modalOverlay = document.createElement('div');
+    _modalOverlay.id = 'vtv-modal-overlay';
+    _modalOverlay.innerHTML = [
+      '<div id="vtv-modal-box" role="dialog" aria-modal="true" aria-labelledby="vtv-modal-title">',
+        '<div id="vtv-modal-header">',
+          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A847" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">',
+            '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>',
+            '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
+          '</svg>',
+          '<h2 id="vtv-modal-title">Your Cart (<span id="vtv-modal-count">0</span> items)</h2>',
+          '<button id="vtv-modal-close" aria-label="Close cart">&times;</button>',
+        '</div>',
+        '<div id="vtv-modal-body"></div>',
+        '<div id="vtv-modal-footer">',
+          '<div id="vtv-modal-error"></div>',
+          '<button id="vtv-checkout-btn">Checkout</button>',
+          '<a id="vtv-coaching-btn" href="https://calendly.com/valuetovictory" target="_blank" rel="noopener">Add Coaching &mdash; $300/hr</a>',
+          '<button id="vtv-continue-link">Continue Shopping</button>',
+        '</div>',
+      '</div>',
+    ].join('');
+    document.body.appendChild(_modalOverlay);
+
+    // Close events
+    _modalOverlay.addEventListener('click', function (e) {
+      if (e.target === _modalOverlay) closeModal();
+    });
+    document.getElementById('vtv-modal-close').addEventListener('click', closeModal);
+    document.getElementById('vtv-continue-link').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && _modalOpen) closeModal();
+    });
+
+    document.getElementById('vtv-checkout-btn').addEventListener('click', handleCheckout);
+  }
+
+  function openModal() {
+    buildModal();
+    renderModalBody();
+    _modalOpen = true;
+    _modalOverlay.style.display = 'flex';
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        _modalOverlay.classList.add('vtv-visible');
+      });
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!_modalOverlay) return;
+    _modalOverlay.classList.remove('vtv-visible');
+    setTimeout(function () {
+      _modalOverlay.style.display = 'none';
+    }, 220);
+    _modalOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  function cartRefreshModal() {
+    if (_modalOpen) renderModalBody();
+  }
+
+  function renderModalBody() {
+    if (!_modalOverlay) return;
+    var body = document.getElementById('vtv-modal-body');
+    var countEl = document.getElementById('vtv-modal-count');
+    var checkoutBtn = document.getElementById('vtv-checkout-btn');
+    var footer = document.getElementById('vtv-modal-footer');
+    if (!body) return;
+
+    var items = cartLoad();
+    var total = cartTotalItems();
+    countEl.textContent = total;
+
+    // Clear error
+    var errEl = document.getElementById('vtv-modal-error');
+    if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
+    if (items.length === 0) {
+      body.innerHTML = [
+        '<div class="vtv-empty-state">',
+          '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 12px;display:block" aria-hidden="true">',
+            '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>',
+            '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
+          '</svg>',
+          '<p>Your cart is empty</p>',
+          '<button class="vtv-browse-btn" id="vtv-browse-products-btn">Browse Products</button>',
+        '</div>',
+      ].join('');
+      // Hide checkout, show only coaching & continue
+      checkoutBtn.style.display = 'none';
+
+      var browseBtn = document.getElementById('vtv-browse-products-btn');
+      if (browseBtn) {
+        browseBtn.addEventListener('click', function () {
+          closeModal();
+          // Navigate to products section if possible
+          var productsSection = document.querySelector('[id*="product"], [id*="shop"], [id*="store"], section[class*="product"]');
+          if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+          else window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    } else {
+      checkoutBtn.style.display = 'block';
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = 'Checkout';
+
+      var html = '<div id="vtv-items-list">';
+      items.forEach(function (item) {
+        var product = VTV_PRODUCTS[item.slug];
+        if (!product) return;
+        var isSub = product.type === 'subscription';
+        var itemTotal = (product.price * item.quantity).toFixed(2);
+        // Remove trailing .00 for clean display
+        if (itemTotal.endsWith('.00')) itemTotal = itemTotal.slice(0, -3);
+
+        html += '<div class="vtv-cart-item" data-slug="' + item.slug + '">';
+        html += '<div class="vtv-item-info">';
+        html += '<p class="vtv-item-name">' + escHtml(product.name) + '</p>';
+        html += '<p class="vtv-item-price">' + escHtml(product.display);
+        if (!isSub && item.quantity > 1) html += ' &times; ' + item.quantity + ' = $' + itemTotal;
+        html += '</p>';
+        if (product.badge) {
+          html += '<span class="vtv-item-badge">' + escHtml(product.badge) + '</span>';
         }
-        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-        window.open(checkoutUrl, '_blank');
-        return;
+        html += '</div>';
+
+        if (!isSub) {
+          html += '<div class="vtv-qty-controls">';
+          html += '<button class="vtv-qty-btn" data-action="dec" data-slug="' + item.slug + '" aria-label="Decrease quantity">&minus;</button>';
+          html += '<span class="vtv-qty-num">' + item.quantity + '</span>';
+          html += '<button class="vtv-qty-btn" data-action="inc" data-slug="' + item.slug + '" aria-label="Increase quantity">+</button>';
+          html += '</div>';
+        }
+
+        html += '<button class="vtv-remove-btn" data-slug="' + item.slug + '" aria-label="Remove ' + escHtml(product.name) + '">&#10005;</button>';
+        html += '</div>';
+      });
+      html += '</div>';
+
+      // Subtotal
+      var sub = cartSubtotal().toFixed(2);
+      if (sub.endsWith('.00')) sub = sub.slice(0, -3);
+      html += '<div id="vtv-modal-subtotal">';
+      html += '<span class="vtv-sub-label">Subtotal</span>';
+      html += '<span class="vtv-sub-amount">$' + sub + '</span>';
+      html += '</div>';
+
+      if (cartHasSubscriptions()) {
+        html += '<p id="vtv-modal-sub-note">Subscriptions include a 3-day free trial</p>';
+      }
+
+      body.innerHTML = html;
+
+      // Attach item event listeners
+      body.querySelectorAll('.vtv-qty-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var slug = btn.getAttribute('data-slug');
+          var action = btn.getAttribute('data-action');
+          var items2 = cartLoad();
+          var item2 = items2.find(function (x) { return x.slug === slug; });
+          if (!item2) return;
+          cartSetQty(slug, action === 'inc' ? item2.quantity + 1 : item2.quantity - 1);
+        });
+      });
+
+      body.querySelectorAll('.vtv-remove-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          cartRemove(btn.getAttribute('data-slug'));
+        });
+      });
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // 8. Checkout Flow
+  // ─────────────────────────────────────────────
+  function handleCheckout() {
+    var items = cartLoad();
+    if (items.length === 0) return;
+
+    var btn = document.getElementById('vtv-checkout-btn');
+    var errEl = document.getElementById('vtv-modal-error');
+
+    btn.disabled = true;
+    btn.textContent = 'Processing\u2026';
+    if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
+    var payload = {
+      items: items.map(function (i) { return { slug: i.slug, quantity: i.quantity }; }),
+    };
+
+    // Optionally include email if known
+    var emailMeta = document.querySelector('meta[name="user-email"]');
+    if (emailMeta) payload.email = emailMeta.getAttribute('content');
+
+    fetch('https://assessment.valuetovictory.com/api/cart-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (data && data.url) {
+          cartClear();
+          window.location.href = data.url;
+        } else {
+          throw new Error('No checkout URL returned.');
+        }
+      })
+      .catch(function (err) {
+        btn.disabled = false;
+        btn.textContent = 'Checkout';
+        if (errEl) {
+          errEl.textContent = 'Checkout failed: ' + (err.message || 'Unknown error. Please try again.');
+          errEl.style.display = 'block';
+        }
+      });
+  }
+
+  // ─────────────────────────────────────────────
+  // 9. Button Interception
+  // ─────────────────────────────────────────────
+  var _interceptedButtons = new WeakSet();
+
+  function isAddToCartButton(el) {
+    if (el.tagName !== 'BUTTON' && el.tagName !== 'A') return false;
+    var text = (el.textContent || '').toLowerCase().trim();
+    return (
+      text.includes('add to cart') ||
+      text.includes('add to bag') ||
+      text === 'buy now' ||
+      text === 'get now'
+    );
+  }
+
+  function isSubscriptionButton(el) {
+    if (el.tagName !== 'BUTTON' && el.tagName !== 'A') return false;
+    var text = (el.textContent || '').toLowerCase().trim();
+    return (
+      text.includes('join victorypath') ||
+      text.includes('join victory path') ||
+      text.includes('join value builder') ||
+      text.includes('become vip') ||
+      text.includes('join vip') ||
+      text.includes('get victory vip') ||
+      text.includes('start victorypath') ||
+      text.includes('start victory path') ||
+      (text.includes('victorypath') && (text.includes('join') || text.includes('start') || text.includes('get'))) ||
+      (text.includes('value builder') && (text.includes('join') || text.includes('start') || text.includes('get'))) ||
+      (text.includes('victory vip') && (text.includes('join') || text.includes('become') || text.includes('get')))
+    );
+  }
+
+  function isCartNavButton(el) {
+    // The nav cart button
+    var btn = findNavCartButton();
+    return btn && (el === btn || btn.contains(el));
+  }
+
+  function handleAddToCart(e, el) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    var slug = detectSlugFromContext(el);
+    if (!slug) {
+      // Can't detect — let original handler run (graceful degradation)
+      return;
+    }
+
+    var product = VTV_PRODUCTS[slug];
+    if (!product) return;
+
+    if (product.soldOut) {
+      // Don't add, just show sold out
+      showToast('Sorry, this item is sold out.');
+      return;
+    }
+
+    cartAdd(slug);
+    showToast('\u2713 Added to cart!');
+  }
+
+  function handleSubscriptionButton(e, el, slug) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    var product = VTV_PRODUCTS[slug];
+    if (!product) return;
+
+    cartAdd(slug);
+    showToast('\u2713 ' + product.name + ' added!');
+    openModal();
+  }
+
+  function interceptButton(btn) {
+    if (_interceptedButtons.has(btn)) return;
+    _interceptedButtons.add(btn);
+
+    var text = (btn.textContent || '').toLowerCase().trim();
+
+    // Check sold out by context
+    var slug = detectSlugFromContext(btn);
+    var product = slug ? VTV_PRODUCTS[slug] : null;
+
+    if (product && product.soldOut) {
+      btn.textContent = 'Sold Out';
+      btn.disabled = true;
+      btn.style.cssText += ';background:#9ca3af !important;background-image:none !important;cursor:not-allowed !important;opacity:.8 !important;';
+      return;
+    }
+
+    // Preorder / presale styling
+    if (product && (
+      product.name.toLowerCase().includes('presale') ||
+      product.name.toLowerCase().includes('lost art of value')
+    )) {
+      if (isAddToCartButton(btn)) {
+        btn.textContent = 'Pre-Order Now';
+        btn.style.cssText += ';background:linear-gradient(135deg,#D4A847,#b8942e) !important;color:#fff !important;';
       }
     }
-  }, true); // useCapture = true to intercept before React handlers
 
-  // === 2. CLOSE REACT SUBSCRIBE MODAL IF IT OPENS ===
-  // If the React modal still pops up, auto-close it and redirect
-  var modalObserver = new MutationObserver(function() {
-    var dialogs = document.querySelectorAll('[role="dialog"]');
-    for (var i = 0; i < dialogs.length; i++) {
-      var d = dialogs[i];
-      if (d.textContent.indexOf('Subscribe to') !== -1 && d.textContent.indexOf('Card Number') !== -1) {
-        // This is the React fake checkout modal — replace its content
-        var ct = d.textContent;
-        var url = stripeLinks['VictoryPath'];
-        var tierName = 'VictoryPath';
-        var tierPrice = '$29/mo';
-        if (ct.indexOf('Victory VIP') !== -1) { url = stripeLinks['Victory VIP']; tierName = 'Victory VIP'; tierPrice = '$497/mo'; }
-        else if (ct.indexOf('Value Builder') !== -1) { url = stripeLinks['Value Builder']; tierName = 'Value Builder'; tierPrice = '$47/mo'; }
-        // Replace modal content with Stripe redirect
-        var content = d.querySelector('[class*="content"], [class*="Content"]') || d.children[0];
-        if (content && !content.dataset.stripeFixed) {
-          content.dataset.stripeFixed = 'true';
-          content.innerHTML = '<div style="padding:32px;text-align:center;">' +
-            '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#D4A847;margin-bottom:12px;">SECURE CHECKOUT</div>' +
-            '<h3 style="font-size:22px;font-weight:800;margin:0 0 8px;">Subscribe to ' + tierName + '</h3>' +
-            '<p style="color:#6b7280;margin-bottom:24px;">' + tierPrice + ' \u2022 Cancel anytime \u2022 3-day free trial</p>' +
-            '<a href="' + url + '" target="_blank" rel="noopener" style="display:block;padding:16px;background:linear-gradient(135deg,#D4A847,#b8942e);color:#000;text-align:center;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;margin-bottom:16px;">Continue to Secure Checkout \u2192</a>' +
-            '<p style="font-size:12px;color:#a1a1aa;">Powered by Stripe \u2022 256-bit encryption</p>' +
-          '</div>';
-        }
+    if (isSubscriptionButton(btn)) {
+      var subSlug = detectSlugFromButtonText(text) || detectSlugFromContext(btn);
+      if (subSlug) {
+        btn.addEventListener('click', function (e) {
+          handleSubscriptionButton(e, btn, subSlug);
+        }, true);
       }
+    } else if (isAddToCartButton(btn)) {
+      btn.addEventListener('click', function (e) {
+        handleAddToCart(e, btn);
+      }, true);
+    }
+  }
+
+  function interceptNavCartButton(btn) {
+    if (_interceptedButtons.has(btn)) return;
+    _interceptedButtons.add(btn);
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      openModal();
+    }, true);
+
+    // Ensure relative positioning for badge
+    var pos = window.getComputedStyle(btn).position;
+    if (pos === 'static') btn.style.position = 'relative';
+  }
+
+  function scanAndIntercept() {
+    // Intercept nav cart button
+    var navBtn = findNavCartButton();
+    if (navBtn && !_interceptedButtons.has(navBtn)) {
+      interceptNavCartButton(navBtn);
+      cartUpdateBadge();
+    }
+
+    // Scan all buttons and links
+    var els = document.querySelectorAll('button, a[role="button"]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (_interceptedButtons.has(el)) continue;
+      var text = (el.textContent || '').toLowerCase().trim();
+      if (
+        isAddToCartButton(el) ||
+        isSubscriptionButton(el)
+      ) {
+        interceptButton(el);
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // 10. View Details / Modal sold out handling
+  // ─────────────────────────────────────────────
+  // Watch for any modals React opens and patch the Add to Cart button inside
+  function patchReactModals() {
+    var dialogs = document.querySelectorAll('[role="dialog"], .modal, [class*="modal"], [class*="Modal"]');
+    dialogs.forEach(function (dialog) {
+      if (_interceptedButtons.has(dialog)) return;
+      _interceptedButtons.add(dialog);
+
+      // Find Add to Cart buttons within
+      var btns = dialog.querySelectorAll('button');
+      btns.forEach(function (btn) {
+        var t = (btn.textContent || '').toLowerCase().trim();
+        if (t.includes('add to cart') || t.includes('buy now')) {
+          interceptButton(btn);
+        }
+        // Check sold out
+        var slug = detectSlugFromContext(btn);
+        if (slug && VTV_PRODUCTS[slug] && VTV_PRODUCTS[slug].soldOut) {
+          btn.textContent = 'Sold Out';
+          btn.disabled = true;
+          btn.style.cssText += ';background:#9ca3af !important;cursor:not-allowed !important;';
+        }
+      });
+    });
+  }
+
+  // ─────────────────────────────────────────────
+  // 11. MutationObserver
+  // ─────────────────────────────────────────────
+  var _observer = new MutationObserver(function (mutations) {
+    var shouldScan = false;
+    for (var i = 0; i < mutations.length; i++) {
+      if (mutations[i].addedNodes.length > 0) {
+        shouldScan = true;
+        break;
+      }
+    }
+    if (shouldScan) {
+      scanAndIntercept();
+      patchReactModals();
     }
   });
-  setTimeout(function() {
-    modalObserver.observe(document.body, { childList: true, subtree: true });
-  }, 1000);
 
+  function startObserver() {
+    _observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // ─────────────────────────────────────────────
+  // 12. Polling backup (every 1.5s for 60s after load)
+  // ─────────────────────────────────────────────
+  var _pollCount = 0;
+  var _pollInterval = setInterval(function () {
+    scanAndIntercept();
+    patchReactModals();
+    _pollCount++;
+    if (_pollCount >= 40) clearInterval(_pollInterval); // 40 * 1.5s = 60s
+  }, 1500);
+
+  // ─────────────────────────────────────────────
+  // 13. Utility
+  // ─────────────────────────────────────────────
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ─────────────────────────────────────────────
+  // 14. Init
+  // ─────────────────────────────────────────────
+  function init() {
+    buildModal();
+
+    if (document.body) {
+      scanAndIntercept();
+      patchReactModals();
+      startObserver();
+    } else {
+      document.addEventListener('DOMContentLoaded', function () {
+        scanAndIntercept();
+        patchReactModals();
+        startObserver();
+      });
+    }
+
+    cartUpdateBadge();
+  }
+
+  // Run immediately if DOM is ready, otherwise wait
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+
+// ============================================================
+// FREE BOOK EMAIL CAPTURE
+// ============================================================
+(function(){
   // === 3. FREE BOOK EMAIL CAPTURE ===
   // Replace "Get Free Book" button with email capture modal for RFM Digital
   function setupFreeBookCapture() {
@@ -727,7 +1428,13 @@
   setTimeout(setupFreeBookCapture, 8000);
   var fbObs = new MutationObserver(function() { setupFreeBookCapture(); });
   setTimeout(function() { fbObs.observe(document.body, { childList: true, subtree: true }); }, 2000);
+  setTimeout(setupFreeBookCapture, 2000);
+  setTimeout(setupFreeBookCapture, 4000);
+  setTimeout(setupFreeBookCapture, 8000);
+  var fbObs = new MutationObserver(function() { setupFreeBookCapture(); });
+  setTimeout(function() { fbObs.observe(document.body, { childList: true, subtree: true }); }, 2000);
 })();
+
 
 // ============================================================
 // TESTIMONIAL & CREDENTIAL FIXES
