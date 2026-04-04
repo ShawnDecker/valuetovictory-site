@@ -1,4 +1,4 @@
-// Content Override v4.9.1 — Fix: guard nav Join Now from cart intercept
+// Content Override v4.9.2 — Fix: guard nav Join Now from cart intercept
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -909,17 +909,19 @@
     buildModal();
     renderModalBody();
     _modalOpen = true;
+    _modalOverlay.style.opacity = '0';
+    _modalOverlay.style.transition = 'opacity 0.2s ease';
     _modalOverlay.style.display = 'flex';
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        _modalOverlay.classList.add('vtv-visible');
-      });
-    });
+    void _modalOverlay.offsetWidth;
+    _modalOverlay.style.opacity = '1';
+    _modalOverlay.classList.add('vtv-visible');
     lockScroll();
   }
 
   function closeModal() {
     if (!_modalOverlay) return;
+    _modalOverlay.style.transition = 'opacity 0.2s ease';
+    _modalOverlay.style.opacity = '0';
     _modalOverlay.classList.remove('vtv-visible');
     setTimeout(function () {
       _modalOverlay.style.display = 'none';
