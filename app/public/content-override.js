@@ -1,4 +1,4 @@
-// Content Override v4.9 — Cart button fixes: generic CTA + "Join Now" context detection
+// Content Override v4.9.1 — Fix: guard nav Join Now from cart intercept
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -1370,7 +1370,8 @@
       }
     }
 
-    // --- Generic CTA subscription buttons — detect product from context (v4.9) ---
+    // --- Generic CTA subscription buttons — detect product from context (v4.9.1) ---
+    // Guard: skip if button is inside nav/header (those should scroll, not add to cart)
     if (
       textLower === 'join now' ||
       textLower === 'join membership' ||
@@ -1378,15 +1379,18 @@
       textLower === 'get access' ||
       textLower === 'get started'
     ) {
-      var ctaSlug = detectSlugFromContext(btn);
-      if (ctaSlug && VTV_PRODUCTS[ctaSlug] && VTV_PRODUCTS[ctaSlug].type === 'subscription') {
-        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-        cartAdd(ctaSlug);
-        showToast('\u2713 Added to cart!');
-        openModal();
-        return;
+      var inNav = !!(btn.closest('nav, header, [class*="nav"], [class*="Nav"], [id*="nav"]'));
+      if (!inNav) {
+        var ctaSlug = detectSlugFromContext(btn);
+        if (ctaSlug && VTV_PRODUCTS[ctaSlug] && VTV_PRODUCTS[ctaSlug].type === 'subscription') {
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          cartAdd(ctaSlug);
+          showToast('\u2713 Added to cart!');
+          openModal();
+          return;
+        }
       }
-      // No subscription context found — allow default (scroll to pricing)
+      // In nav or no subscription context — allow default (scroll to pricing)
     }
 
     // --- Add to Cart / Pre-Order / Buy buttons ---
