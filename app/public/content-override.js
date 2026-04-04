@@ -1,4 +1,4 @@
-// Content Override v4.9.3 — Fix: guard nav Join Now from cart intercept
+// Content Override v4.9.4 — Fix: guard nav Join Now from cart intercept
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -935,13 +935,15 @@
     if (document.getElementById('vtv-floating-cart')) return;
     var fab = document.createElement('div');
     fab.id = 'vtv-floating-cart';
-    fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span id="vtv-fab-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;line-height:1;"></span>';
-    fab.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9998;width:52px;height:52px;background:linear-gradient(135deg,#D4A847,#b8942e);border-radius:50%;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.25);cursor:pointer;-webkit-tap-highlight-color:transparent;';
-    fab.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      openModal();
-    });
+    fab.setAttribute('role', 'button');
+    fab.setAttribute('aria-label', 'Open cart');
+    fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span id="vtv-fab-label" style="font-size:10px;font-weight:700;color:#000;letter-spacing:.3px;line-height:1;white-space:nowrap;">Cart</span><span id="vtv-fab-badge" style="display:none;background:#dc2626;color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:10px;align-items:center;justify-content:center;line-height:1;padding:0 4px;"></span>';
+    fab.style.cssText = 'position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9998;background:linear-gradient(160deg,#D4A847,#b8942e);border-radius:12px 0 0 12px;padding:14px 10px;display:none;flex-direction:column;align-items:center;gap:6px;box-shadow:-3px 0 14px rgba(0,0,0,0.22);cursor:pointer;-webkit-tap-highlight-color:transparent;min-width:46px;transition:transform .18s ease,opacity .18s ease;';
+    fab.addEventListener('touchstart', function() { fab.style.transform = 'translateY(-50%) translateX(-4px)'; }, {passive:true});
+    fab.addEventListener('touchend', function() { fab.style.transform = 'translateY(-50%)'; }, {passive:true});
+    fab.addEventListener('mouseenter', function() { fab.style.transform = 'translateY(-50%) translateX(-4px)'; });
+    fab.addEventListener('mouseleave', function() { fab.style.transform = 'translateY(-50%)'; });
+    fab.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); openModal(); });
     document.body.appendChild(fab);
     updateFloatingCartVisibility();
   }
@@ -949,15 +951,16 @@
   function updateFloatingCartVisibility() {
     var fab = document.getElementById('vtv-floating-cart');
     if (!fab) return;
-    // Show on mobile (< 768px) when there's no visible nav cart button
-    var isMobile = window.innerWidth < 768;
-    fab.style.display = isMobile ? 'flex' : 'none';
-    // Update badge
-    var badge = document.getElementById('vtv-fab-badge');
     var count = cartTotalItems();
+    var badge = document.getElementById('vtv-fab-badge');
     if (badge) {
       badge.textContent = count;
       badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+    if (count > 0) {
+      fab.style.display = 'flex';
+    } else {
+      fab.style.display = 'none';
     }
   }
 
