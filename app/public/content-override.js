@@ -1,4 +1,4 @@
-// Content Override v4.9.4 — Fix: guard nav Join Now from cart intercept
+// Content Override v4.9.5 — Fix: guard nav Join Now from cart intercept
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -887,22 +887,22 @@
   }
 
   // --- Scroll lock for mobile (iOS needs special handling) ---
-  var _scrollY = 0;
+  var _scrollY = 0; var _scrollLocked = false;
   function lockScroll() {
-    _scrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + _scrollY + 'px';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.overflow = 'hidden';
+    if (_scrollLocked) return;
+    _scrollLocked = true;
+    _scrollY = window.scrollY || window.pageYOffset || 0;
+    // Compensate for scrollbar width to prevent layout shift
+    var sw = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.overflow = 'hidden';
+    if (sw > 0) document.documentElement.style.paddingRight = sw + 'px';
   }
   function unlockScroll() {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.overflow = '';
-    window.scrollTo(0, _scrollY);
+    if (!_scrollLocked) return;
+    _scrollLocked = false;
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.paddingRight = '';
+    // Scroll position is naturally preserved — no scrollTo needed
   }
 
   function openModal() {
