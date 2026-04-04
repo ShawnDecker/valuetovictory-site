@@ -1,4 +1,4 @@
-// Content Override v4.9.2 — Fix: guard nav Join Now from cart intercept
+// Content Override v4.9.3 — Fix: guard nav Join Now from cart intercept
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -1348,6 +1348,14 @@
   // 11a. GLOBAL CLICK INTERCEPTOR (captures before React)
   // ─────────────────────────────────────────────
   document.addEventListener('click', function(e) {
+    // --- Nav cart icon → open modal (must be first check) ---
+    var _cartBadge = document.getElementById('vtv-cart-badge');
+    if (_cartBadge && _cartBadge.parentElement && _cartBadge.parentElement.contains(e.target)) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      openModal();
+      return;
+    }
+
     var btn = e.target.closest('button, a[role="button"], [class*="button"]');
     if (!btn) return;
     var text = (btn.textContent || '').trim();
