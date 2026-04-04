@@ -1,4 +1,4 @@
-// Content Override v4.8 — ALL fixes via DOM, JS bundle NEVER touched
+// Content Override v5.2.0 — Fix: cart jitter, banner auto-dismiss, LOAV $17.77 preorder
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -242,10 +242,14 @@
   // ============================================================
   // MASTER RUNNER — v4.4 fix: aggressive polling + deep observer
   // ============================================================
+  var _overrideRunning = false;
   function runAllSafe(){
+    if(VTV_SKIP || _overrideRunning) return;
+    _overrideRunning = true;
     try { applyTextOverrides(); } catch(e){ console.warn('[V2V] textOverrides error:', e.message); }
     try { fixSubscriptionPricing(); } catch(e){ console.warn('[V2V] pricing error:', e.message); }
     try { injectValueBuilder(); } catch(e){ console.warn('[V2V] VB inject error:', e.message); }
+    _overrideRunning = false;
   }
 
   // Poll until React has rendered meaningful content (not just empty root)
@@ -281,8 +285,8 @@
       new MutationObserver(function(){
         // Debounce to avoid running 100 times during a single React render
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(runAllSafe, 150);
-      }).observe(root, {childList:true, subtree:true, characterData:true});
+        debounceTimer = setTimeout(runAllSafe, 500);
+      }).observe(root, {childList:true, subtree:true});
       console.log('[V2V] Deep MutationObserver attached to root');
     }
   }, 1000);
@@ -319,7 +323,7 @@
             vipPeriod.textContent = isYearly ? '/year' : '/month';
           }
         } catch(e){}
-      }).observe(sub, {childList:true, subtree:true, characterData:true});
+      }).observe(sub, {childList:true, subtree:true});
     }
   }, 2000);
 })();
@@ -328,6 +332,13 @@
 // CSS FIXES
 // ============================================================
 (function(){
+  // Sold-out 'View Details' visual override
+  setTimeout(function(){
+    var s=document.createElement('style');
+    s.textContent='[data-vtv-sold-out="1"]{background:#9ca3af!important;cursor:not-allowed!important;pointer-events:none!important;}';
+    document.head.appendChild(s);
+  }, 500);
+
   setTimeout(function(){
     var s=document.createElement('style');
     s.textContent=
@@ -556,6 +567,7 @@
     'value-builder':      { name: 'Value Builder Membership',            price: 47,    display: '$47/mo',   type: 'subscription', badge: '3-day free trial' },
     'victory-vip':        { name: 'Victory VIP Membership',              price: 497,   display: '$497/mo',  type: 'subscription', badge: '3-day free trial' },
     'loav-presale':       { name: 'The Lost Art of Value - Presale',     price: 197,   display: '$197',     type: 'one_time' },
+    'loav-book':          { name: 'The Lost Art of Value — Digital Preorder', price: 17.77, display: '$17.77', type: 'one_time', badge: 'Preorder · Delivered at launch', directUrl: 'https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s' },
     'rfm-audiobook':      { name: 'Running From Miracles - Audiobook',   price: 9.97,  display: '$9.97',    type: 'one_time' },
     'rfm-paperback':      { name: 'Running From Miracles - Paperback',   price: 11.97, display: '$11.97',   type: 'one_time', soldOut: true },
     'mastering-listings': { name: 'Mastering Listings Course',           price: 197,   display: '$197',     type: 'one_time' },
@@ -712,6 +724,7 @@
       if (text.includes('victory vip') || text.includes('victoryvip')) return 'victory-vip';
       if (text.includes('value builder')) return 'value-builder';
       if (text.includes('victorypath') || text.includes('victory path membership')) return 'victorypath';
+      if ((text.includes('lost art of value') || text.includes('loav')) && text.includes('17.77')) return 'loav-book';
       if (text.includes('lost art of value') || text.includes('loav')) return 'loav-presale';
       if (text.includes('running from miracles') && text.includes('audiobook')) return 'rfm-audiobook';
       if (text.includes('running from miracles') && text.includes('paperback')) return 'rfm-paperback';
@@ -809,7 +822,7 @@
     // Inject styles
     var style = document.createElement('style');
     style.textContent = [
-      '#vtv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s ease}',
+      '#vtv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:none;align-items:center;justify-content:center;padding:16px;opacity:0}',
       '#vtv-modal-overlay.vtv-visible{opacity:1}',
       '#vtv-modal-box{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .25s ease}@media(max-width:640px){#vtv-modal-box{max-width:100%;border-radius:12px;max-height:85vh;margin:8px}}',
       '#vtv-modal-overlay.vtv-visible #vtv-modal-box{transform:translateY(0)}',
@@ -887,41 +900,46 @@
   }
 
   // --- Scroll lock for mobile (iOS needs special handling) ---
-  var _scrollY = 0;
+  var _scrollY = 0; var _scrollLocked = false; var _closeTimer = null;
   function lockScroll() {
-    _scrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + _scrollY + 'px';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.overflow = 'hidden';
+    if (_scrollLocked) return;
+    _scrollLocked = true;
+    _scrollY = window.scrollY || window.pageYOffset || 0;
+    // Compensate for scrollbar width to prevent layout shift
+    var sw = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.overflow = 'hidden';
+    if (sw > 0) document.documentElement.style.paddingRight = sw + 'px';
   }
   function unlockScroll() {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.overflow = '';
-    window.scrollTo(0, _scrollY);
+    if (!_scrollLocked) return;
+    _scrollLocked = false;
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.paddingRight = '';
+    // Scroll position is naturally preserved — no scrollTo needed
   }
 
   function openModal() {
+    if (_closeTimer) { clearTimeout(_closeTimer); _closeTimer = null; }
     buildModal();
     renderModalBody();
     _modalOpen = true;
+    _modalOverlay.style.transition = 'none';
+    _modalOverlay.style.opacity = '0';
     _modalOverlay.style.display = 'flex';
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        _modalOverlay.classList.add('vtv-visible');
-      });
-    });
+    void _modalOverlay.offsetWidth;
+    _modalOverlay.style.transition = 'opacity 0.2s ease';
+    _modalOverlay.style.opacity = '1';
+    _modalOverlay.classList.add('vtv-visible');
     lockScroll();
   }
 
   function closeModal() {
     if (!_modalOverlay) return;
+    _modalOverlay.style.transition = 'opacity 0.2s ease';
+    _modalOverlay.style.opacity = '0';
     _modalOverlay.classList.remove('vtv-visible');
-    setTimeout(function () {
+    _closeTimer = setTimeout(function () {
+      _closeTimer = null;
       _modalOverlay.style.display = 'none';
     }, 220);
     _modalOpen = false;
@@ -933,13 +951,15 @@
     if (document.getElementById('vtv-floating-cart')) return;
     var fab = document.createElement('div');
     fab.id = 'vtv-floating-cart';
-    fab.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span id="vtv-fab-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;line-height:1;"></span>';
-    fab.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9998;width:52px;height:52px;background:linear-gradient(135deg,#D4A847,#b8942e);border-radius:50%;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.25);cursor:pointer;-webkit-tap-highlight-color:transparent;';
-    fab.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      openModal();
-    });
+    fab.setAttribute('role', 'button');
+    fab.setAttribute('aria-label', 'Open cart');
+    fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span id="vtv-fab-label" style="font-size:10px;font-weight:700;color:#000;letter-spacing:.3px;line-height:1;white-space:nowrap;">Cart</span><span id="vtv-fab-badge" style="display:none;background:#dc2626;color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:10px;align-items:center;justify-content:center;line-height:1;padding:0 4px;"></span>';
+    fab.style.cssText = 'position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9998;background:linear-gradient(160deg,#D4A847,#b8942e);border-radius:12px 0 0 12px;padding:14px 10px;display:none;flex-direction:column;align-items:center;gap:6px;box-shadow:-3px 0 14px rgba(0,0,0,0.22);cursor:pointer;-webkit-tap-highlight-color:transparent;min-width:46px;transition:transform .18s ease,opacity .18s ease;';
+    fab.addEventListener('touchstart', function() { fab.style.transform = 'translateY(-50%) translateX(-4px)'; }, {passive:true});
+    fab.addEventListener('touchend', function() { fab.style.transform = 'translateY(-50%)'; }, {passive:true});
+    fab.addEventListener('mouseenter', function() { fab.style.transform = 'translateY(-50%) translateX(-4px)'; });
+    fab.addEventListener('mouseleave', function() { fab.style.transform = 'translateY(-50%)'; });
+    fab.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); openModal(); });
     document.body.appendChild(fab);
     updateFloatingCartVisibility();
   }
@@ -947,15 +967,16 @@
   function updateFloatingCartVisibility() {
     var fab = document.getElementById('vtv-floating-cart');
     if (!fab) return;
-    // Show on mobile (< 768px) when there's no visible nav cart button
-    var isMobile = window.innerWidth < 768;
-    fab.style.display = isMobile ? 'flex' : 'none';
-    // Update badge
-    var badge = document.getElementById('vtv-fab-badge');
     var count = cartTotalItems();
+    var badge = document.getElementById('vtv-fab-badge');
     if (badge) {
       badge.textContent = count;
       badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+    if (count > 0) {
+      fab.style.display = 'flex';
+    } else {
+      fab.style.display = 'none';
     }
   }
 
@@ -1091,6 +1112,16 @@
   function handleCheckout() {
     var items = cartLoad();
     if (items.length === 0) return;
+
+    // Direct-URL products bypass the API entirely (e.g. $17.77 book preorder)
+    if (items.length === 1) {
+      var _dp = VTV_PRODUCTS[items[0].slug];
+      if (_dp && _dp.directUrl) {
+        cartClear();
+        window.location.href = _dp.directUrl;
+        return;
+      }
+    }
 
     var btn = document.getElementById('vtv-checkout-btn');
     var errEl = document.getElementById('vtv-modal-error');
@@ -1311,6 +1342,17 @@
       ) {
         interceptButton(el);
       }
+      // Patch 'View Details' on sold-out product cards
+      var elText = (el.textContent || '').toLowerCase().trim();
+      if (elText === 'view details') {
+        var _sd = detectSlugFromContext(el);
+        if (_sd && VTV_PRODUCTS[_sd] && VTV_PRODUCTS[_sd].soldOut && !el.dataset.vtvSoldOut) {
+          el.dataset.vtvSoldOut = '1';
+          el.textContent = 'Sold Out';
+          el.disabled = true;
+          el.style.cssText += ';background:#9ca3af!important;color:#fff!important;cursor:not-allowed!important;opacity:0.7!important;pointer-events:none!important;';
+        }
+      }
     }
   }
 
@@ -1346,6 +1388,14 @@
   // 11a. GLOBAL CLICK INTERCEPTOR (captures before React)
   // ─────────────────────────────────────────────
   document.addEventListener('click', function(e) {
+    // --- Nav cart icon → open modal (must be first check) ---
+    var _cartBadge = document.getElementById('vtv-cart-badge');
+    if (_cartBadge && _cartBadge.parentElement && _cartBadge.parentElement.contains(e.target)) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      openModal();
+      return;
+    }
+
     var btn = e.target.closest('button, a[role="button"], [class*="button"]');
     if (!btn) return;
     var text = (btn.textContent || '').trim();
@@ -1370,6 +1420,39 @@
       }
     }
 
+    // --- Generic CTA subscription buttons — detect product from context (v4.9.1) ---
+    // Guard: skip if button is inside nav/header (those should scroll, not add to cart)
+    if (
+      textLower === 'join now' ||
+      textLower === 'join membership' ||
+      textLower === 'start your journey' ||
+      textLower === 'get access' ||
+      textLower === 'get started'
+    ) {
+      var inNav = !!(btn.closest('nav, header, [class*="nav"], [class*="Nav"], [id*="nav"]'));
+      if (!inNav) {
+        var ctaSlug = detectSlugFromContext(btn);
+        if (ctaSlug && VTV_PRODUCTS[ctaSlug] && VTV_PRODUCTS[ctaSlug].type === 'subscription') {
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          cartAdd(ctaSlug);
+          showToast('\u2713 Added to cart!');
+          openModal();
+          return;
+        }
+      }
+      // In nav or no subscription context — allow default (scroll to pricing)
+    }
+
+    // --- View Details on sold-out items: block completely ---
+    if (textLower === 'view details' || textLower === 'view detail') {
+      var _vdSlug = detectSlugFromContext(btn);
+      if (_vdSlug && VTV_PRODUCTS[_vdSlug] && VTV_PRODUCTS[_vdSlug].soldOut) {
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        showToast('Sorry — the paperback is sold out.');
+        return;
+      }
+    }
+
     // --- Add to Cart / Pre-Order / Buy buttons ---
     if (
       textLower === 'add to cart' ||
@@ -1386,10 +1469,17 @@
           showToast('Sorry, this item is sold out.');
           return;
         }
+        // Direct-URL products (e.g. $17.77 book) go straight to Stripe
+        if (product && product.directUrl) {
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          window.open(product.directUrl, '_blank', 'noopener');
+          return;
+        }
         e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
         cartAdd(slug);
         showToast('\u2713 Added to cart!');
         suppressReactCartDialog();
+        openModal();  // Open cart immediately so user can checkout
         return;
       }
     }
@@ -1641,6 +1731,30 @@
     init();
   }
 
+})();
+
+// ============================================================
+// FAQ STALE TIER NAME FIX (v4.9)
+// ============================================================
+(function fixFaqTierNames() {
+  function patchFaqText() {
+    document.querySelectorAll('section, [class*="faq"], [id*="faq"]').forEach(function(el) {
+      if (!el.innerHTML) return;
+      if (el.innerHTML.indexOf('Value Seeker') !== -1 || el.innerHTML.indexOf('Value Master') !== -1) {
+        el.innerHTML = el.innerHTML
+          .replace(/Value Seeker/g, 'VictoryPath')
+          .replace(/Value Master \(Elite\)/g, 'Victory VIP')
+          .replace(/Value Master/g, 'Victory VIP');
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patchFaqText);
+  } else {
+    patchFaqText();
+    setTimeout(patchFaqText, 1500);
+    setTimeout(patchFaqText, 3500);
+  }
 })();
 
 // ============================================================
@@ -1977,4 +2091,60 @@
   setTimeout(addLoginButton, 3000);
   setTimeout(addLoginButton, 5000);
 })();
-// Cache bust: 1775053812
+
+
+// ============================================================
+// LOAV $17.77 PREORDER LINK INJECTION
+// Adds "preorder just the book" below the $197 bundle card.
+// ============================================================
+(function(){
+  var LOAV_BOOK_URL = 'https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s';
+
+  function injectLoavBookLink(){
+    if(VTV_SKIP) return;
+    if(document.getElementById('loav-book-preorder-link')) return;
+    var allCards = document.querySelectorAll('[class*="rounded"],[class*="card"],[class*="product-card"],[class*="ProductCard"]');
+    var loavCard = null;
+    for(var i = 0; i < allCards.length; i++){
+      var t = allCards[i].textContent || '';
+      if((t.indexOf('Lost Art of Value') !== -1) && t.indexOf('197') !== -1 && allCards[i].querySelector('button, a')){
+        if(!allCards[i].closest('#vtv-modal-box') && !allCards[i].closest('#coaching-tiers')){
+          loavCard = allCards[i]; break;
+        }
+      }
+    }
+    if(!loavCard) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'loav-book-preorder-link';
+    wrap.style.cssText = 'text-align:center;margin-top:10px;padding-top:8px;border-top:1px solid rgba(212,168,71,0.2);';
+    wrap.innerHTML = '<a href="' + LOAV_BOOK_URL + '" target="_blank" rel="noopener" style="font-size:12px;color:#D4A847;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:4px;opacity:0.85;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">or preorder just the book &mdash; $17.77 &rarr;</a>';
+    loavCard.appendChild(wrap);
+  }
+
+  setTimeout(injectLoavBookLink, 2000);
+  setTimeout(injectLoavBookLink, 4000);
+  setTimeout(injectLoavBookLink, 7000);
+
+  setTimeout(function(){
+    var root = document.getElementById('root');
+    if(!root) return;
+    var dt = null;
+    new MutationObserver(function(){
+      clearTimeout(dt);
+      dt = setTimeout(function(){ if(!document.getElementById('loav-book-preorder-link')) injectLoavBookLink(); }, 700);
+    }).observe(root, {childList:true, subtree:true});
+  }, 3000);
+})();
+
+// ============================================================
+// HOOK-BANNER AUTO-DISMISS — slides away after 60 seconds
+// ============================================================
+(function(){
+  function dismissBanner(){
+    var b = document.getElementById('hook-banner');
+    if(b){ b.style.transform = 'translateY(100%)'; }
+  }
+  setTimeout(dismissBanner, 60000);
+})();
+
+// Cache bust: 1775343398
