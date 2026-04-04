@@ -1,4 +1,4 @@
-// Content Override v4.9.5 — Fix: guard nav Join Now from cart intercept
+// Content Override v4.9.6 — Fix: guard nav Join Now from cart intercept
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -809,7 +809,7 @@
     // Inject styles
     var style = document.createElement('style');
     style.textContent = [
-      '#vtv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s ease}',
+      '#vtv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;display:none;align-items:center;justify-content:center;padding:16px;opacity:0}',
       '#vtv-modal-overlay.vtv-visible{opacity:1}',
       '#vtv-modal-box{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;transform:translateY(24px);transition:transform .25s ease}@media(max-width:640px){#vtv-modal-box{max-width:100%;border-radius:12px;max-height:85vh;margin:8px}}',
       '#vtv-modal-overlay.vtv-visible #vtv-modal-box{transform:translateY(0)}',
@@ -887,7 +887,7 @@
   }
 
   // --- Scroll lock for mobile (iOS needs special handling) ---
-  var _scrollY = 0; var _scrollLocked = false;
+  var _scrollY = 0; var _scrollLocked = false; var _closeTimer = null;
   function lockScroll() {
     if (_scrollLocked) return;
     _scrollLocked = true;
@@ -906,13 +906,15 @@
   }
 
   function openModal() {
+    if (_closeTimer) { clearTimeout(_closeTimer); _closeTimer = null; }
     buildModal();
     renderModalBody();
     _modalOpen = true;
+    _modalOverlay.style.transition = 'none';
     _modalOverlay.style.opacity = '0';
-    _modalOverlay.style.transition = 'opacity 0.2s ease';
     _modalOverlay.style.display = 'flex';
     void _modalOverlay.offsetWidth;
+    _modalOverlay.style.transition = 'opacity 0.2s ease';
     _modalOverlay.style.opacity = '1';
     _modalOverlay.classList.add('vtv-visible');
     lockScroll();
@@ -923,7 +925,8 @@
     _modalOverlay.style.transition = 'opacity 0.2s ease';
     _modalOverlay.style.opacity = '0';
     _modalOverlay.classList.remove('vtv-visible');
-    setTimeout(function () {
+    _closeTimer = setTimeout(function () {
+      _closeTimer = null;
       _modalOverlay.style.display = 'none';
     }, 220);
     _modalOpen = false;
