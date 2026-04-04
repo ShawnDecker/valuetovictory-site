@@ -1,4 +1,4 @@
-// Content Override v4.9.6 — Fix: guard nav Join Now from cart intercept
+// Content Override v5.2.0 — Fix: cart jitter, banner auto-dismiss, LOAV $17.77 preorder
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -242,10 +242,14 @@
   // ============================================================
   // MASTER RUNNER — v4.4 fix: aggressive polling + deep observer
   // ============================================================
+  var _overrideRunning = false;
   function runAllSafe(){
+    if(VTV_SKIP || _overrideRunning) return;
+    _overrideRunning = true;
     try { applyTextOverrides(); } catch(e){ console.warn('[V2V] textOverrides error:', e.message); }
     try { fixSubscriptionPricing(); } catch(e){ console.warn('[V2V] pricing error:', e.message); }
     try { injectValueBuilder(); } catch(e){ console.warn('[V2V] VB inject error:', e.message); }
+    _overrideRunning = false;
   }
 
   // Poll until React has rendered meaningful content (not just empty root)
@@ -281,8 +285,8 @@
       new MutationObserver(function(){
         // Debounce to avoid running 100 times during a single React render
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(runAllSafe, 150);
-      }).observe(root, {childList:true, subtree:true, characterData:true});
+        debounceTimer = setTimeout(runAllSafe, 500);
+      }).observe(root, {childList:true, subtree:true});
       console.log('[V2V] Deep MutationObserver attached to root');
     }
   }, 1000);
@@ -319,7 +323,7 @@
             vipPeriod.textContent = isYearly ? '/year' : '/month';
           }
         } catch(e){}
-      }).observe(sub, {childList:true, subtree:true, characterData:true});
+      }).observe(sub, {childList:true, subtree:true});
     }
   }, 2000);
 })();
@@ -328,6 +332,13 @@
 // CSS FIXES
 // ============================================================
 (function(){
+  // Sold-out 'View Details' visual override
+  setTimeout(function(){
+    var s=document.createElement('style');
+    s.textContent='[data-vtv-sold-out="1"]{background:#9ca3af!important;cursor:not-allowed!important;pointer-events:none!important;}';
+    document.head.appendChild(s);
+  }, 500);
+
   setTimeout(function(){
     var s=document.createElement('style');
     s.textContent=
@@ -556,6 +567,7 @@
     'value-builder':      { name: 'Value Builder Membership',            price: 47,    display: '$47/mo',   type: 'subscription', badge: '3-day free trial' },
     'victory-vip':        { name: 'Victory VIP Membership',              price: 497,   display: '$497/mo',  type: 'subscription', badge: '3-day free trial' },
     'loav-presale':       { name: 'The Lost Art of Value - Presale',     price: 197,   display: '$197',     type: 'one_time' },
+    'loav-book':          { name: 'The Lost Art of Value — Digital Preorder', price: 17.77, display: '$17.77', type: 'one_time', badge: 'Preorder · Delivered at launch', directUrl: 'https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s' },
     'rfm-audiobook':      { name: 'Running From Miracles - Audiobook',   price: 9.97,  display: '$9.97',    type: 'one_time' },
     'rfm-paperback':      { name: 'Running From Miracles - Paperback',   price: 11.97, display: '$11.97',   type: 'one_time', soldOut: true },
     'mastering-listings': { name: 'Mastering Listings Course',           price: 197,   display: '$197',     type: 'one_time' },
@@ -712,6 +724,7 @@
       if (text.includes('victory vip') || text.includes('victoryvip')) return 'victory-vip';
       if (text.includes('value builder')) return 'value-builder';
       if (text.includes('victorypath') || text.includes('victory path membership')) return 'victorypath';
+      if ((text.includes('lost art of value') || text.includes('loav')) && text.includes('17.77')) return 'loav-book';
       if (text.includes('lost art of value') || text.includes('loav')) return 'loav-presale';
       if (text.includes('running from miracles') && text.includes('audiobook')) return 'rfm-audiobook';
       if (text.includes('running from miracles') && text.includes('paperback')) return 'rfm-paperback';
@@ -1100,6 +1113,16 @@
     var items = cartLoad();
     if (items.length === 0) return;
 
+    // Direct-URL products bypass the API entirely (e.g. $17.77 book preorder)
+    if (items.length === 1) {
+      var _dp = VTV_PRODUCTS[items[0].slug];
+      if (_dp && _dp.directUrl) {
+        cartClear();
+        window.location.href = _dp.directUrl;
+        return;
+      }
+    }
+
     var btn = document.getElementById('vtv-checkout-btn');
     var errEl = document.getElementById('vtv-modal-error');
 
@@ -1319,6 +1342,17 @@
       ) {
         interceptButton(el);
       }
+      // Patch 'View Details' on sold-out product cards
+      var elText = (el.textContent || '').toLowerCase().trim();
+      if (elText === 'view details') {
+        var _sd = detectSlugFromContext(el);
+        if (_sd && VTV_PRODUCTS[_sd] && VTV_PRODUCTS[_sd].soldOut && !el.dataset.vtvSoldOut) {
+          el.dataset.vtvSoldOut = '1';
+          el.textContent = 'Sold Out';
+          el.disabled = true;
+          el.style.cssText += ';background:#9ca3af!important;color:#fff!important;cursor:not-allowed!important;opacity:0.7!important;pointer-events:none!important;';
+        }
+      }
     }
   }
 
@@ -1409,6 +1443,16 @@
       // In nav or no subscription context — allow default (scroll to pricing)
     }
 
+    // --- View Details on sold-out items: block completely ---
+    if (textLower === 'view details' || textLower === 'view detail') {
+      var _vdSlug = detectSlugFromContext(btn);
+      if (_vdSlug && VTV_PRODUCTS[_vdSlug] && VTV_PRODUCTS[_vdSlug].soldOut) {
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        showToast('Sorry — the paperback is sold out.');
+        return;
+      }
+    }
+
     // --- Add to Cart / Pre-Order / Buy buttons ---
     if (
       textLower === 'add to cart' ||
@@ -1425,10 +1469,17 @@
           showToast('Sorry, this item is sold out.');
           return;
         }
+        // Direct-URL products (e.g. $17.77 book) go straight to Stripe
+        if (product && product.directUrl) {
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          window.open(product.directUrl, '_blank', 'noopener');
+          return;
+        }
         e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
         cartAdd(slug);
         showToast('\u2713 Added to cart!');
         suppressReactCartDialog();
+        openModal();  // Open cart immediately so user can checkout
         return;
       }
     }
@@ -2040,4 +2091,60 @@
   setTimeout(addLoginButton, 3000);
   setTimeout(addLoginButton, 5000);
 })();
-// Cache bust: 1775053812
+
+
+// ============================================================
+// LOAV $17.77 PREORDER LINK INJECTION
+// Adds "preorder just the book" below the $197 bundle card.
+// ============================================================
+(function(){
+  var LOAV_BOOK_URL = 'https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s';
+
+  function injectLoavBookLink(){
+    if(VTV_SKIP) return;
+    if(document.getElementById('loav-book-preorder-link')) return;
+    var allCards = document.querySelectorAll('[class*="rounded"],[class*="card"],[class*="product-card"],[class*="ProductCard"]');
+    var loavCard = null;
+    for(var i = 0; i < allCards.length; i++){
+      var t = allCards[i].textContent || '';
+      if((t.indexOf('Lost Art of Value') !== -1) && t.indexOf('197') !== -1 && allCards[i].querySelector('button, a')){
+        if(!allCards[i].closest('#vtv-modal-box') && !allCards[i].closest('#coaching-tiers')){
+          loavCard = allCards[i]; break;
+        }
+      }
+    }
+    if(!loavCard) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'loav-book-preorder-link';
+    wrap.style.cssText = 'text-align:center;margin-top:10px;padding-top:8px;border-top:1px solid rgba(212,168,71,0.2);';
+    wrap.innerHTML = '<a href="' + LOAV_BOOK_URL + '" target="_blank" rel="noopener" style="font-size:12px;color:#D4A847;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:4px;opacity:0.85;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">or preorder just the book &mdash; $17.77 &rarr;</a>';
+    loavCard.appendChild(wrap);
+  }
+
+  setTimeout(injectLoavBookLink, 2000);
+  setTimeout(injectLoavBookLink, 4000);
+  setTimeout(injectLoavBookLink, 7000);
+
+  setTimeout(function(){
+    var root = document.getElementById('root');
+    if(!root) return;
+    var dt = null;
+    new MutationObserver(function(){
+      clearTimeout(dt);
+      dt = setTimeout(function(){ if(!document.getElementById('loav-book-preorder-link')) injectLoavBookLink(); }, 700);
+    }).observe(root, {childList:true, subtree:true});
+  }, 3000);
+})();
+
+// ============================================================
+// HOOK-BANNER AUTO-DISMISS — slides away after 60 seconds
+// ============================================================
+(function(){
+  function dismissBanner(){
+    var b = document.getElementById('hook-banner');
+    if(b){ b.style.transform = 'translateY(100%)'; }
+  }
+  setTimeout(dismissBanner, 60000);
+})();
+
+// Cache bust: 1775343398
