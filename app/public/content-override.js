@@ -1,4 +1,4 @@
-// Content Override v4.8 — ALL fixes via DOM, JS bundle NEVER touched
+// Content Override v4.9 — Cart button fixes: generic CTA + "Join Now" context detection
 // The original Vite bundle (458,936 bytes) is the ONLY working version.
 
 (function(){
@@ -1370,6 +1370,25 @@
       }
     }
 
+    // --- Generic CTA subscription buttons — detect product from context (v4.9) ---
+    if (
+      textLower === 'join now' ||
+      textLower === 'join membership' ||
+      textLower === 'start your journey' ||
+      textLower === 'get access' ||
+      textLower === 'get started'
+    ) {
+      var ctaSlug = detectSlugFromContext(btn);
+      if (ctaSlug && VTV_PRODUCTS[ctaSlug] && VTV_PRODUCTS[ctaSlug].type === 'subscription') {
+        e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+        cartAdd(ctaSlug);
+        showToast('\u2713 Added to cart!');
+        openModal();
+        return;
+      }
+      // No subscription context found — allow default (scroll to pricing)
+    }
+
     // --- Add to Cart / Pre-Order / Buy buttons ---
     if (
       textLower === 'add to cart' ||
@@ -1641,6 +1660,30 @@
     init();
   }
 
+})();
+
+// ============================================================
+// FAQ STALE TIER NAME FIX (v4.9)
+// ============================================================
+(function fixFaqTierNames() {
+  function patchFaqText() {
+    document.querySelectorAll('section, [class*="faq"], [id*="faq"]').forEach(function(el) {
+      if (!el.innerHTML) return;
+      if (el.innerHTML.indexOf('Value Seeker') !== -1 || el.innerHTML.indexOf('Value Master') !== -1) {
+        el.innerHTML = el.innerHTML
+          .replace(/Value Seeker/g, 'VictoryPath')
+          .replace(/Value Master \(Elite\)/g, 'Victory VIP')
+          .replace(/Value Master/g, 'Victory VIP');
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patchFaqText);
+  } else {
+    patchFaqText();
+    setTimeout(patchFaqText, 1500);
+    setTimeout(patchFaqText, 3500);
+  }
 })();
 
 // ============================================================
