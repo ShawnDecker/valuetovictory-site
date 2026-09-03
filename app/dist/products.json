@@ -1,0 +1,199 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "The Lost Art of Value - Core Book",
+      "slug": "lost-art-of-value-book",
+      "description": "The foundational guide to understanding value through the P.I.N.K. framework. Learn how Time, People, Influence, Numbers, and Knowledge interconnect to transform your life.",
+      "price": 29.99,
+      "originalPrice": 49.99,
+      "type": "digital",
+      "format": "PDF + Audiobook",
+      "category": "Foundation",
+      "features": [
+        "Complete P.I.N.K. framework explanation",
+        "Author's personal bankruptcy-to-success story",
+        "5 core principles of value",
+        "Action steps at end of each chapter",
+        "Reflection questions for growth"
+      ],
+      "image": "/product-book.jpg",
+      "bestseller": true
+    },
+    {
+      "id": 2,
+      "name": "Time Mastery Workshop",
+      "slug": "time-mastery-workshop",
+      "description": "Transform how you value your 86,400 daily seconds. Learn to audit your time, reclaim lost hours, and invest in what truly matters.",
+      "price": 97,
+      "originalPrice": 197,
+      "type": "course",
+      "format": "Video Course + Worksheets",
+      "category": "Time",
+      "features": [
+        "Time audit methodology",
+        "Peak performance window identification",
+        "Commute learning strategies",
+        "Delegation mastery techniques",
+        "Calendar optimization system"
+      ],
+      "image": "/product-time.jpg"
+    },
+    {
+      "id": 3,
+      "name": "People & Influence Blueprint",
+      "slug": "people-influence-blueprint",
+      "description": "Master the art of understanding people, building trust, and creating lasting influence. Learn the 4 types of people and 4 alliances that shape your success.",
+      "price": 147,
+      "originalPrice": 297,
+      "type": "course",
+      "format": "Video Course + Role-Play Guide",
+      "category": "People",
+      "features": [
+        "4 Types of People assessment",
+        "4 Alliances framework",
+        "Trust-building strategies",
+        "Empathetic listening techniques",
+        "Role navigation system"
+      ],
+      "image": "/product-people.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Numbers & Financial Intelligence",
+      "slug": "numbers-financial-intelligence",
+      "description": "Decode the unbiased language of value. Learn to run the numbers on every decision and transform your financial reality.",
+      "price": 197,
+      "originalPrice": 397,
+      "type": "course",
+      "format": "Video Course + Excel Templates",
+      "category": "Numbers",
+      "features": [
+        "5 Types of Value framework",
+        "Linear computation methodology",
+        "Weighted analysis tools",
+        "Cost vs Value calculations",
+        "Investment evaluation templates"
+      ],
+      "image": "/product-numbers.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Knowledge Accelerator System",
+      "slug": "knowledge-accelerator",
+      "description": "Compress decades of learning into years. Master the art of acquiring and applying knowledge that multiplies your success.",
+      "price": 127,
+      "originalPrice": 247,
+      "type": "course",
+      "format": "Video Course + Learning Tracker",
+      "category": "Knowledge",
+      "features": [
+        "1,800-hour learning framework",
+        "Vocabulary expansion system",
+        "Mentor acquisition strategies",
+        "Knowledge application methods",
+        "Wisdom vs Experience framework"
+      ],
+      "image": "/product-knowledge.jpg"
+    },
+    {
+      "id": 6,
+      "name": "30-Day Value Challenge",
+      "slug": "30-day-value-challenge",
+      "description": "A transformative month-long journey to rebuild your worth. Daily challenges based on the P.I.N.K. framework with accountability.",
+      "price": 67,
+      "originalPrice": 147,
+      "type": "challenge",
+      "format": "Daily Videos + Community Access",
+      "category": "Challenge",
+      "features": [
+        "30 daily video lessons",
+        "Private community access",
+        "Daily action prompts",
+        "Progress tracking dashboard",
+        "Weekly live Q&A calls"
+      ],
+      "image": "/product-challenge.jpg",
+      "new": true
+    },
+    {
+      "id": 7,
+      "name": "The Gold Roof Fallacy Toolkit",
+      "slug": "gold-roof-toolkit",
+      "description": "Stop misplacing value. Learn to distinguish between personal preference and actual market value in every area of life.",
+      "price": 47,
+      "originalPrice": 97,
+      "type": "toolkit",
+      "format": "PDF Guide + Decision Framework",
+      "category": "Tools",
+      "features": [
+        "Value assessment framework",
+        "Decision-making templates",
+        "Bias elimination techniques",
+        "Market value analysis tools",
+        "Personal vs Objective value guide"
+      ],
+      "image": "/product-goldroof.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Negotiation Mastery Playbook",
+      "slug": "negotiation-playbook",
+      "description": "Master the art of negotiation using the P.I.N.K. principles. Get what you're worth in every transaction.",
+      "price": 87,
+      "originalPrice": 177,
+      "type": "playbook",
+      "format": "PDF + Audio Scripts",
+      "category": "Tools",
+      "features": [
+        "Who mentions number first rule",
+        "Extreme offer strategies",
+        "Employee retention negotiation",
+        "Contractor negotiation scripts",
+        "Salary raise frameworks"
+      ],
+      "image": "/product-negotiation.jpg"
+    },
+    {
+      "id": 9,
+      "name": "P.I.N.K. Daily Journal",
+      "slug": "pink-daily-journal",
+      "description": "A 90-day guided journal to implement the P.I.N.K. framework into your daily life. Track, reflect, and grow.",
+      "price": 24.99,
+      "originalPrice": 39.99,
+      "type": "physical",
+      "format": "Hardcover Journal + Digital Version",
+      "category": "Tools",
+      "features": [
+        "90 days of guided prompts",
+        "Daily P.I.N.K. reflections",
+        "Goal-setting frameworks",
+        "Progress tracking pages",
+        "Weekly review sections"
+      ],
+      "image": "/product-journal.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Complete P.I.N.K. Mastery Bundle",
+      "slug": "complete-pink-bundle",
+      "description": "Everything you need to master the Lost Art of Value. All courses, tools, and challenges in one comprehensive package.",
+      "price": 497,
+      "originalPrice": 1297,
+      "type": "bundle",
+      "format": "All Digital Products + 1 Year Membership",
+      "category": "Bundle",
+      "features": [
+        "The Lost Art of Value Book",
+        "All 4 Core Courses (Time, People, Numbers, Knowledge)",
+        "30-Day Value Challenge",
+        "Gold Roof Toolkit",
+        "Negotiation Playbook",
+        "P.I.N.K. Daily Journal (Digital)",
+        "1 Year Premium Membership Access"
+      ],
+      "image": "/product-bundle.jpg",
+      "featured": true
+    }
+  ]
+}

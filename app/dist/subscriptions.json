@@ -1,0 +1,104 @@
+{
+  "subscriptions": [
+    {
+      "id": "starter",
+      "name": "Value Seeker",
+      "description": "Begin your journey to understanding value",
+      "monthlyPrice": 29,
+      "yearlyPrice": 290,
+      "yearlyDiscount": "17%",
+      "features": [
+        "Access to The Lost Art of Value Book",
+        "Monthly P.I.N.K. Newsletter",
+        "Community Forum Access",
+        "Weekly Value Tips",
+        "Basic Challenge Participation"
+      ],
+      "notIncluded": [
+        "Premium Courses",
+        "Live Q&A Sessions",
+        "1-on-1 Coaching"
+      ],
+      "cta": "Start Your Journey",
+      "popular": false
+    },
+    {
+      "id": "growth",
+      "name": "Value Builder",
+      "description": "Accelerate your growth with premium content",
+      "monthlyPrice": 79,
+      "yearlyPrice": 790,
+      "yearlyDiscount": "17%",
+      "features": [
+        "Everything in Value Seeker",
+        "All 4 Core P.I.N.K. Courses",
+        "Monthly Live Q&A Sessions",
+        "30-Day Value Challenge Access",
+        "Gold Roof Toolkit",
+        "Negotiation Playbook",
+        "Priority Community Support"
+      ],
+      "notIncluded": [
+        "1-on-1 Coaching",
+        "Custom Value Assessment"
+      ],
+      "cta": "Build Your Value",
+      "popular": true
+    },
+    {
+      "id": "elite",
+      "name": "Value Master",
+      "description": "The complete transformation experience",
+      "monthlyPrice": 199,
+      "yearlyPrice": 1990,
+      "yearlyDiscount": "17%",
+      "features": [
+        "Everything in Value Builder",
+        "Complete P.I.N.K. Mastery Bundle",
+        "Quarterly 1-on-1 Coaching Calls",
+        "Custom Value Assessment",
+        "Private Mastermind Group",
+        "Early Access to New Content",
+        "VIP Event Invitations",
+        "Direct Email Access to Author"
+      ],
+      "notIncluded": [],
+      "cta": "Master Your Value",
+      "popular": false
+    }
+  ],
+  "challenges": [
+    {
+      "id": "30-day-value",
+      "name": "30-Day Value Challenge",
+      "description": "Transform your relationship with value in just 30 days",
+      "duration": "30 days",
+      "includedIn": ["growth", "elite"],
+      "standalonePrice": 67,
+      "dailyCommitment": "15-30 minutes",
+      "outcomes": [
+        "Complete time audit and optimization",
+        "Relationship value assessment",
+        "Personal finance analysis",
+        "Knowledge investment plan",
+        "Influence building strategy"
+      ]
+    },
+    {
+      "id": "90-day-mastery",
+      "name": "90-Day P.I.N.K. Mastery",
+      "description": "Deep dive into all five principles over 90 days",
+      "duration": "90 days",
+      "includedIn": ["elite"],
+      "standalonePrice": 197,
+      "dailyCommitment": "30-45 minutes",
+      "outcomes": [
+        "Master Time Management",
+        "Build Powerful Relationships",
+        "Understand Financial Numbers",
+        "Accelerate Knowledge Growth",
+        "Expand Your Influence"
+      ]
+    }
+  ]
+}
