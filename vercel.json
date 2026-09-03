@@ -53,6 +53,14 @@
       "destination": "/assessment.html"
     },
     {
+      "source": "/VTVScore",
+      "destination": "/assessment.html"
+    },
+    {
+      "source": "/vtvscore",
+      "destination": "/assessment.html"
+    },
+    {
       "source": "/content-override.js",
       "destination": "/content-override.js"
     },
