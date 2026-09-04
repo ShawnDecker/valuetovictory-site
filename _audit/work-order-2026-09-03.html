@@ -1,0 +1,691 @@
+<title>Value to Victory Work Order</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --paper:      #EDEAE3;
+    --card:       #F6F4EF;
+    --rule:       #D3CDC1;
+    --rule-soft:  #E2DDD3;
+    --ink:        #1C1A16;
+    --ink-mid:    #555046;
+    --ink-low:    #837C6F;
+    --seal:       #1F5E52;
+    --seal-wash:  #DCE7E3;
+    --open:       #8A5A0B;
+    --open-wash:  #F2E6CE;
+    --fault:      #9E2F24;
+    --fault-wash: #F3DFDC;
+    --hold:       #3F5670;
+    --hold-wash:  #DFE5EC;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #14161A;
+      --card:       #1B1E23;
+      --rule:       #30353D;
+      --rule-soft:  #262A31;
+      --ink:        #E8E6E1;
+      --ink-mid:    #ABA69C;
+      --ink-low:    #7C766C;
+      --seal:       #6FB8A6;
+      --seal-wash:  #17302B;
+      --open:       #D9A650;
+      --open-wash:  #322815;
+      --fault:      #E0796C;
+      --fault-wash: #35201D;
+      --hold:       #8FA9C4;
+      --hold-wash:  #1C2530;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #14161A;
+    --card:       #1B1E23;
+    --rule:       #30353D;
+    --rule-soft:  #262A31;
+    --ink:        #E8E6E1;
+    --ink-mid:    #ABA69C;
+    --ink-low:    #7C766C;
+    --seal:       #6FB8A6;
+    --seal-wash:  #17302B;
+    --open:       #D9A650;
+    --open-wash:  #322815;
+    --fault:      #E0796C;
+    --fault-wash: #35201D;
+    --hold:       #8FA9C4;
+    --hold-wash:  #1C2530;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 1.15rem 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .sheet { max-width: 50rem; margin: 0 auto; }
+
+  /* ---- masthead ---- */
+
+  .top {
+    padding: 3rem 0 1.4rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .docline {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--seal);
+    margin: 0 0 0.7rem;
+  }
+
+  h1 {
+    font-family: "Newsreader", Georgia, serif;
+    font-size: clamp(2.2rem, 6.5vw, 3.1rem);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0 0 0.7rem;
+  }
+
+  .lede {
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 1.12rem;
+    color: var(--ink-mid);
+    max-width: 38rem;
+    margin: 0;
+  }
+
+  /* ---- tallies ---- */
+
+  .tally {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 1.8rem 0 0;
+  }
+
+  .tally div {
+    background: var(--card);
+    padding: 0.85rem 0.95rem;
+  }
+
+  .tally .n {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    display: block;
+    line-height: 1.1;
+  }
+
+  .tally .k {
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-low);
+  }
+
+  .n-done { color: var(--seal); }
+  .n-open { color: var(--open); }
+  .n-bad  { color: var(--fault); }
+  .n-hold { color: var(--hold); }
+
+  /* ---- sections ---- */
+
+  h2 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 3.2rem 0 0;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .subhead {
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 1.28rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin: 0.85rem 0 0;
+  }
+
+  /* ---- items ---- */
+
+  .item {
+    display: grid;
+    grid-template-columns: 5.4rem 1fr;
+    gap: 0 1rem;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+
+  .chip {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.4rem;
+    text-align: center;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+    margin-top: 0.12rem;
+  }
+
+  .c-done { color: var(--seal);  background: var(--seal-wash); }
+  .c-open { color: var(--open);  background: var(--open-wash); }
+  .c-bad  { color: var(--fault); background: var(--fault-wash); }
+  .c-hold { color: var(--hold);  background: var(--hold-wash); }
+
+  .item h3 {
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    text-wrap: balance;
+  }
+
+  .item p { margin: 0 0 0.4rem; font-size: 0.94rem; color: var(--ink-mid); }
+  .item p:last-child { margin-bottom: 0; }
+  .item .said { color: var(--ink); }
+  .item .said b { font-weight: 600; }
+
+  .ref {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: var(--ink-low);
+    overflow-wrap: anywhere;
+  }
+
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.86em;
+    background: var(--rule-soft);
+    padding: 0.06rem 0.28rem;
+  }
+
+  /* ---- money table ---- */
+
+  .wrap { overflow-x: auto; margin: 1rem 0 0; }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+    min-width: 26rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  th {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-low);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  td.num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ---- queue ---- */
+
+  .queue { counter-reset: q; margin: 0; padding: 0; list-style: none; }
+
+  .queue li {
+    counter-increment: q;
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0 0.9rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .queue li::before {
+    content: counter(q);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--seal);
+    padding-top: 0.1rem;
+  }
+
+  .queue b { display: block; font-weight: 600; margin-bottom: 0.15rem; }
+  .queue span { font-size: 0.92rem; color: var(--ink-mid); }
+
+  .gate {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: var(--open);
+    display: block;
+    margin-top: 0.28rem;
+  }
+
+  .note {
+    background: var(--card);
+    border-left: 3px solid var(--seal);
+    padding: 0.95rem 1.1rem;
+    margin: 1.3rem 0 0;
+    font-size: 0.94rem;
+  }
+
+  .note.warn { border-left-color: var(--fault); }
+  .note p { margin: 0 0 0.5rem; }
+  .note p:last-child { margin-bottom: 0; }
+  .note strong { font-weight: 600; }
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.83rem;
+    color: var(--ink-low);
+  }
+
+  @media (max-width: 30rem) {
+    .item { grid-template-columns: 4.6rem 1fr; }
+  }
+</style>
+
+<div class="sheet">
+
+  <header class="top">
+    <p class="docline">Work order &middot; drawn 3 September 2026</p>
+    <h1>Value to Victory Work Order</h1>
+    <p class="lede">Everything decided, found, and still owed from the claim-by-claim
+    audit of valuetovictory.com. Seven items shipped to production today. Ten are
+    queued. Four decisions are still yours.</p>
+  </header>
+
+  <div class="tally">
+    <div><span class="n n-done">7</span><span class="k">Shipped today</span></div>
+    <div><span class="n n-open">10</span><span class="k">Queued to build</span></div>
+    <div><span class="n n-bad">1</span><span class="k">Confirmed defect</span></div>
+    <div><span class="n n-hold">4</span><span class="k">Awaiting you</span></div>
+  </div>
+
+  <h2>Shipped to production</h2>
+  <p class="subhead">Verified live, not assumed.</p>
+
+  <div class="item">
+    <span class="chip c-done">Live</span>
+    <div>
+      <h3>The corrected site is in production</h3>
+      <p>This morning's route push had rolled the site back five months to the April
+      build, restoring bestseller claims and a fabricated bankruptcy story. Rolled back,
+      rebuilt, and promoted. Confirmed origin story, no bestseller language anywhere,
+      prices at $29, $47 and $497, the book listed as pre-order shipping 1 December 2026.</p>
+      <p class="ref">dpl_GNmCDg4 &middot; commit eaa5ce7 &middot; rollback candidate dpl_3ZWfbJd9</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Live</span>
+    <div>
+      <h3>valuetovictory.com/VTVScore resolves</h3>
+      <p>Both cases return the free assessment landing and UTM parameters pass through
+      the rewrite. Safe for flyers, captions and posts. It was a 404 for five hours
+      this afternoon.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Live</span>
+    <div>
+      <h3>The source is committed, so a deploy cannot roll the site back again</h3>
+      <p>The repository had no commit since 4 April while five months of manual deploys
+      ran on top of it. That gap is what made one ordinary push destructive. Master now
+      equals production.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Live</span>
+    <div>
+      <h3>Five products that do not exist stopped being sold as finished</h3>
+      <p>The four courses and the 30-Day Challenge were listed as included with
+      membership and described as video courses with worksheets, a private community
+      and weekly Q&amp;A. None of it was ever made. They now read
+      <i>In development. Included free with membership when it ships.</i></p>
+      <p class="ref">Standing rule: no publish before product</p>
+    </div>
+  </div>
+
+  <h2>Confirmed defects</h2>
+  <p class="subhead">Found by reading the live code, not the documentation.</p>
+
+ <div class="item">
+    <span class="chip c-done">Correct</span>
+    <div>
+      <h3>The tier gates were right; I was wrong to call this a leak</h3>
+      <p>I read "the relationship stuff is for the higher tier" as covering dating and
+      flagged it as revenue leaking. It was not. Your model is that $29 buys the
+      individual product including dating and Faith Match, while $47 puts two people on
+      one account with the couple modules. The code already enforces exactly that.
+      Nothing changes and nobody loses access.</p>
+      <p>It also makes the ladder work: a single member meets someone through Faith
+      Match, and the pair merge into one $47 account with the second seat waiting.</p>
+    </div>
+  </div>
+
+ <div class="item">
+    <span class="chip c-done">Live</span>
+    <div>
+      <h3>The consultation button books a real call now</h3>
+      <p>It had been wired to an on-page anchor, so it scrolled down and booked nobody.
+      It now opens your 15-minute Calendly in a new tab and reads "Book a Free
+      15-Minute Call". The six "Learn More" buttons on the service cards are still dead
+      and are handled in the services rewrite below.</p>
+      <p class="ref">calendly.com/valuetovictory/15min &middot; your 60-minute event type now 404s</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Live</span>
+    <div>
+      <h3>The $47 tier now reads "spouse or partner"</h3>
+      <p>It had said couples and partner. Your wording covers married and unmarried
+      pairs and reads correctly for the audience. Three strings changed: the seat name,
+      the tier description, and the feature line.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-bad">Stale</span>
+    <div>
+      <h3>Two orphaned data files contradict the live site</h3>
+      <p><code>products.json</code> and <code>subscriptions.json</code> are not read by
+      anything. The real data is baked into the bundle. The subscriptions file still
+      carries $29, $79 and $199 against the real $29, $47 and $497. They will mislead
+      the next person who opens them, as they briefly misled me.</p>
+    </div>
+  </div>
+
+  <h2>Decisions locked</h2>
+  <p class="subhead">Your answers, recorded so they are not re-litigated.</p>
+
+  <div class="item">
+    <span class="chip c-done">Fixed</span>
+    <div>
+      <h3>Every hero and story claim stands</h3>
+      <p class="said">Twenty-four years, $4.2 billion valued, roughly 12,000 homes
+      appraised, author and appraiser, leaving a six-figure career to teach, and the
+      pull quote is yours. <b>All confirmed true.</b></p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Fixed</span>
+    <div>
+      <h3>The 12,000 figure stays, because appraisal clients are clients</h3>
+      <p class="said">You also hold a credential nothing on the page mentions: you were
+      featured on <b>God Made Millionaire TV</b>, TC Bradley's show on the GEB Network,
+      DIRECTV channel 363.</p>
+      <p>The appearance is real and usable. The audience figure is not. The millions
+      quoted around that show are <b>homes the network is carried in</b>, 65 million for
+      GEB and 93 million for the WORD Network, not people who watched your segment. No
+      per-segment viewer count exists, so "92 million viewers" cannot be supported if
+      anyone asks. The show also charges guests for travel and a share of production, so
+      it is a booked appearance rather than earned media, which is another reason not to
+      lean on scale. Name the show and the network, skip the number, and let a clip of
+      the episode do the work.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Fixed</span>
+    <div>
+      <h3>The impact band and its heading are true and stay</h3>
+      <p class="said">Sandi, Cameron and L.B. are real and their testimonials can sit
+      under it. None render on the site today, so they are content to add.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Fixed</span>
+    <div>
+      <h3>Coaching is you, personally</h3>
+      <p class="said">"The coaching currently starts with me. And then, as we progress,
+      we will get into other things." So the fix is not cutting three of six cards. The
+      page presents six productized programs with separate curricula; what is true is
+      <b>one coaching relationship covering six areas.</b> Rewrite drafted, awaiting your
+      approval.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-done">Fixed</span>
+    <div>
+      <h3>The bundle's $1,297 comes down</h3>
+      <p>It matched no real figure. The nine items at prices you would actually charge
+      total $823.98, and their anchor prices total $1,648.98.</p>
+      <div class="wrap">
+        <table>
+          <thead><tr><th>What the bundle can honestly claim</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Three finished workbooks at real prices</td><td class="num">$158.99</td></tr>
+            <tr><td>Plus the Core Book at pre-order price</td><td class="num">$188.98</td></tr>
+            <tr><td>Unbuilt products currently padding the total</td><td class="num">$635.00</td></tr>
+            <tr><td>The figure that was on the page</td><td class="num">$1,297.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ref" style="margin-top:0.6rem">Recommendation: shelve the bundle until the library is real. Today it delivers about $189 of material.</p>
+    </div>
+  </div>
+
+  <h2>The Founding Hundred</h2>
+  <p class="subhead">Your design, with the implementation that makes it enforce itself.</p>
+
+  <div class="item">
+    <span class="chip c-done">Fixed</span>
+    <div>
+      <h3>First hundred pay $29 and hold the $47 spouse-or-partner tier for the life of the account</h3>
+      <p>It beats the $9.99 lifetime idea decisively. A hundred founders at $29 is
+      $2,900 a month against $999. The upgrade costs $18 of margin per founder that
+      almost none of them would ever have paid anyway.</p>
+      <p>It gets stronger when individual pricing moves to $79, because a founding
+      couple then holds two seats for $47 against $158.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-open">Build</span>
+    <div>
+      <h3>Implement it as a Stripe coupon, not a custom flag</h3>
+      <p>Put founders on the $47 price with a permanent $18-off coupon. They pay $29,
+      Stripe reports Value Builder, the webhook sets the <code>couple</code> tier by
+      itself, and the relationship suite and skill packs unlock through code that
+      already exists. It also makes "life of the account" self-enforcing, because a
+      Stripe coupon dies with the subscription.</p>
+      <p class="ref">Terms of service must carry the lock language; a recurring price commitment needs it in writing</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-open">Build</span>
+    <div>
+      <h3>Comp the four helpers outside the hundred</h3>
+      <p>A hardcoded comp list already resolves an address to top tier with every
+      entitlement, currently holding only your own. Adding the four keeps them unlocked
+      and off the founder cap, which puts the count at 98 rather than 94.</p>
+      <p class="ref">lib/comp-access.js</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-hold">Deferred</span>
+    <div>
+      <h3>Rungs two and three stay undecided on purpose</h3>
+      <p>With two customers, setting the terms for seats 101 through 850 locks in
+      promises before the product's worth is known. Ship the Founding Hundred alone and
+      say nothing about what follows.</p>
+    </div>
+  </div>
+
+  <h2>Couples, dating and the shared report</h2>
+  <p class="subhead">What exists, what does not, and the constraints that matter.</p>
+
+  <div class="item">
+    <span class="chip c-done">Built</span>
+    <div>
+      <h3>More exists than expected</h3>
+      <p>Partner linking, invite codes and consent are modelled, including a
+      both-partners flag. Four real modules sit behind them: the relationship matrix,
+      cherish and honor, love language, and intimacy. Thirty couple prompts and thirty
+      dating prompts are written.</p>
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="chip c-open">Build</span>
+    <div>
+      <h3>The shared report does not exist at all</h3>
+      <p>Nothing takes what one partner entered and shows the other anything. This is
+      the half that makes the couple tier worth $47. Proposal: a weekly digest per
+      opted-in module, delivered to each partner separately, so neither sees the
+      other's raw answers.</p>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <p><strong>Two constraints that are the product, not the polish.</strong></p>
+    <p><strong>Consent per module, never blanket.</strong> The intimacy module holds the
+    most sensitive data anywhere in the ecosystem. Linking a partner must not silently
+    authorize sharing it. Either partner can withdraw one module without unlinking.</p>
+    <p><strong>Appreciations and requests only.</strong> Your words were "what they enjoy,
+    like, or would like more of, in a loving and proper way." That rules out scores about
+    a partner, comparisons between them, and anything framed as a deficit. "She would love
+    more of this" ships. "You are falling short here" does not, and that is what most
+    relationship software builds by accident.</p>
+  </div>
+
+  <div class="item">
+    <span class="chip c-open">Build</span>
+    <div>
+      <h3>Two individuals merging into one couple account</h3>
+      <p>Separate logins, one shared dashboard, one subscription. It turns Faith Match
+      into the feeder for the couple tier and keeps both people instead of losing them
+      when they stop being single. Three decisions first: whose card continues and
+      whether the other is prorated, what happens to two founding locks when only one
+      is needed and whether the freed seat returns to the hundred, and how a separation
+      unwinds.</p>
+      <p>The unwind is not an edge case in a relationship product. Splitting has to be a
+      built feature: the shared dashboard dissolves, each person keeps only their own
+      data, and billing returns to two subscriptions. Built after the fact, it gets
+      built badly, during someone's worst week.</p>
+    </div>
+  </div>
+
+  <h2>The mental health disclaimer</h2>
+  <p class="subhead">Drafted in your voice. Awaiting your approval before it ships.</p>
+
+  <div class="item">
+    <span class="chip c-hold">Approve</span>
+    <div>
+      <h3>Coaching, not therapy, with a crisis line and your own disclosure</h3>
+      <p>You asked to keep the card and clarify it, to carry a suicide disclaimer, to
+      say that you have personally struggled with it, and to point people toward
+      professional help. The draft reads:</p>
+      <p class="said" style="margin-top:0.7rem"><i>This is coaching, not therapy. I am not
+      a licensed counselor, and coaching is not treatment for a mental health condition.
+      I have struggled with suicidal thoughts myself, so I will say this plainly: if that
+      is where you are right now, talk to a professional, not a coach. Call or text 988,
+      the Suicide and Crisis Lifeline, any time, day or night. Coaching can sit alongside
+      that work. It should never take its place.</i></p>
+      <p style="margin-top:0.7rem">Two calls for you. First person under your name, or an
+      unattributed site notice? First person is stronger and is what you described, but it
+      puts your disclosure on the homepage permanently, so it should be chosen rather than
+      inherited. And "Anxiety Relief" is the phrase that reads as treatment; "Anxiety
+      Support" costs nothing. The final wording goes past the legal reviewer before it
+      ships.</p>
+    </div>
+  </div>
+
+  <h2>Build queue</h2>
+  <p class="subhead">Dependency order. Everything above the line can start now.</p>
+
+  <ol class="queue">
+    <li><b>Wire the consultation button to the 15-minute Calendly link</b>
+      <span>The smallest fix on the list and it has never worked.</span></li>
+    <li><b>Remove the $1,297 strikethrough and shelve the bundle</b>
+      <span>The one item with a bright-line regulation attached, 16 CFR Part 233.</span></li>
+    <li><b>Replace the six coaching programs with one coaching relationship</b>
+      <span>Coaching is you, one to one. Six cards presenting six curricula becomes six areas inside one relationship, and the dead "Learn More" buttons stop pretending to lead somewhere.</span>
+      <span class="gate">Gate: approve the wording</span></li>
+    <li><b>Ship the mental health disclaimer</b>
+      <span class="gate">Gate: first person or notice, and the legal review pass</span></li>
+    <li><b>Comp the four helpers</b>
+      <span>One code list, keeps them off the founder cap.</span></li>
+    <li><b>Stand up the Founding Hundred</b>
+      <span>Stripe $47 price plus permanent coupon, lock language in the terms, offer copy on the page.</span></li>
+    <li><b>Wire the three finished workbooks behind member entitlements</b>
+      <span>The gate exists and nothing is served through it, so no paying member can download anything today.</span></li>
+    <li><b>Add the Sandi, Cameron and L.B. testimonials</b>
+      <span class="gate">Gate: approved wording, display names, permission to appear</span></li>
+    <li><b>Build the partner shared report</b>
+      <span>Per-module consent, appreciations and requests only.</span></li>
+    <li><b>Build the two-into-one couple merge</b>
+      <span>Separate logins, shared dashboard, one subscription, and a separation path that unwinds cleanly.</span></li>
+    <li><b>Author the five missing products</b>
+      <span>Four courses and the 30-Day Challenge. The largest piece, and it has to clear the intellectual property gate.</span></li>
+  </ol>
+
+  <div class="note">
+    <p><strong>One caution carried forward.</strong> Items three, six, eight and ten touch
+    the assessment application, which is the repository where the deployed version and the
+    committed version are known to disagree. Every change there gets diffed against what is
+    actually live before it deploys, never against the commit history.</p>
+  </div>
+
+  <h2>Still owed by you</h2>
+
+  <div class="item">
+    <span class="chip c-hold">You</span>
+    <div>
+      <h3>Four answers unblock nine of the eleven queued items</h3>
+      <p>Approval on the services rewrite. Whether the disclaimer runs in first person
+      under your name or as an unattributed notice. And which news outlets you appeared
+      on, with rough dates, so those can be verified the same way the television credit
+      was and written up if they hold.</p>
+      <p>Not blocking, but needed before the testimonials go up: the exact approved
+      wording from Sandi, Cameron and L.B., how each name should display, and
+      confirmation that all three agreed to appear publicly.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Drawn from a line-by-line audit of the live homepage, the shipped JavaScript bundle,
+    the assessment application's tier gates, and the member download library. Verdicts are
+    Shawn's own, recorded as given. Full log kept at
+    <code>valuetovictory-site/_audit/homepage-claims-2026-09-03.md</code>.</p>
+  </footer>
+
+</div>
