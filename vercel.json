@@ -2,56 +2,69 @@
   "version": 2,
   "buildCommand": "cd app && npm run build",
   "outputDirectory": "app/dist",
-  "headers": [
+  "redirects": [
     {
-      "source": "/content-override.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        },
-        {
-          "key": "Pragma",
-          "value": "no-cache"
-        },
-        {
-          "key": "Expires",
-          "value": "0"
-        }
-      ]
+      "source": "/free-book",
+      "destination": "https://assessment.valuetovictory.com/free-book.html"
     },
     {
-      "source": "/(.*).html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
+      "source": "/book",
+      "destination": "https://assessment.valuetovictory.com/free-book.html"
     },
     {
-      "source": "/",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy.html"
+      "source": "/audiobook",
+      "destination": "https://assessment.valuetovictory.com/audiobook.html"
     },
     {
-      "source": "/terms-of-service",
-      "destination": "/terms-of-service.html"
+      "source": "/devotional",
+      "destination": "https://assessment.valuetovictory.com/free-book.html"
     },
     {
       "source": "/assessment",
-      "destination": "/assessment.html"
+      "destination": "https://assessment.valuetovictory.com"
     },
+    {
+      "source": "/join",
+      "destination": "https://assessment.valuetovictory.com/join"
+    },
+    {
+      "source": "/pricing",
+      "destination": "https://assessment.valuetovictory.com/pricing.html"
+    },
+    {
+      "source": "/member",
+      "destination": "https://assessment.valuetovictory.com/member.html"
+    },
+    {
+      "source": "/professionals",
+      "destination": "https://assessment.valuetovictory.com/professionals.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "https://assessment.valuetovictory.com/privacy"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "https://assessment.valuetovictory.com/privacy"
+    },
+    {
+      "source": "/privacy-policy.html",
+      "destination": "https://assessment.valuetovictory.com/privacy"
+    },
+    {
+      "source": "/terms",
+      "destination": "https://assessment.valuetovictory.com/terms"
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "https://assessment.valuetovictory.com/terms"
+    },
+    {
+      "source": "/terms-of-service.html",
+      "destination": "https://assessment.valuetovictory.com/terms"
+    }
+  ],
+  "rewrites": [
     {
       "source": "/VTVScore",
       "destination": "/assessment.html"
@@ -59,18 +72,6 @@
     {
       "source": "/vtvscore",
       "destination": "/assessment.html"
-    },
-    {
-      "source": "/content-override.js",
-      "destination": "/content-override.js"
-    },
-    {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
