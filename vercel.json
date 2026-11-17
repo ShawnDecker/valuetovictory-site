@@ -72,6 +72,10 @@
     {
       "source": "/vtvscore",
       "destination": "/assessment.html"
+    },
+    {
+      "source": "/links",
+      "destination": "/links.html"
     }
   ]
 }
