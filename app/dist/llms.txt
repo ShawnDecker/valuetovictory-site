@@ -1,0 +1,21 @@
+# Value to Victory
+
+> Value to Victory helps people see where their time and value are leaking, using the P.I.N.K. framework (People, Influence, Numbers, Knowledge, Time). The starting point is a free, 5-minute, 25-question assessment that returns a P.I.N.K. Master Score and a pillar breakdown. Founded by Shawn E. Decker, author of *Running From Miracles* and *The Lost Art of Value*, who also offers membership and coaching.
+
+## Start here
+
+- [Free P.I.N.K. assessment](https://assessment.valuetovictory.com/join): 25 questions, about 5 minutes, free score and report.
+- [The Value Engine](https://assessment.valuetovictory.com/): Assessment home, with full details in its own llms.txt at https://assessment.valuetovictory.com/llms.txt
+- [About the P.I.N.K. framework](https://assessment.valuetovictory.com/about-pink)
+- [FAQ](https://assessment.valuetovictory.com/faq)
+
+## Membership, coaching and books
+
+- [Pricing](https://assessment.valuetovictory.com/pricing): VictoryPath $29/mo or $290/yr, Value Builder $47/mo or $470/yr, Victory VIP $497/mo.
+- [Coaching](https://assessment.valuetovictory.com/coaching) and [book a call](https://assessment.valuetovictory.com/consult)
+- [Running From Miracles — free book](https://assessment.valuetovictory.com/free-book)
+
+## Optional
+
+- [Privacy policy](https://assessment.valuetovictory.com/privacy)
+- [Terms of service](https://assessment.valuetovictory.com/terms)
