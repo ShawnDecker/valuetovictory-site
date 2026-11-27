@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lost Art of Value — December 2026 | Shawn E. Decker</title>
+<meta name="description" content="The Lost Art of Value: Time for P.I.N.K. by Shawn E. Decker. Releasing December 1, 2026. Get the eBook for $17.77.">
+<meta property="og:title" content="The Lost Art of Value — December 2026">
+<meta property="og:description" content="Twenty-four years appraising. Twelve thousand homes. One pattern I could not stop seeing. Releasing December 1, 2026.">
+<meta property="og:image" content="https://valuetovictory.com/loav/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14161a; --ink-2:#3d434e; --paper:#f7f5f1; --paper-2:#efece5;
+    --line:#d9d4c9; --accent:#8c1d3f; --accent-2:#b8985a; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:400 17px/1.62 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .serif{font-family:Fraunces,Georgia,"Times New Roman",serif}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;color:#fff;padding:0;
+    background:radial-gradient(ellipse at 18% 30%,rgba(140,29,63,.32),rgba(15,17,20,0) 55%),#0f1114}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:0;align-items:stretch;
+    max-width:1120px;margin:0 auto}
+  .hero-copy{padding:76px 40px 76px 24px;display:flex;flex-direction:column;justify-content:center}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent-2);font-weight:600;margin:0 0 20px}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:300;font-size:clamp(38px,5.6vw,62px);
+    line-height:1.04;margin:0 0 8px;letter-spacing:-.015em}
+  h1 em{font-style:italic;font-weight:400}
+  .sub{font-family:Fraunces,Georgia,serif;font-size:clamp(17px,2vw,21px);
+    color:#c9c3b6;margin:0 0 26px;font-style:italic}
+  .lede{font-size:17px;line-height:1.65;color:#ddd9d1;margin:0 0 30px;max-width:44ch}
+  .datechip{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+    border:1px solid rgba(184,152,90,.45);border-radius:2px;padding:9px 16px;
+    font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);
+    font-weight:600;margin-bottom:30px}
+  .datechip .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-2)}
+  .hero-photo{position:relative;min-height:460px;background:#0a0b0d}
+  .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+    object-position:50% 50%}
+  .hero-photo::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,#0f1114 0%,rgba(15,17,20,.30) 9%,rgba(15,17,20,0) 24%)}
+  .shot-note{position:absolute;right:16px;bottom:14px;z-index:2;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;
+    padding:15px 30px;border-radius:2px;font-weight:600;font-size:15px;letter-spacing:.02em;
+    border:0;cursor:pointer;transition:background .15s ease}
+  .btn:hover{background:#701531}
+
+  /* ---------- sections ---------- */
+  section{padding:74px 0}
+  .rule{height:1px;background:var(--line);border:0;margin:0}
+  h2{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:clamp(26px,3.4vw,36px);
+    line-height:1.18;margin:0 0 18px;letter-spacing:-.01em}
+  .kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
+    font-weight:600;margin:0 0 14px}
+  p{margin:0 0 18px;color:var(--ink-2)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin:34px 0 0}
+  .stat{background:var(--paper);padding:26px 20px;text-align:center}
+  .stat b{display:block;font-family:Fraunces,Georgia,serif;font-weight:400;
+    font-size:34px;line-height:1;color:var(--ink);margin-bottom:8px}
+  .stat span{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280}
+
+  .fromto{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:30px 0 0}
+  .fromto figure{margin:0}
+  .fromto img{width:100%;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--line)}
+  .fromto figcaption{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin-top:8px}
+  .pink{background:var(--paper-2);position:relative;overflow:hidden}
+  .pink::before{content:"";position:absolute;right:-180px;top:-180px;width:520px;height:520px;
+    border-radius:50%;background:radial-gradient(circle,rgba(140,29,63,.09),rgba(140,29,63,0) 70%)}
+  .pink .intro{max-width:62ch}
+  .pillars{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:38px;position:relative}
+  .pil{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--accent);
+    padding:30px 30px 26px;position:relative;transition:transform .2s ease,box-shadow .2s ease}
+  .pil:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(20,22,26,.35)}
+  .pil-head{display:flex;align-items:center;gap:18px;margin-bottom:6px}
+  .letter{font-family:Fraunces,Georgia,serif;font-weight:300;font-size:58px;line-height:.9;
+    color:var(--accent);width:56px;flex:none}
+  .pil h3{font-family:Fraunces,Georgia,serif;font-weight:400;font-size:25px;margin:0;line-height:1.1}
+  .pil .tag{font-size:14.5px;color:#6b7280;font-style:italic;margin:2px 0 0}
+  .pil ul{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px solid var(--paper-2)}
+  .pil li{position:relative;padding-left:26px;margin:0 0 11px;font-size:15.5px;line-height:1.5;color:var(--ink-2)}
+  .pil li:last-child{margin-bottom:0}
+  .pil li::before{content:"";position:absolute;left:2px;top:.55em;width:10px;height:10px;
+    border:1.5px solid var(--accent-2);transform:rotate(45deg)}
+  .pil li b{color:var(--ink);font-weight:600}
+  .time{grid-column:1/-1;background:#14161a;border:0;border-top:3px solid var(--accent-2);color:#fff}
+  .time .letter{color:var(--accent-2)}
+  .time h3{color:#fff}.time .tag{color:#a9a49a}
+  .time ul{display:grid;grid-template-columns:1fr 1fr;gap:11px 34px;border-top-color:#2a2e36}
+  .time li{color:#d8d3ca;margin:0}.time li b{color:#fff}
+  .midcta{text-align:center;margin-top:44px}
+  .midcta p{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:19px;color:var(--ink);margin-bottom:18px}
+
+  .buynote{font-size:13.5px;color:#a9a49a;margin:14px 0 0;max-width:46ch}
+  .buynote a{color:var(--accent-2)}
+  .buy{background:var(--white)}
+  .buy-grid{display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:center}
+  .buy-grid img{width:100%;box-shadow:0 24px 50px -28px rgba(20,22,26,.55)}
+  .buy .price{font-family:Fraunces,Georgia,serif;font-size:40px;color:var(--ink);margin:4px 0 14px;line-height:1}
+  .buy .price span{font-family:Inter,sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;margin-left:8px}
+  .buy p{max-width:58ch}
+  .buy a:not(.btn){color:var(--accent)}
+  .buy .secure{font-size:12.5px;color:#6b7280;margin-top:12px}
+  @media(max-width:860px){.buy-grid{grid-template-columns:1fr;gap:26px}.buy-grid img{max-width:220px}}
+
+  .quote{background:var(--accent);color:#fff;text-align:center;padding:62px 0}
+  .quote blockquote{margin:0 auto;max-width:30ch;font-family:Fraunces,Georgia,serif;font-weight:300;
+    font-size:clamp(24px,3.4vw,36px);line-height:1.25}
+  .quote cite{display:block;margin-top:18px;font-style:normal;font-size:12px;letter-spacing:.2em;
+    text-transform:uppercase;color:rgba(255,255,255,.72)}
+
+  /* ---------- form ---------- */
+  .signup{background:#14161a;color:#fff}
+  .signup h2{color:#fff}
+  .signup .kicker{color:var(--accent-2)}
+  .signup p{color:#c5c0b7}
+  form{margin-top:26px;max-width:560px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:#a9a49a;margin:0 0 7px;font-weight:600}
+  input[type=text],input[type=email],select{width:100%;padding:13px 14px;font:inherit;
+    font-size:16px;background:#1d2027;border:1px solid #333842;color:#fff;border-radius:2px}
+  input:focus,select:focus{outline:2px solid var(--accent-2);outline-offset:1px;border-color:transparent}
+  .field{margin-bottom:16px}
+  .fineprint{font-size:13px;color:#8d8981;margin-top:16px;line-height:1.55}
+  .fineprint a{color:#b8985a}
+
+  footer{background:#0f1114;color:#7e7a72;padding:34px 0;font-size:13.5px}
+  footer a{color:#a9a49a}
+  .credits{font-size:12px;color:#5f5c56;margin-top:10px;line-height:1.6}
+
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-copy{padding:52px 24px 40px;order:2}
+    .hero-photo{order:1;min-height:340px}
+    .hero-photo::after{background:linear-gradient(180deg,rgba(15,17,20,.15) 0%,rgba(15,17,20,.75) 100%)}
+    .two{grid-template-columns:1fr;gap:34px}
+    .stats{grid-template-columns:1fr}
+    .row{grid-template-columns:1fr}
+    .pillars{grid-template-columns:1fr}
+    .time ul{grid-template-columns:1fr}
+    .pil{padding:26px 22px 22px}
+    section{padding:54px 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">The Value Engine</p>
+      <h1>The <em>lost art</em><br>of Value</h1>
+      <p class="sub">Time for P.I.N.K.</p>
+      <div class="datechip"><span class="dot"></span> eBook &middot; December 1, 2026</div>
+      <p class="lede">Twenty-four years appraising property. Twelve thousand homes. One pattern I
+        could not stop seeing — and could not find written down anywhere. So I wrote it down.</p>
+      <a class="btn" href="https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s">Get the eBook &middot; $17.77</a>
+      <p class="buynote">Digital edition, delivered by email. Full refund any time before delivery.
+        <a href="#buy">Details</a> &middot; <a href="#list">or just get on the list</a></p>
+    </div>
+    <div class="hero-photo">
+      <img src="/loav/cover.jpg" alt="The Lost Art of Value: Time for P.I.N.K. by Shawn E. Decker — the cover, a pocket watch in sand between storm and light">
+    </div>
+  </div>
+</header>
+
+<hr class="rule">
+
+<section>
+  <div class="wrap two">
+    <div>
+      <p class="kicker">What this is</p>
+      <h2>A book about what things are actually worth — and why almost nobody can tell you.</h2>
+    </div>
+    <div>
+      <p>I have spent my working life putting a number on other people's property. Twelve
+        thousand times. Long enough to notice that the number was never really the point.</p>
+      <p>Value is not a price. Price is what a thing costs. Value is what it returns to the
+        person holding it — and that changes depending on who is holding it, what they know,
+        who they know, and how much time they have left to use it.</p>
+      <p>That gap is where people lose money, lose years, and lose the things they cannot buy
+        back. This book is about closing it.</p>
+      <div class="stats">
+        <div class="stat"><b>24</b><span>Years appraising</span></div>
+        <div class="stat"><b>12,000</b><span>Homes valued</span></div>
+        <div class="stat"><b>$4B+</b><span>Property assessed</span></div>
+      </div>
+      <div class="fromto">
+        <figure><img src="/loav/manuscript.jpg" alt="The printed working manuscript on Shawn Decker's desk"><figcaption>From this &mdash; the manuscript on my desk</figcaption></figure>
+        <figure><img src="/loav/cover.jpg" alt="The Lost Art of Value cover"><figcaption>To this &mdash; December 1, 2026</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pink">
+  <div class="wrap">
+    <p class="kicker">The framework</p>
+    <h2>Time for P.I.N.K. &mdash; the four things every valuation actually runs on.</h2>
+    <p class="intro">Four inputs, measured inside the one resource you cannot make
+      more of. Strip any valuation down far enough and this is what is underneath it &mdash;
+      in a house, in a business, and in a life. Here is how each one pays you back.</p>
+    <div class="pillars">
+      <div class="pil">
+        <div class="pil-head"><span class="letter">P</span><div><h3>People</h3><p class="tag">Who is around you, and what that access is worth.</p></div></div>
+        <ul>
+          <li><b>See your circle clearly</b> &mdash; who adds to your life and who quietly drains it.</li>
+          <li><b>Invest in the right relationships</b> instead of spreading yourself thin across all of them.</li>
+          <li><b>Stop carrying people</b> who will not walk with you, without guilt or drama.</li>
+          <li><b>Build the kind of trust</b> that opens doors money cannot.</li>
+        </ul>
+      </div>
+      <div class="pil">
+        <div class="pil-head"><span class="letter">I</span><div><h3>Influence</h3><p class="tag">What moves when you speak, and how far it carries.</p></div></div>
+        <ul>
+          <li><b>Be heard the first time</b> &mdash; at home, at work, and in the room that matters.</li>
+          <li><b>Earn influence through value</b> you deliver, not volume or title.</li>
+          <li><b>Lead without pushing</b>, so people follow because they want to.</li>
+          <li><b>Make your word count</b> &mdash; a reputation that walks in ahead of you.</li>
+        </ul>
+      </div>
+      <div class="pil">
+        <div class="pil-head"><span class="letter">N</span><div><h3>Numbers</h3><p class="tag">What the arithmetic says when nobody is flattering you.</p></div></div>
+        <ul>
+          <li><b>Know what things are actually worth</b>, not what someone is asking for them.</li>
+          <li><b>Stop leaving money on the table</b> in deals, raises, and everyday decisions.</li>
+          <li><b>Read the numbers honestly</b>, so they serve you instead of scare you.</li>
+          <li><b>Make big decisions with confidence</b> instead of hope.</li>
+        </ul>
+      </div>
+      <div class="pil">
+        <div class="pil-head"><span class="letter">K</span><div><h3>Knowledge</h3><p class="tag">What you know that cannot be taken off you.</p></div></div>
+        <ul>
+          <li><b>Turn what you know into what you are worth</b> &mdash; experience is an asset.</li>
+          <li><b>Learn what actually moves your life</b>, and skip what only fills time.</li>
+          <li><b>Spot the blind spots</b> that keep costing you before they cost you again.</li>
+          <li><b>Pass it on</b> &mdash; knowledge that outlives you is value that compounds.</li>
+        </ul>
+      </div>
+      <div class="pil time">
+        <div class="pil-head"><span class="letter">T</span><div><h3>within Time</h3><p class="tag">The one input that only ever spends down.</p></div></div>
+        <ul>
+          <li><b>See where your hours really go</b> &mdash; and get some of them back.</li>
+          <li><b>Spend time on what returns value</b>, not just what feels urgent.</li>
+          <li><b>Protect the hours</b> that belong to your family, your faith, and your health.</li>
+          <li><b>Live like time is the asset</b> it is &mdash; because it is the only one you cannot earn back.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="midcta">
+      <p>Find out where your value is hiding.</p>
+      <a class="btn" href="https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s">Get the eBook &middot; $17.77</a>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <div class="wrap">
+    <blockquote>&ldquo;Price is what a thing costs. Value is what it returns to the person holding it.&rdquo;</blockquote>
+    <cite>Shawn E. Decker &middot; The Lost Art of Value</cite>
+  </div>
+</section>
+
+<section id="buy" class="buy">
+  <div class="wrap buy-grid">
+    <img src="/loav/cover.jpg" alt="The Lost Art of Value cover">
+    <div>
+      <p class="kicker">Get your copy</p>
+      <h2>The Lost Art of Value: Time for P.I.N.K.</h2>
+      <p class="price">$17.77 <span>digital edition</span></p>
+      <p>Your copy is delivered by email. Orders placed before December 1, 2026 arrive on release day.</p>
+      <p><b>Refunds.</b> Ask any time before delivery and you get your money back in full, no reason
+        needed: email <a href="mailto:valuetovictory@gmail.com">valuetovictory@gmail.com</a>. After delivery,
+        refunds are at my discretion, because the book is a digital file you keep.</p>
+      <a class="btn" href="https://buy.stripe.com/fZu00i30gcqodNDgQI6oo0s">Get the eBook &middot; $17.77</a>
+      <p class="secure">Secure checkout by Stripe.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="list" class="signup">
+  <div class="wrap">
+    <p class="kicker">The list</p>
+    <h2>Not ready yet? Get on the list.</h2>
+    <p style="max-width:56ch">No drip sequence, no daily email. You will hear from me on release
+      day, and if the date moves you will hear that too — before it moves, not after.</p>
+
+    <form action="https://formsubmit.co/danddappraisal+loav@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="LOAV DECEMBER LIST - new signup">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://valuetovictory.com/loav/thanks.html">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="Source" value="loav-december landing page">
+
+      <div class="row">
+        <div class="field">
+          <label for="nm">First name</label>
+          <input id="nm" type="text" name="First name" required autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="em">Email</label>
+          <input id="em" type="email" name="Email" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="wh">What made you pick this up? (optional)</label>
+        <select id="wh" name="Interest">
+          <option value="Just want the release date">Just want the release date</option>
+          <option value="I work in real estate or appraisal">I work in real estate or appraisal</option>
+          <option value="I run a business">I run a business</option>
+          <option value="Ministry / counselling">Ministry or counselling</option>
+          <option value="Followed Shawn's work">I have followed Shawn's work</option>
+        </select>
+      </div>
+
+      <button class="btn" type="submit">Put me on the list</button>
+      <p class="fineprint">One email when it ships. Unsubscribe in a click. Your address is not
+        sold, rented, or added to anything else.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0">The Lost Art of Value: Time for P.I.N.K. &middot; Shawn E. Decker &middot;
+      Releasing December 1, 2026 &middot;
+      <a href="https://valuetovictory.com">valuetovictory.com</a></p>
+    <p class="credits">Manuscript photograph &copy; Shawn E. Decker. Release date is a
+      stated commitment, not an estimate &mdash; if it moves, list members are told before the date passes.</p>
+  </div>
+</footer>
+
+</body>
+</html>
