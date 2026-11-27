@@ -1,0 +1,81 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "redirects": [
+    {
+      "source": "/free-book",
+      "destination": "https://assessment.valuetovictory.com/free-book.html"
+    },
+    {
+      "source": "/book",
+      "destination": "https://assessment.valuetovictory.com/free-book.html"
+    },
+    {
+      "source": "/audiobook",
+      "destination": "https://assessment.valuetovictory.com/audiobook.html"
+    },
+    {
+      "source": "/devotional",
+      "destination": "https://assessment.valuetovictory.com/free-book.html"
+    },
+    {
+      "source": "/assessment",
+      "destination": "https://assessment.valuetovictory.com"
+    },
+    {
+      "source": "/join",
+      "destination": "https://assessment.valuetovictory.com/join"
+    },
+    {
+      "source": "/pricing",
+      "destination": "https://assessment.valuetovictory.com/pricing.html"
+    },
+    {
+      "source": "/member",
+      "destination": "https://assessment.valuetovictory.com/member.html"
+    },
+    {
+      "source": "/professionals",
+      "destination": "https://assessment.valuetovictory.com/professionals.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "https://assessment.valuetovictory.com/privacy"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "https://assessment.valuetovictory.com/privacy"
+    },
+    {
+      "source": "/privacy-policy.html",
+      "destination": "https://assessment.valuetovictory.com/privacy"
+    },
+    {
+      "source": "/terms",
+      "destination": "https://assessment.valuetovictory.com/terms"
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "https://assessment.valuetovictory.com/terms"
+    },
+    {
+      "source": "/terms-of-service.html",
+      "destination": "https://assessment.valuetovictory.com/terms"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/VTVScore",
+      "destination": "/assessment.html"
+    },
+    {
+      "source": "/vtvscore",
+      "destination": "/assessment.html"
+    },
+    {
+      "source": "/links",
+      "destination": "/links.html"
+    }
+  ]
+}
