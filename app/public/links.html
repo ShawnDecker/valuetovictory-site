@@ -57,9 +57,9 @@
         <span class="txt"><strong>Take the Free Assessment</strong><span>5 minutes &middot; your P.I.N.K. value score</span></span>
         <span class="arrow" aria-hidden="true">&rarr;</span>
       </a>
-      <a class="btn" data-link="loav-list" href="https://loav-december.vercel.app/">
+      <a class="btn" data-link="loav-list" href="https://valuetovictory.com/loav">
         <span class="icon" aria-hidden="true">&#128214;</span>
-        <span class="txt"><strong>The Lost Art of Value &mdash; Dec 1</strong><span>Get on the release-day list</span></span>
+        <span class="txt"><strong id="loavTitle">The Lost Art of Value &mdash; Pre-order</strong><span id="loavSub">$17.77 &middot; out December 1</span></span>
         <span class="arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="btn" data-link="webinar" href="https://assessment.valuetovictory.com/webinar">
@@ -122,5 +122,14 @@
     })();
   </script>
   <script src="/js/vtv-tracking.js" defer></script>
+<script>
+  // 2026-11-27: the book button switches itself at 00:00 ET on Tue 1 Dec 2026 (release).
+  (function(){
+    if (Date.now() < Date.parse('2026-12-01T05:00:00Z')) return;
+    var t = document.getElementById('loavTitle'), s = document.getElementById('loavSub');
+    if (t) t.innerHTML = 'The Lost Art of Value &mdash; Out now';
+    if (s) s.innerHTML = 'Get the eBook &middot; $17.77';
+  })();
+</script>
 </body>
 </html>
