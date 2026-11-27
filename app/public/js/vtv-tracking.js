@@ -15,7 +15,7 @@
   if (window.vtvTrack) return;
 
   var CONFIG = {
-    META_PIXEL_ID: '1377275627874232', // Events Manager dataset "VTV Automation"
+    META_PIXEL_ID: '1853993735559855', // web pixel "Value to Victory" in portfolio Shawn E Decker (1377...232 was an app ID, never received events)
     GA4_ID: 'G-TT6PYLPP31',         // same GA4 property the existing page tags already use
     TRACK_URL: '',        // first-party attribution endpoint; '' = off (main site has no API)
     ASSESSMENT_HOST: 'assessment.valuetovictory.com'
